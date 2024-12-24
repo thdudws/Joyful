@@ -1,23 +1,35 @@
 html {
     position: relative;
-    min-height: 100%;
-    margin: 0;
+    height: auto;
+    margin: 0 auto;
 }
+
 body {
     min-height: 100%;
 }
-.footer {
+
+ul, ol, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration : none;
+}
+
+footer {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
+    height: 100px;
     padding: 15px 0;
     text-align: center;
+    background-color: cornflowerblue;
 }
 .content{
-    margin-bottom:100px;
-    margin-top: 50px;
-    margin-left: 200px;
-    margin-right: 200px;
+    margin: 0 auto;
+    height: auto;
 }
