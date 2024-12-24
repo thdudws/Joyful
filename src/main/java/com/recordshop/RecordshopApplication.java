@@ -12,8 +12,4 @@ public class RecordshopApplication {
         SpringApplication.run(RecordshopApplication.class, args);
     }
 
-    @GetMapping(value = "/")
-    public String main() {
-        return "main";
-    }
 }
