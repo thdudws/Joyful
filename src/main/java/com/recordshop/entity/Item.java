@@ -1,5 +1,6 @@
 package com.recordshop.entity;
 
+import com.recordshop.constant.Category;
 import com.recordshop.constant.ItemSellStatus;
 import com.recordshop.dto.ItemFormDto;
 import com.recordshop.exception.OutOfStockException;
@@ -37,12 +38,16 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus;      //상품 판매 상태
 
+    @Enumerated(EnumType.STRING)
+    private Category category;          //카테고리설정
+
     public void updateItem(ItemFormDto itemFormDto){
         this.itemNm = itemFormDto.getItemNm();
         this.price = itemFormDto.getPrice();
         this.stockNumber = itemFormDto.getStockNumber();
         this.itemDetail = itemFormDto.getItemDetail();
         this.itemSellStatus = itemFormDto.getItemSellStatus();
+        this.category = itemFormDto.getCategory();
     }
 
     public void removeStock(int stockNumber){

@@ -29,6 +29,15 @@
   </script>
 </th:block>
 
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+  <style>
+    select{
+      margin-right:10px;
+    }
+  </style>
+</th:block>
+
 <div layout:fragment="content">
 
   <form th:action="@{'/admin/items/' + ${items.number}}" role="form" method="get" th:object="${items}">
@@ -42,13 +51,14 @@
         <td>등록일</td>
       </tr>
       </thead>
+
       <tbody>
       <tr th:each="item, status: ${items.getContent()}">
         <td th:text="${item.id}"></td>
         <td>
           <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>
         </td>
-        <td th:text="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
+        <td th:text="${item.itemSellStatus == T(com.recordshop.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
         <td th:text="${item.createdBy}"></td>
         <td th:text="${item.regTime}"></td>
       </tr>
@@ -56,9 +66,9 @@
     </table>
 
     <div th:with="start=${(items.number/maxPage)*maxPage + 1}, end=(${(items.totalPages == 0) ? 1 : (start + (maxPage - 1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})" >
-      <ul >
+      <ul class="pagination justify-content-center">
 
-        <li  th:classappend="${items.first}?'disabled'">
+        <li class="page-item" th:classappend="${items.first}?'disabled'">
           <a th:onclick="'javascript:page(' + ${items.number - 1} + ')'" aria-label='Previous' class="page-link">
             <span aria-hidden='true'>Previous</span>
           </a>
@@ -77,7 +87,7 @@
       </ul>
     </div>
 
-    <div  th:object="${itemSearchDto}">
+    <div class="form-inline justify-content-center" th:object="${itemSearchDto}">
       <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
         <option value="all">전체기간</option>
         <option value="1d">1일</option>
@@ -99,7 +109,6 @@
     </div>
   </form>
 
-
-
 </div>
+
 </html>
