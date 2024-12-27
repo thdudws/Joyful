@@ -1,5 +1,6 @@
 package com.recordshop.service;
 
+import com.recordshop.constant.Category;
 import com.recordshop.dto.ItemFormDto;
 import com.recordshop.dto.ItemImgDto;
 import com.recordshop.dto.ItemSearchDto;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -42,8 +44,9 @@ public class ItemService {
                 itemImg.setRepimgYn("Y");
             }else {
                 itemImg.setRepimgYn("N");
-                itemImgService.saveItemImg(itemImg,itemImgFileList.get(i));
+
             }
+            itemImgService.saveItemImg(itemImg,itemImgFileList.get(i));
         }
         return item.getId();
     }   //end saveItem
@@ -94,5 +97,52 @@ public class ItemService {
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
 
         return itemRepository.getMainItemPage(itemSearchDto,pageable);
+    }
+
+//    public List<Item> getItemsByCategory(Category category){
+//        return itemRepository.findByCategory(category);
+//    }
+
+    // 카테고리별 상품 조회
+    public List<MainItemDto> getItemsByCategory(Category category) {
+        List<Item> items = itemRepository.findByCategory(category);
+
+        // 아이템들을 MainItemDto로 변환
+        List<MainItemDto> mainItemDtos = new ArrayList<>();
+
+        for(Item item : items){
+
+            ItemImg img = itemImgRepository.findByItemIdAndRepimgYn(item.getId(),"Y");
+
+            // Item을 MainItemDto로 변환
+            MainItemDto mainItemDto = new MainItemDto(item , img);
+
+            // 변환된 MainItemDto 목록에 추가
+            mainItemDtos.add(mainItemDto);
+        }
+
+        return mainItemDtos;  // 변환된 DTO 목록 반환
+    }
+
+    public List<MainItemDto> getItems()
+    {
+        List<Item> items = itemRepository.findAll();
+
+        // 아이템들을 MainItemDto로 변환
+        List<MainItemDto> mainItemDtos = new ArrayList<>();
+
+        for(Item item : items){
+
+            ItemImg img = itemImgRepository.findByItemIdAndRepimgYn(item.getId(),"Y");
+
+            // Item을 MainItemDto로 변환
+            MainItemDto mainItemDto = new MainItemDto(item , img);
+
+            // 변환된 MainItemDto 목록에 추가
+            mainItemDtos.add(mainItemDto);
+        }
+
+        return mainItemDtos;  // 변환된 DTO 목록 반환
+
     }
 }

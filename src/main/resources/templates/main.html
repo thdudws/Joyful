@@ -15,142 +15,95 @@
 
     <div th:id="wrap" >
 
-
-
         <main>
 
-            <h1 th:class="category">Best LP</h1>
+            <th:block  th:each="item :${items}">
 
-            <div th:class="section_wrap">
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
-                    </div>
-                </section>
 
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
+                <th:block th:if= "${item.category == T(com.recordshop.constant.Category).LP}">
+                    <h1 th:class="category">Best LP</h1>
+                    <div class="section_wrap">
+                        <section>
+                            <a th:href="'/item/'+${item.id}">
+                                <div class="section_in" >
+                                    <div th:text="${item.id}"></div>
+                                    <img th:src="@{${item.imgUrl}}" alt="상품 이미지">
+                                    <div th:text="${item.itemNm}"></div>
+                                    <div th:text="${item.price}+원"></div>
+                                </div>
+                            </a>
+                        </section>
                     </div>
-                </section>
+                </th:block>
 
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
-                    </div>
-                </section>
+                <th:block th:if= "${item.category == T(com.recordshop.constant.Category).DVD}">
+                    <h1 th:class="category">Best DVD</h1>
+                        <div class="section_wrap" >
+                            <section>
+                                <a th:href="'/item/'+${item.id}">
+                                    <div class="section_in">
+                                        <div th:text="${item.id}"></div>
+                                        <img th:src="@{${item.imgUrl}}" alt="상품 이미지">
+                                        <div th:text="${item.itemNm}"></div>
+                                        <div th:text="${item.price}+원"></div>
+                                    </div>
+                                </a>
+                            </section>
+                        </div>
+                </th:block>
 
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
-                    </div>
-                </section>
+                <th:block th:if= "${item.category == T(com.recordshop.constant.Category).ALBUM}">
+                    <h1 th:class="category">Best ALBUM</h1>
+                        <div class="section_wrap" >
+                            <section>
+                                <a th:href="'/item/'+${item.id}">
+                                    <div class="section_in">
+                                            <div th:text="${item.id}"></div>
+                                            <img th:src="@{${item.imgUrl}}" alt="상품 이미지">
+                                            <div th:text="${item.itemNm}"></div>
+                                            <div th:text="${item.price}+원"></div>
+                                    </div>
+                                </a>
+                            </section>
+                        </div>
+                </th:block>
+
+            </th:block>
+
+            <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
+            <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
+                <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery} + '검색 결과'"></p>
             </div>
 
+            <div th:with="start=${(item.number/maxPage)*maxPage + 1}, end=(${(item.totalPages == 0) ? 1 : (start + (maxPage - 1) < item.totalPages ? start + (maxPage - 1) : item.totalPages)})" >
+                <ul class="pagination justify-content-center">
 
-            <h1 th:class="category">Best LP</h1>
+                    <li class="page-item" th:classappend="${item.number eq 0}?'disabled':''">
+                        <a th:href="@{'/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${item.number-1}}" aria-label='Previous' class="page-link">
+                            <span aria-hidden='true'>Previous</span>
+                        </a>
+                    </li>
 
-            <div th:class="section_wrap">
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
-                    </div>
-                </section>
+                    <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${item.number eq page - 1}?'active':''">
+                        <a th:href="@{'/' +'?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page - 1}}" th:inline="text" class="page-link">[[${page}]]</a>
+                    </li>
 
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
-                    </div>
-                </section>
+                    <li class="page-item" th:classappend="${item.number+1 ge item.totalPages}?'disabled':''">
+                        <a th:href="@{'/' +'?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${item.number+1}}" aria-label='Next' class="page-link">
+                            <span aria-hidden='true'>Next</span>
+                        </a>
+                    </li>
 
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
-                    </div>
-                </section>
-
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
-                    </div>
-                </section>
+                </ul>
             </div>
-
-            <!--<section>
-                &lt;!&ndash; products 리스트를 반복하며 각 항목을 출력 &ndash;&gt;
-                <div th:each="product : ${products}" th:class="section_wrap">
-                    &lt;!&ndash; 제품 이미지 &ndash;&gt;
-                    <img th:class="v" th:src="@{${product.imageUrl}}" alt="product image">
-                    &lt;!&ndash; 제품 이름 &ndash;&gt;
-                    <h5 th:text="${product.name}"></h5>
-                    &lt;!&ndash; 가격 &ndash;&gt;
-                    <p th:text="${product.price} + '원'"></p>
-                </div>
-            </section>-->
 
             <div th:class="banner">
 
                 <img th:class="banner_img" th:src="@{/images/banner.jpg}" alt="banner_img">
-
             </div>
 
-            <h1 th:class="category">Best LP</h1>
-
-            <div th:class="section_wrap">
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
-                    </div>
-                </section>
-
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
-                    </div>
-                </section>
-
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
-                    </div>
-                </section>
-
-                <section>
-                    <div th:class="section_in">
-                        <img th:class="v" th:src="@{/images/v.jpg}" alt="v">
-                        <h5>뷔(V) - Layover [컬러 LP]</h5>
-                        <p>52,000원</p>
-                    </div>
-                </section>
-            </div>
         </main>
-
-
-
-
     </div>
-      <div></div>
+
 
 </div>

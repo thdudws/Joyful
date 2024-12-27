@@ -19,7 +19,7 @@ a {
 }
 
 footer {
-    position: absolute;
+   /* position: absolute;*/
     left: 0;
     right: 0;
     bottom: 0;
@@ -32,4 +32,28 @@ footer {
 .content{
     margin: 0 auto;
     height: auto;
+}
+
+.container{
+    background-color: aquamarine;
+    display: flex;
+
+}
+/* 왼쪽 사이드바 */
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    height: 100%;
+}
+
+
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.write{
+    text-align: center;
 }

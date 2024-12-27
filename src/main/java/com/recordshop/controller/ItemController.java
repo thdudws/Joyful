@@ -1,5 +1,6 @@
 package com.recordshop.controller;
 
+import com.recordshop.constant.Category;
 import com.recordshop.dto.ItemFormDto;
 import com.recordshop.dto.ItemSearchDto;
 import com.recordshop.entity.Item;
@@ -7,6 +8,7 @@ import com.recordshop.service.ItemService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,12 +26,13 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@Log4j2
 public class ItemController {
 
     private final ItemService itemService;
 
     @GetMapping(value="/admin/item/new")
-    public String itemForm(Model model) {
+    public String newItem(Model model) {
         model.addAttribute("itemFormDto", new ItemFormDto());
 
         return "/item/itemForm";
@@ -73,7 +76,7 @@ public class ItemController {
 
         return "item/itemForm";
 
-    }       // end itemDtl
+    }       // end itemDtl -> 상품 상세보기
 
     @PostMapping(value="/admin/item/{itemId}")
     public String itemUpdate(@Valid ItemFormDto itemFormDto, BindingResult bindingResult, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList, Model model) {
@@ -106,13 +109,17 @@ public class ItemController {
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
         model.addAttribute("maxPage", 5);
-        return "/item/itemMng";
+        return "item/itemMng";
     }
 
     @GetMapping(value = "/item/{itemId}")
     public String itemDtl(Model model, @PathVariable("itemId") Long itemId) {
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
         model.addAttribute("item", itemFormDto);
-        return "/item/itemDtl";
+        return "item/itemDtl";
     }
+
+
+
+
 }

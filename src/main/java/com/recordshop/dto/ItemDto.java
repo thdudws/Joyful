@@ -18,5 +18,7 @@ public class ItemDto {
 
     private String sellStatCd;
 
+    private String category;
+
 
 }

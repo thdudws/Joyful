@@ -1,5 +1,6 @@
 package com.recordshop.dto;
 
+import com.recordshop.constant.Category;
 import com.recordshop.constant.ItemSellStatus;
 import com.recordshop.entity.Item;
 import jakarta.validation.constraints.NotBlank;
@@ -30,6 +31,8 @@ public class ItemFormDto {
     private Integer stockNumber;
 
     private ItemSellStatus itemSellStatus;
+
+    private Category category;
 
     //상품 저장 후 수정할 때 상품 이미지 정보저장
     private List<ItemImgDto> itemImgDtoList = new ArrayList<>();
