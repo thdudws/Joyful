@@ -1,10 +1,15 @@
 package com.recordshop.controller;
 
 import com.recordshop.dto.MemberFormDto;
+import com.recordshop.dto.MemberModifyFormDto;
 import com.recordshop.entity.Member;
 import com.recordshop.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/members")
 @Controller
 @RequiredArgsConstructor
+@Log4j2
 public class MemberController {
 
     private final MemberService memberService;
@@ -60,8 +66,41 @@ public class MemberController {
 
     @GetMapping(value = "/myPage")
     public String myPage(Model model) {
+
         return "/member/myPage";
     }
 
+    //회원 정보 수정
+    @GetMapping(value = "/modify")
+    public String memberModify(Model model, Authentication authentication) {
+        String currentEmail = authentication.getName();
+        Member member = memberService.findByEmail(currentEmail);
 
+        MemberModifyFormDto memberModifyFormDto = new MemberModifyFormDto();
+        memberModifyFormDto.setNickName(member.getNickName());
+        memberModifyFormDto.setPhoneNumber(member.getPhoneNumber());
+        memberModifyFormDto.setAddress(member.getAddress());
+
+        model.addAttribute("memberModifyFormDto", memberModifyFormDto);
+        return "member/memberModifyForm";
+    }
+
+    @PostMapping(value = "/modify")
+    public String memberModify(@Valid MemberModifyFormDto memberModifyFormDto, BindingResult bindingResult,
+                               Model model, Authentication authentication) {
+        if (bindingResult.hasErrors()) {
+            return "member/memberModifyForm";
+        }
+
+        try {
+            String currentEmail = authentication.getName();
+            Member currentMember = memberService.findByEmail(currentEmail);
+
+            memberService.memberUpdate(currentMember.getId(), memberModifyFormDto);
+        } catch (IllegalStateException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "member/memberModifyForm";
+        }
+        return "redirect:/members/myPage";
+    }
 }
