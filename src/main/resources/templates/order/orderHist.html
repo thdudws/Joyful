@@ -4,8 +4,10 @@
       layout:decorate="~{layouts/layout1}">
 
 <head>
-    <!--<meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+    <!--
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    -->
 </head>
 
 <!-- 사용자 스크립트 추가 -->
@@ -13,8 +15,8 @@
 
     <script th:inline="javascript">
         function cancelOrder(orderId) {
-            /*var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");*/
+            // var token = $("meta[name='_csrf']").attr("content");
+            // var header = $("meta[name='_csrf_header']").attr("content");
 
             var url = "/order/" + orderId + "/cancel";
             var paramData = {
@@ -30,7 +32,7 @@
                 data     : param,
                 beforeSend : function(xhr){
                     /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-                    /*xhr.setRequestHeader(header, token);*/
+                    // xhr.setRequestHeader(header, token);
                 },
                 dataType : "json",
                 cache   : false,
@@ -96,10 +98,10 @@
         <div class="d-flex mb-3 align-self-center">
             <h4 th:text="${order.orderDate} + ' 주문'"></h4>
             <div class="ml-3">
-                <th:block th:if="${order.orderStatus == T(com.shop.constant.OrderStatus).ORDER}">
+                <th:block th:if="${order.orderStatus == T(com.recordshop.constant.OrderStatus).ORDER}">
                     <button type="button" class="btn btn-outline-secondary" th:value="${order.orderId}" onclick="cancelOrder(this.value)">주문취소</button>
                 </th:block>
-                <th:block th:unless="${order.orderStatus == T(com.shop.constant.OrderStatus).ORDER}">
+                <th:block th:unless="${order.orderStatus == T(com.recordshop.constant.OrderStatus).ORDER}">
                     <h4>(취소 완료)</h4>
                 </th:block>
             </div>
@@ -130,8 +132,8 @@
                 </a>
             </li>
 
-            <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${orders.number eq page-1}?'active':''">
-                <a th:href="@{'/orders/' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+            <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${orders.number eq page -1}?'active':''">
+                <a th:href="@{'/orders/' + ${page -1}}" th:inline="text" class="page-link">[[${page}]]</a>
             </li>
 
             <li class="page-item" th:classappend="${orders.number+1 ge orders.totalPages}?'disabled':''">
