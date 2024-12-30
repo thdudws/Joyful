@@ -22,6 +22,9 @@
                 <li sec:authorize="isAuthenticated()">
                     <a href="/orders">구매 내역</a>
                 </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a href="/members/modify">정보 수정</a>
+                </li>
                 <li sec:authorize="isAnonymous()">
                     <a href="/members/login">로그인</a>
                 </li>
