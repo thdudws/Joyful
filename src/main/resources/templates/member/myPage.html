@@ -4,36 +4,89 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
+<th:block layout:fragment="css">
+    <link th:href="@{/css/mypage.css}" rel="stylesheet">
+</th:block>
+
 <div layout:fragment="content">
 
-    <div class="write">
-        <h1>My Page</h1>
+    <div th:class="mypage_wrap">
+
+        <div class="write">
+            <h1>My Page</h1>
+        </div>
+
+        <div class="container">
+
+            <div th:class="mpbox_wrap">
+
+                <div th:class="mp_box" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                    <a href="/admin/item/new">
+                        <p>상품 등록</p>
+                        <img th:class="icon_mp" th:src="@{/image/plus.png}" alt="banner_img">
+                    </a>
+                </div>
+
+                <div th:class="mp_box" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                    <a href="/admin/items">
+                        <p>상품 관리</p>
+                        <img th:class="icon_mp" th:src="@{/image/manage.png}" alt="banner_img">
+                    </a>
+                </div>
+
+                <div th:class="mp_box" sec:authorize="isAuthenticated()">
+                    <a href="/members/notice" >
+                        <p>내 정보</p>
+                        <img th:class="icon_mp" th:src="@{/image/notice.png}" alt="banner_img">
+                    </a>
+                </div>
+
+                <div th:class="mp_box" sec:authorize="isAnonymous()">
+                    <a href="/members/login" >
+                        <p>로그인</p>
+                        <img th:class="icon_mp" th:src="@{/image/login.png}" alt="banner_img">
+                    </a>
+                </div>
+
+                <div th:class="mp_box"  sec:authorize="isAuthenticated()">
+                    <a href="/members/logout">
+                        <p>로그아웃</p>
+                        <img th:class="icon_mp" th:src="@{/image/logout.png}" alt="banner_img">
+                    </a>
+                </div>
+
+                <div th:class="mp_box"  sec:authorize="isAuthenticated()">
+                    <a href="/orders">
+                        <p>주문 내역</p>
+                        <img th:class="icon_mp" th:src="@{/image/list.png}" alt="banner_img">
+                    </a>
+                </div>
+
+                <div th:class="mp_box"  sec:authorize="isAuthenticated()">
+                    <a href="/contact">
+                        <p>1 : 1 문의</p>
+                        <img th:class="icon_mp" th:src="@{/image/contact.png}" alt="banner_img">
+                    </a>
+                </div>
+
+                <div th:class="mp_box" sec:authorize="isAnonymous()">
+                    <a href="/service">
+                        <p>고객센터</p>
+                        <img th:class="icon_mp" th:src="@{/image/service.png}" alt="banner_img">
+                    </a>
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
     </div>
 
-    <div class="container">
-        <div class="sidebar">
-            <ul>
-                <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                    <a href="/admin/item/new">상품 등록</a>
-                </li>
-                <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                    <a href="/admin/items">상품 관리</a>
-                </li>
-                <li sec:authorize="isAuthenticated()">
-                    <a href="/orders">구매 내역</a>
-                </li>
-                <li sec:authorize="isAuthenticated()">
-                    <a href="/members/modify">정보 수정</a>
-                </li>
-                <li sec:authorize="isAnonymous()">
-                    <a href="/members/login">로그인</a>
-                </li>
-                <li sec:authorize="isAuthenticated()">
-                    <a href="/members/logout">로그아웃</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+
 
 </div>
 </html>
