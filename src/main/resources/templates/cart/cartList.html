@@ -3,9 +3,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
+<th:block layout:fragment="css">
+    <link th:href="@{/css/cart.css}" rel="stylesheet">
+</th:block>
+
 <head>
-    <!--<meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+    <!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
+    <!--    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
 </head>
 
 <!-- 사용자 스크립트 추가 -->
@@ -51,8 +55,8 @@
         }
 
         function updateCartItemCount(cartItemId, count){
-            /*var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");*/
+            // var token = $("meta[name='_csrf']").attr("content");
+            // var header = $("meta[name='_csrf_header']").attr("content");
 
             var url = "/cartItem/" + cartItemId+"?count=" + count;
 
@@ -61,7 +65,7 @@
                 type     : "PATCH",
                 beforeSend : function(xhr){
                     /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-                    /*xhr.setRequestHeader(header, token);*/
+                    // xhr.setRequestHeader(header, token);
                 },
                 dataType : "json",
                 cache   : false,
@@ -83,8 +87,8 @@
 
         function deleteCartItem(obj){
             var cartItemId = obj.dataset.id;
-            /*var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");*/
+            // var token = $("meta[name='_csrf']").attr("content");
+            // var header = $("meta[name='_csrf_header']").attr("content");
 
             var url = "/cartItem/" + cartItemId;
 
@@ -93,7 +97,7 @@
                 type     : "DELETE",
                 beforeSend : function(xhr){
                     /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-                    /* xhr.setRequestHeader(header, token);*/
+                    // xhr.setRequestHeader(header, token);
                 },
                 dataType : "json",
                 cache   : false,
@@ -114,8 +118,8 @@
         }
 
         function orders(){
-            /*var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");*/
+            // var token = $("meta[name='_csrf']").attr("content");
+            // var header = $("meta[name='_csrf_header']").attr("content");
 
             var url = "/cart/orders";
 
@@ -140,7 +144,7 @@
                 data     : param,
                 beforeSend : function(xhr){
                     /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-                    /*xhr.setRequestHeader(header, token);*/
+                    // xhr.setRequestHeader(header, token);
                 },
                 dataType : "json",
                 cache   : false,
@@ -165,36 +169,11 @@
 
 </th:block>
 
-<!-- 사용자 CSS 추가 -->
-<th:block layout:fragment="css">
-    <style>
-        .content-mg{
-            margin-left:25%;
-            margin-right:25%;
-            margin-top:2%;
-            margin-bottom:100px;
-        }
-        .repImgDiv{
-            margin-right:15px;
-            margin-left:15px;
-            height:auto;
-        }
-        .repImg{
-            height:100px;
-            width:100px;
-        }
-        .fs18{
-            font-size:18px
-        }
-        .fs24{
-            font-size:24px
-        }
-    </style>
-</th:block>
+
 
 <div layout:fragment="content" class="content-mg">
 
-    <h2 class="mb-4">
+    <h2 class="mb-4" id="title">
         장바구니 목록
     </h2>
 
@@ -234,7 +213,7 @@
                                 </span>
                                 <input type="number" name="count" th:id="'count_' + ${cartItem.cartItemId}"
                                        th:value="${cartItem.count}" min="1"
-                                       onchange="changeCount(this)" class="form-control mr-2" >
+                                       onchange="changeCount(this)" class="changeNm mr-2" >
                                 <button type="button" class="close" aria-label="Close">
                                     <span aria-hidden="true" th:data-id="${cartItem.cartItemId}" onclick="deleteCartItem(this)">&times;</span>
                                 </button>
@@ -251,11 +230,11 @@
             </tbody>
         </table>
 
-        <h2 class="text-center">
-            총 주문 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
-        </h2>
 
-        <div class="text-center mt-3">
+        <div class="totalPrice mt-3 bottom" >
+            <h2 class="totalPrice">
+                총 주문 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
+            </h2>
             <button type="button" class="btn btn-primary btn-lg" onclick="orders()">주문하기</button>
         </div>
 
