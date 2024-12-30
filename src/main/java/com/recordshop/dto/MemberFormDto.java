@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.xml.stream.XMLEventWriter;
+
 @Setter
 @Getter
 public class MemberFormDto {
