@@ -62,7 +62,9 @@
             alert('로그인 후 이용해주세요');
             location.href='/members/login';
           } else{
-            alert(jqXHR.responseText);
+            alert('로그인 후 이용해주세요');
+            location.href='/members/login';
+            // alert(jqXHR.responseText);
           }
 
         }
@@ -102,7 +104,9 @@
             alert('로그인 후 이용해주세요');
             location.href='/members/login';
           } else{
-            alert(jqXHR.responseText);
+            alert('로그인 후 이용해주세요');
+            location.href='/members/login';
+            // alert(jqXHR.responseText);
           }
 
         }
@@ -188,7 +192,7 @@
 
   <div class="jumbotron jumbotron-fluid mgt-30">
     <div class="container">
-      <h4 class="display-5">상품 상세 설명</h4>
+      <h4 class="display-5">음반정보</h4>
       <hr class="my-4">
       <p class="lead" th:text="${item.itemDetail}"></p>
     </div>
@@ -197,6 +201,8 @@
   <div th:each="itemImg : ${item.itemImgDtoList}" class="text-center">
     <img th:if="${not #strings.isEmpty(itemImg.imgUrl)}" th:src="${itemImg.imgUrl}" class="rounded mgb-15" width="800">
   </div>
+
+
 
 </div>
 
