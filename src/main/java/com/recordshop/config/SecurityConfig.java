@@ -23,15 +23,16 @@ public class SecurityConfig{
         http
                 .authorizeHttpRequests(config->config
                         .requestMatchers("/css/**","/js/**","/image/**").permitAll()
-                        .requestMatchers("/","/members/**","/item/**","/images/**").permitAll()
+                        .requestMatchers("/","/members/**","/item/**","/images/**","main").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/members/myPage").authenticated()
                         .anyRequest().authenticated()
                 );
 
         http
                 .formLogin(config->
                         config.loginPage("/members/login")
-                                .defaultSuccessUrl("/")
+                                .defaultSuccessUrl("/members/myPage", true)
                                 .usernameParameter("email")     //로그인화면에서 name=username 이면 생략가능 --> name=email
                                 .failureUrl("/members/login/error")
                 )
