@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8081
 
 spring:
   datasource:
@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update      #테이블 생성
+      ddl-auto: update  #테이블 생성
 
     properties:
       .hibernate:
@@ -20,15 +20,13 @@ spring:
     database-platform=org: org.hibernate.dialect.MySQLDialect
 
 
-
-
   servlet:
     multipart:
       max-file-size: 20MB       #파일 한 개당 최대 사이즈
       max-request-size: 100MB   #요청당 최대 파일 사이즈
 
-itemImgLocation : C:/Works/springboot/itemImg    #상품 이미지 업로드 경로
-uploadPath : file:///C:/Works/springboot/  #리소스 업로드 경로
+itemImgLocation : C:/works/Springboot/itemImg    #상품 이미지 업로드 경로
+uploadPath : file:///C:/works/Springboot/     #리소스 업로드 경로
 
 
 
@@ -39,4 +37,3 @@ logging:
         type:
           descriptor:
             sql: trace
-
