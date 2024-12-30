@@ -17,10 +17,17 @@ public class FileService {
         UUID uuid = UUID.randomUUID();
 
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        log.info("extension --->"+extension);
+
         String savedFileName = uuid.toString() + extension;
+        log.info("savedFileName --->"+savedFileName);
+
         String fileUploadFullUrl = uploadPath + "/" + savedFileName;
+        log.info("fileUploadFullUrl --->"+fileUploadFullUrl);
 
         FileOutputStream fos = new FileOutputStream(fileUploadFullUrl);
+
+        log.info("fos --->"+fos);
         fos.write(fileData);
         fos.close();
         return savedFileName;

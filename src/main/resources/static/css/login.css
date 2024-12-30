@@ -1,0 +1,38 @@
+
+form{
+    width: 1300px;
+    margin: 20px auto;
+}
+
+.bottomB{
+    width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.title{
+    text-align: center;
+}
+
+.Log{
+    width: 300px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.new{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.logoNm{
+    text-align: center;
+    padding: 30px;
+    width: 350px;
+    height: 130px;
+    background: beige;
+    margin: 0 auto;
+    margin-top: 10px;
+    border-radius: 40px;
+}

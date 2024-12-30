@@ -22,16 +22,17 @@ public class SecurityConfig{
         // permitAll() 인증 없이 해당 경로 접근가능 / hasRole() 권한이 있는 자만 접근가능 하도록 URL설정
         http
                 .authorizeHttpRequests(config->config
-                        .requestMatchers("/css/**","/js/**","/img/**").permitAll()
-                        .requestMatchers("/","/members/**","/item/**","/images/**").permitAll()
+                        .requestMatchers("/css/**","/js/**","/image/**").permitAll()
+                        .requestMatchers("/","/members/**","/item/**","/images/**","main").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/members/myPage").authenticated()
                         .anyRequest().authenticated()
                 );
 
         http
                 .formLogin(config->
                         config.loginPage("/members/login")
-                                .defaultSuccessUrl("/")
+                                .defaultSuccessUrl("/members/myPage", true)
                                 .usernameParameter("email")     //로그인화면에서 name=username 이면 생략가능 --> name=email
                                 .failureUrl("/members/login/error")
                 )

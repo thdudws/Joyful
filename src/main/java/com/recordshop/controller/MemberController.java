@@ -60,6 +60,7 @@ public class MemberController {
 
     @GetMapping(value = "/myPage")
     public String myPage(Model model) {
+
         return "/member/myPage";
     }
 
