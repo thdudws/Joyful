@@ -103,4 +103,9 @@ public class MemberController {
         }
         return "redirect:/members/myPage";
     }
+
+    @GetMapping(value="/service")
+    public String customService(Model model) {
+        return "/member/service";
+    }
 }

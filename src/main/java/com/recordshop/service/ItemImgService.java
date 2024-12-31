@@ -33,16 +33,16 @@ public class ItemImgService {
         String imgUrl = "";
 
         //파일업로드
-        if(!StringUtils.isEmpty(oriImgName)){
-            imgName = fileService.uploadFile(itemImgLocation,oriImgName,itemImgFile.getBytes());
-            log.info("imgName------->"+imgName);
+        if (!StringUtils.isEmpty(oriImgName)) {
+            imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
+            log.info("imgName------->" + imgName);
 
             imgUrl = "/images/itemImg/" + imgName;
-            log.info("imgUrl------->"+imgUrl);
+            log.info("imgUrl------->" + imgUrl);
         }
 
         //상품 이미지 정보 저장
-        itemImg.updateItemImg(oriImgName,imgName,imgUrl);
+        itemImg.updateItemImg(oriImgName, imgName, imgUrl);
         itemImgRepository.save(itemImg);
 
     }   //end saveItemImg
@@ -50,28 +50,27 @@ public class ItemImgService {
     public void updateItemImg(Long itemImgId, MultipartFile itemImgFile) throws Exception {
 
         if (!itemImgFile.isEmpty()) {
-            ItemImg savedItemImg = itemImgRepository.findById(itemImgId).orElseThrow(()->new EntityNotFoundException(""));
+            ItemImg savedItemImg = itemImgRepository.findById(itemImgId).orElseThrow(() -> new EntityNotFoundException(""));
 
             //기존 이미지 삭제
             if (!StringUtils.isEmpty(savedItemImg.getImgName())) {
-                fileService.deleteFile(itemImgLocation+"/"+savedItemImg.getImgName());
+                fileService.deleteFile(itemImgLocation + "/" + savedItemImg.getImgName());
             }
 
             String oriImgName = itemImgFile.getOriginalFilename();
-            String imgName = fileService.uploadFile(itemImgLocation,oriImgName,itemImgFile.getBytes());
+            String imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
             String imgUrl = "/images/itemImg/" + imgName;
-            savedItemImg.updateItemImg(oriImgName,imgName,imgUrl);
+            savedItemImg.updateItemImg(oriImgName, imgName, imgUrl);
         }
 
     }       //end updateItemImg
-
 
     //상품 삭제
     public void deleteItemImg(Long itemImgId) throws Exception {
         ItemImg itemImg = itemImgRepository.findById(itemImgId).orElseThrow(() -> new EntityNotFoundException("이미지가 존재하지 않습니다."));
 
         if (!StringUtils.isEmpty(itemImg.getImgName())) {
-            String filePath = itemImgLocation+"/"+itemImg.getImgName();
+            String filePath = itemImgLocation + "/" + itemImg.getImgName();
             try {
                 fileService.deleteFile(filePath);
                 log.info("이미지 삭제 성공 : " + filePath);
@@ -81,6 +80,8 @@ public class ItemImgService {
         }
 
         itemImgRepository.delete(itemImg);
-    }//end deleteItemImg
+//    }//end deleteItemImg
+
+    }
 
 }

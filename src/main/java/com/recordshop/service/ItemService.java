@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -104,6 +103,7 @@ public class ItemService {
 
         return itemRepository.getMainItemPage(itemSearchDto,pageable);
     }
+
 
 //    public List<Item> getItemsByCategory(Category category){
 //        return itemRepository.findByCategory(category);

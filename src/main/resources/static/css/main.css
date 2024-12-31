@@ -171,4 +171,14 @@ section img {
     width: 100%;
 }
 
+.plus{
+    width: 100%;
+    height: 50px;
+    text-align: right;
+    margin-right: 250px;
+}
+
+.plusImg{
+    height: 50px;
+}
 

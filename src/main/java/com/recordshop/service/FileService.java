@@ -1,18 +1,11 @@
 package com.recordshop.service;
 
 
-import com.recordshop.entity.Item;
-import com.recordshop.entity.ItemImg;
-import com.recordshop.repository.ItemImgRepository;
-import com.recordshop.repository.ItemRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.file.Path;
 import java.util.UUID;
 
 @Service
@@ -46,12 +39,9 @@ public class FileService {
 
         if(file.exists()){
            boolean delete = file.delete();
-
            if (!delete) {
                throw new RuntimeException("삭제에 실패 하였습니다." + filePath);
            }
         }
     } //end deleteFile
-
-
 }

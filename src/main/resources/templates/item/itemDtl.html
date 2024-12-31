@@ -145,6 +145,11 @@
 
   <input type="hidden" id="itemId" th:value="${item.id}">
 
+  <div style="position: relative;">
+    <img src="/image/back.png" alt="뒤로가기" onclick="history.back(-1)" style="position: fixed; width: 15%; max-width: 100px; height: auto;
+      top: 70px; left: 0; padding: 3px 5px; color: white; border: none; border-radius: 5px; cursor: pointer;">
+  </div>
+
   <div class="d-flex">
     <div class="repImgDiv">
       <img th:src="${item.itemImgDtoList[0].imgUrl}" class = "rounded repImg" th:alt="${item.itemNm}">
