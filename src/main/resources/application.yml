@@ -18,7 +18,10 @@ spring:
         format_sql: true    #sql  가독성 좋게 포맷팅
 
     database-platform=org: org.hibernate.dialect.MySQLDialect
-
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
   servlet:
     multipart:

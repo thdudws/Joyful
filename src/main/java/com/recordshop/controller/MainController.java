@@ -31,8 +31,10 @@ public class MainController {
         List<MainItemDto> items = itemService.getItems();
 
         Page<MainItemDto> item = itemService.getMainItemPage(itemSearchDto, pageable);
+
         log.info("-------->: " + items);
 
+        log.info("-------->: " + item);
 
 
         model.addAttribute("items", items);

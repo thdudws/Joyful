@@ -3,107 +3,165 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
+
 <th:block layout:fragment="css">
     <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/swiper.css}" rel="stylesheet">
 </th:block>
+
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            // 이전 버튼 클릭
+            $('.button-prev').click(function(){
+                // 현재 이미지들이 이동하도록 애니메이션 시작
+                $('.long_img').stop().animate({marginLeft: 1200}, 800, function() {
+                    // 이동 후 첫 번째 이미지를 마지막으로 보냄
+                    $('.long_img img:last').prependTo('.long_img');
+                    // 이미지가 이동한 후, marginLeft를 0으로 설정하여 다시 원위치
+                    $('.long_img').css('margin-left', 0);
+                });
+            });
+
+            // 다음 버튼 클릭
+            $('.button-next').click(function(){
+                // 현재 이미지들이 이동하도록 애니메이션 시작
+                $('.long_img').stop().animate({marginLeft: -1200}, 800, function() {
+                    // 이동 후 첫 번째 이미지를 마지막으로 보냄
+                    $('.long_img img:first').appendTo('.long_img');
+                    // 이미지가 이동한 후, marginLeft를 0으로 설정하여 다시 원위치
+                    $('.long_img').css('margin-left', 0);
+                });
+            });
+        });
+    </script>
+</th:block>
+
 
 <div layout:fragment="content">
 
-    <div th:class="mainImg_box">
-        <img class="main_img" th:src="@{/images/main_img.jpg}" alt="main_img">
+    <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
+    <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
+        <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery} + '검색 결과'"></p>
     </div>
+
+    <!--<div th:class="mainImg_box">
+        <img class="main_img" th:src="@{/images/main_img2.jpg}" alt="main_img">
+    </div>-->
+
+    <!-- Swiper 컨테이너 -->
+    <div class="swiper-container mainImg_box">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <h1 th:class="swiper_h1">RECORD SHOP</h1>
+                <img class="main_img" th:src="@{/image/main_img2.jpg}" alt="main_img">
+            </div>
+            <div class="swiper-slide">
+                <img class="main_img" th:src="@{/image/main_img.jpg}" alt="main_img">
+            </div>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="swiper-pagination"></div>
+
+        <!-- 내비게이션 -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
 
     <div th:id="wrap" >
 
         <main>
 
-            <th:block  th:each="item :${items}">
+            <th:block th:each="category : ${T(com.recordshop.constant.Category).values()}">
+                <!-- 카테고리 이름을 한 번만 출력하기 위해 조건을 걸어줍니다 -->
+                <th:block th:if="${category == T(com.recordshop.constant.Category).LP}">
+                    <div class="category">Best LP</div>
+                </th:block>
 
+                <th:block th:if="${category == T(com.recordshop.constant.Category).ALBUM}" class="long_wrap">
+                    <div class="category">Best ALBUM</div>
 
-                <th:block th:if= "${item.category == T(com.recordshop.constant.Category).LP}">
-                    <h1 th:class="category">Best LP</h1>
-                    <div class="section_wrap">
+                    <!-- long_box는 반복문에 영향을 받지 않도록 출력 -->
+                    <div class="long_box_wrap">
+                        <div class="long_box">
+                            <div class="long_img">
+                                <img src="/image/long_1.jpg" alt="긴 배너">
+                            </div>
+                            <div class="long_img">
+                                <img src="/image/long_2.jpg" alt="긴 배너2">
+                            </div>
+
+                            <div class="button-next">
+                                <img src="/image/right.png" alt="next">
+                            </div>
+                            <div class="button-prev">
+                                <img src="/image/left.png" alt="prev">
+                            </div>
+                        </div>
+                    </div> <!-- 닫는 div 추가 -->
+
+                </th:block>
+
+                <!-- long_box는 DVD나 ALBUM 카테고리에서만 출력 -->
+                <th:block th:if="${category == T(com.recordshop.constant.Category).DVD}">
+                    <div class="category">Best DVD</div>
+                </th:block>
+
+                <!-- 해당 카테고리에 속하는 아이템만 필터링하여 출력 -->
+                <div class="section_wrap">
+                    <th:block th:each="item : ${items}" th:if="${item.category == T(com.recordshop.constant.Category).valueOf(category)}">
                         <section>
-                            <a th:href="'/item/'+${item.id}">
-                                <div class="section_in" >
-                                    <div th:text="${item.id}"></div>
-                                    <img th:src="@{${item.imgUrl}}" alt="상품 이미지">
-                                    <div th:text="${item.itemNm}"></div>
-                                    <div th:text="${item.price}+원"></div>
+                            <a th:href="'/item/' + ${item.id}">
+                                <div class="section_in">
+                                    <div th:class="height_box">
+                                        <img th:src="@{${item.imgUrl}}" alt="상품 이미지">
+                                        <h4 th:text="${item.itemNm}"></h4>
+                                        <div th:text="${item.itemDetail}"></div>
+                                        <div th:text="${item.price} + '원'"></div>
+                                    </div>
                                 </div>
                             </a>
                         </section>
-                    </div>
-                </th:block>
-
-                <th:block th:if= "${item.category == T(com.recordshop.constant.Category).DVD}">
-                    <h1 th:class="category">Best DVD</h1>
-                        <div class="section_wrap" >
-                            <section>
-                                <a th:href="'/item/'+${item.id}">
-                                    <div class="section_in">
-                                        <div th:text="${item.id}"></div>
-                                        <img th:src="@{${item.imgUrl}}" alt="상품 이미지">
-                                        <div th:text="${item.itemNm}"></div>
-                                        <div th:text="${item.price}+원"></div>
-                                    </div>
-                                </a>
-                            </section>
-                        </div>
-                </th:block>
-
-                <th:block th:if= "${item.category == T(com.recordshop.constant.Category).ALBUM}">
-                    <h1 th:class="category">Best ALBUM</h1>
-                        <div class="section_wrap" >
-                            <section>
-                                <a th:href="'/item/'+${item.id}">
-                                    <div class="section_in">
-                                            <div th:text="${item.id}"></div>
-                                            <img th:src="@{${item.imgUrl}}" alt="상품 이미지">
-                                            <div th:text="${item.itemNm}"></div>
-                                            <div th:text="${item.price}+원"></div>
-                                    </div>
-                                </a>
-                            </section>
-                        </div>
-                </th:block>
-
+                    </th:block>
+                </div>
             </th:block>
 
-            <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
-            <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
-                <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery} + '검색 결과'"></p>
-            </div>
 
-            <div th:with="start=${(item.number/maxPage)*maxPage + 1}, end=(${(item.totalPages == 0) ? 1 : (start + (maxPage - 1) < item.totalPages ? start + (maxPage - 1) : item.totalPages)})" >
-                <ul class="pagination justify-content-center">
-
-                    <li class="page-item" th:classappend="${item.number eq 0}?'disabled':''">
-                        <a th:href="@{'/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${item.number-1}}" aria-label='Previous' class="page-link">
-                            <span aria-hidden='true'>Previous</span>
-                        </a>
-                    </li>
-
-                    <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${item.number eq page - 1}?'active':''">
-                        <a th:href="@{'/' +'?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page - 1}}" th:inline="text" class="page-link">[[${page}]]</a>
-                    </li>
-
-                    <li class="page-item" th:classappend="${item.number+1 ge item.totalPages}?'disabled':''">
-                        <a th:href="@{'/' +'?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${item.number+1}}" aria-label='Next' class="page-link">
-                            <span aria-hidden='true'>Next</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
 
             <div th:class="banner">
-
-                <img th:class="banner_img" th:src="@{/images/banner.jpg}" alt="banner_img">
+                <img th:class="banner_img" th:src="@{/image/banner.jpg}" alt="banner_img">
             </div>
 
         </main>
+
+
     </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            loop: true,
+            /*autoplay: {
+                delay: 5000, // 3초마다 자동 전환
+                disableOnInteraction: false // 사용자 상호작용 후에도 자동 전환 유지
+            },*/
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            },
+            pagination: {
+                el: '.swiper-pagination', // 페이지네이션 요소
+                clickable: true // 클릭 가능하게 설정
+            },
+        });
+    </script>
+
 
 
 </div>

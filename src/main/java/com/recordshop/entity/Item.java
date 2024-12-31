@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Table(name = "item")
@@ -40,6 +43,10 @@ public class Item extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Category category;          //카테고리설정
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemImg> itemImgs = new ArrayList<>(); //상품 삭제 시 이미지파일도 삭제에 필요
+
 
     public void updateItem(ItemFormDto itemFormDto){
         this.itemNm = itemFormDto.getItemNm();

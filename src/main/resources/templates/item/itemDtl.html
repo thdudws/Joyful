@@ -142,6 +142,7 @@
 
 <div layout:fragment="content" style="margin-left:25%;margin-right:25%">
 
+
   <input type="hidden" id="itemId" th:value="${item.id}">
 
   <div class="d-flex">
@@ -197,6 +198,9 @@
   <div th:each="itemImg : ${item.itemImgDtoList}" class="text-center">
     <img th:if="${not #strings.isEmpty(itemImg.imgUrl)}" th:src="${itemImg.imgUrl}" class="rounded mgb-15" width="800">
   </div>
+
+</div>
+
 
 </div>
 
