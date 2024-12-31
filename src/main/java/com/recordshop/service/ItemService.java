@@ -11,6 +11,7 @@ import com.recordshop.repository.ItemImgRepository;
 import com.recordshop.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Log4j2
 public class ItemService {
 
     private final ItemRepository itemRepository;
@@ -102,6 +104,7 @@ public class ItemService {
         return itemRepository.getMainItemPage(itemSearchDto,pageable);
     }
 
+
 //    public List<Item> getItemsByCategory(Category category){
 //        return itemRepository.findByCategory(category);
 //    }
@@ -148,4 +151,32 @@ public class ItemService {
         return mainItemDtos;  // 변환된 DTO 목록 반환
 
     }
+
+    //상품 삭제 로직
+    @Transactional
+    public void deleteItem(Long itemId){
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new EntityNotFoundException("상품이 존재하지 않습니다."));
+
+        String basePath = "C:/works/Springboot/itemImg";
+
+        for (ItemImg itemImg : item.getItemImgs()){
+            String filepath = itemImg.getImgUrl();
+
+            if(filepath == null || filepath.isEmpty()){
+                continue;
+            }
+
+            String filename = filepath.replace("/images/itemImg", "");
+            String absolutePath = basePath + "/" + filename;
+
+            try {
+                fileService.deleteFile(absolutePath);
+                itemImgRepository.delete(itemImg);
+            } catch (Exception e) {
+                log.error("이미지 삭제 실패 : " + itemImg.getImgUrl(), e);
+            }
+        }
+
+        itemRepository.delete(item);
+    }//end deleteItem
 }
