@@ -1,8 +1,8 @@
 package com.recordshop.controller;
 
-import com.recordshop.constant.Category;
 import com.recordshop.dto.ItemFormDto;
 import com.recordshop.dto.ItemSearchDto;
+import com.recordshop.dto.MainItemDto;
 import com.recordshop.entity.Item;
 import com.recordshop.service.ItemService;
 import jakarta.persistence.EntityNotFoundException;
@@ -119,7 +119,19 @@ public class ItemController {
         return "item/itemDtl";
     }
 
+    @GetMapping(value = "/item/list")
+    public String itemList(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model) {
 
+        Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 6);
+
+        Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
+
+        model.addAttribute("items", items);
+        model.addAttribute("itemSearchDto", itemSearchDto);
+        model.addAttribute("maxPage", 5);
+        return "item/list";
+
+    }
 
 
 }

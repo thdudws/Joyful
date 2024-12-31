@@ -23,7 +23,11 @@ form{
 
 .new{
     text-align: center;
-    margin-top: 20px;
+    background: bisque;
+    width: 400px;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 15px;
 }
 
 .logoNm{
@@ -35,4 +39,21 @@ form{
     margin: 0 auto;
     margin-top: 10px;
     border-radius: 40px;
+}
+
+.bar{
+    width: 500px;
+    margin: 15px auto;
+}
+
+.new2{
+    text-align: center;
+    background: lavenderblush;
+    width: 400px;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 15px;
+}
+.back{
+    width: 300px;
 }
