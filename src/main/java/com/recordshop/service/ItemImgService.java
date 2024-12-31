@@ -33,16 +33,16 @@ public class ItemImgService {
         String imgUrl = "";
 
         //파일업로드
-        if (!StringUtils.isEmpty(oriImgName)) {
-            imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
-            log.info("imgName------->" + imgName);
+        if(!StringUtils.isEmpty(oriImgName)){
+            imgName = fileService.uploadFile(itemImgLocation,oriImgName,itemImgFile.getBytes());
+            log.info("imgName------->"+imgName);
 
             imgUrl = "/images/itemImg/" + imgName;
-            log.info("imgUrl------->" + imgUrl);
+            log.info("imgUrl------->"+imgUrl);
         }
 
         //상품 이미지 정보 저장
-        itemImg.updateItemImg(oriImgName, imgName, imgUrl);
+        itemImg.updateItemImg(oriImgName,imgName,imgUrl);
         itemImgRepository.save(itemImg);
 
     }   //end saveItemImg
@@ -50,17 +50,17 @@ public class ItemImgService {
     public void updateItemImg(Long itemImgId, MultipartFile itemImgFile) throws Exception {
 
         if (!itemImgFile.isEmpty()) {
-            ItemImg savedItemImg = itemImgRepository.findById(itemImgId).orElseThrow(() -> new EntityNotFoundException(""));
+            ItemImg savedItemImg = itemImgRepository.findById(itemImgId).orElseThrow(()->new EntityNotFoundException(""));
 
             //기존 이미지 삭제
             if (!StringUtils.isEmpty(savedItemImg.getImgName())) {
-                fileService.deleteFile(itemImgLocation + "/" + savedItemImg.getImgName());
+                fileService.deleteFile(itemImgLocation+"/"+savedItemImg.getImgName());
             }
 
             String oriImgName = itemImgFile.getOriginalFilename();
-            String imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
+            String imgName = fileService.uploadFile(itemImgLocation,oriImgName,itemImgFile.getBytes());
             String imgUrl = "/images/itemImg/" + imgName;
-            savedItemImg.updateItemImg(oriImgName, imgName, imgUrl);
+            savedItemImg.updateItemImg(oriImgName,imgName,imgUrl);
         }
 
     }       //end updateItemImg
