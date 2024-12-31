@@ -1,0 +1,33 @@
+.justify-content-end{
+    padding: 20px;
+}
+select{
+    margin-right:10px;
+}
+
+.justify-content-center{
+    padding: 10px;
+}
+
+.sb{
+    margin: 0 10px;
+    line-height: 1;
+}
+
+td{
+    text-align: center;
+}
+
+.form-inline{
+    width: 1500px;
+}
+
+.table{
+    width: 1500px;
+    margin: 0 auto;
+}
+
+.iForm_wrap {
+    width: 1000px;
+    margin: 50px auto;
+}
