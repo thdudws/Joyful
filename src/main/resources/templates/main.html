@@ -13,27 +13,38 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $(document).ready(function() {
-            // 이전 버튼 클릭
+
+            // 이전 버튼 클릭 (앨범 이벤트 배너)
             $('.button-prev').click(function(){
-                // 현재 이미지들이 이동하도록 애니메이션 시작
-                $('.long_img').stop().animate({marginLeft: 1200}, 800, function() {
-                    // 이동 후 첫 번째 이미지를 마지막으로 보냄
-                    $('.long_img img:last').prependTo('.long_img');
-                    // 이미지가 이동한 후, marginLeft를 0으로 설정하여 다시 원위치
-                    $('.long_img').css('margin-left', 0);
-                });
+                $('.long_img:last').prependTo('.long_box');
+                $('.long_box').css('margin-left', -1200);
+                $('.long_box').stop().animate({marginLeft: 0}, 800);
+
             });
 
             // 다음 버튼 클릭
             $('.button-next').click(function(){
-                // 현재 이미지들이 이동하도록 애니메이션 시작
-                $('.long_img').stop().animate({marginLeft: -1200}, 800, function() {
-                    // 이동 후 첫 번째 이미지를 마지막으로 보냄
-                    $('.long_img img:first').appendTo('.long_img');
-                    // 이미지가 이동한 후, marginLeft를 0으로 설정하여 다시 원위치
-                    $('.long_img').css('margin-left', 0);
+                $('.long_box').stop().animate({marginLeft: -1200}, 800, function() {
+                    $('.long_img:first').appendTo('.long_box');
+                    $('.long_box').css('margin-left', 0);
                 });
             });
+
+            //item-detail 슬라이드
+            $('.item-detail').each(function() {
+                var text = $(this).text();         // 텍스트 내용 가져오기
+                var maxLength = 50;               // 텍스트 최대 길이
+                var minDuration = 10;              // 최소 애니메이션 시간 (기본 속도)
+                var maxDuration = 20;              // 최대 애니메이션 시간 (긴 텍스트에 대해서 속도 느리게)
+
+                if (text.length > maxLength) {
+                    // 텍스트의 길이에 맞게 애니메이션 시간을 설정 (길이가 길수록 애니메이션이 느려짐)
+                    var animationDuration = Math.min(minDuration + (text.length / maxLength) * 15, maxDuration);
+                    // 동적으로 애니메이션 속도 설정
+                    $(this).find('.slide-text').css('animation-duration', animationDuration + 's');
+                }
+            });
+
         });
     </script>
 </th:block>
@@ -41,17 +52,8 @@
 
 <div layout:fragment="content">
 
-    <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
-    <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
-        <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery} + '검색 결과'"></p>
-    </div>
-
-    <!--<div th:class="mainImg_box">
-        <img class="main_img" th:src="@{/images/main_img2.jpg}" alt="main_img">
-    </div>-->
-
     <!-- Swiper 컨테이너 -->
-    <div class="swiper-container mainImg_box">
+    <div class="swiper-container1 mainImg_box">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <h1 th:class="swiper_h1">RECORD SHOP</h1>
@@ -60,14 +62,17 @@
             <div class="swiper-slide">
                 <img class="main_img" th:src="@{/image/main_img.jpg}" alt="main_img">
             </div>
+            <!-- <div class="swiper-slide">
+                 <img class="main_img" th:src="@{/image/main_img.jpg}" alt="main_img">
+             </div>-->
         </div>
 
         <!-- 페이지네이션 -->
         <div class="swiper-pagination"></div>
 
         <!-- 내비게이션 -->
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next swiper-button-next1"></div>
+        <div class="swiper-button-prev swiper-button-prev1"></div>
     </div>
 
 
@@ -75,16 +80,31 @@
 
         <main>
 
-            <th:block th:each="category : ${T(com.recordshop.constant.Category).values()}">
+            <th:block th:each="category, iterStat : ${T(com.recordshop.constant.Category).values()}">
                 <!-- 카테고리 이름을 한 번만 출력하기 위해 조건을 걸어줍니다 -->
                 <th:block th:if="${category == T(com.recordshop.constant.Category).LP}">
                     <div class="category">Best LP</div>
+                    <a class="plus" th:href="@{/item/list}">
+                        <img class = "plusImg" th:src="@{/image/icon_more.png}" alt="더보기">
+                    </a>
                 </th:block>
 
                 <th:block th:if="${category == T(com.recordshop.constant.Category).ALBUM}" class="long_wrap">
                     <div class="category">Best ALBUM</div>
+                    <a class="plus" th:href="@{/item/list}">
+                        <img class = "plusImg" th:src="@{/image/icon_more.png}" alt="더보기">
+                    </a>
+                </th:block>
 
-                    <!-- long_box는 반복문에 영향을 받지 않도록 출력 -->
+                <th:block th:if="${category == T(com.recordshop.constant.Category).DVD}">
+                    <div class="category">Best DVD</div>
+                    <a class="plus" th:href="@{/item/list}">
+                        <img class = "plusImg" th:src="@{/image/icon_more.png}" alt="더보기">
+                    </a>
+                </th:block>
+
+                <!-- long_box는 반복문에 영향을 받지 않도록 반복문 외부에 배치 -->
+                <th:block th:if="${category == T(com.recordshop.constant.Category).ALBUM}">
                     <div class="long_box_wrap">
                         <div class="long_box">
                             <div class="long_img">
@@ -93,7 +113,6 @@
                             <div class="long_img">
                                 <img src="/image/long_2.jpg" alt="긴 배너2">
                             </div>
-
                             <div class="button-next">
                                 <img src="/image/right.png" alt="next">
                             </div>
@@ -101,35 +120,35 @@
                                 <img src="/image/left.png" alt="prev">
                             </div>
                         </div>
-                    </div> <!-- 닫는 div 추가 -->
-
-                </th:block>
-
-                <!-- long_box는 DVD나 ALBUM 카테고리에서만 출력 -->
-                <th:block th:if="${category == T(com.recordshop.constant.Category).DVD}">
-                    <div class="category">Best DVD</div>
+                    </div>
                 </th:block>
 
                 <!-- 해당 카테고리에 속하는 아이템만 필터링하여 출력 -->
-                <div class="section_wrap">
-                    <th:block th:each="item : ${items}" th:if="${item.category == category}">
-                        <section>
-                            <a th:href="'/item/' + ${item.id}">
-                                <div class="section_in">
-                                    <div th:class="height_box">
-                                        <img th:src="@{${item.imgUrl}}" alt="상품 이미지">
-                                        <h4 th:text="${item.itemNm}"></h4>
-                                        <div th:text="${item.itemDetail}"></div>
-                                        <div th:text="${item.price} + '원'"></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </section>
-                    </th:block>
+                <div class="section_wrap swiper-container-custom" id="swiper-container-${iterStat.index}">
+                    <div class="swiper-wrapper">
+                        <th:block th:each="item : ${items}" th:if="${item.category == category}">
+                            <div class="swiper-slide">
+                                <section>
+                                    <a th:href="'/item/' + ${item.id}">
+                                        <div class="section_in">
+                                            <div th:class="height_box">
+                                                <img th:src="@{${item.imgUrl}}" alt="상품 이미지">
+                                                <h4 th:text="${item.itemNm}"></h4>
+                                                <div class="item-detail-wrapper">
+                                                    <div class="item-detail-content" th:text="${item.itemDetail}"></div>
+                                                    <!--<div class="item-detail-content" th:text="${item.itemDetail}"></div>-->
+                                                </div>
+                                                <div th:text="${item.price} + '원'"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </section>
+                            </div>
+                        </th:block>
+                    </div>
+
                 </div>
             </th:block>
-
-
 
             <div th:class="banner">
                 <img th:class="banner_img" th:src="@{/image/banner.jpg}" alt="banner_img">
@@ -143,25 +162,38 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <script>
-        var swiper = new Swiper('.swiper-container', {
+        var swiper1 = new Swiper('.swiper-container1', {
             slidesPerView: 1,
             spaceBetween: 10,
             loop: true,
-            /*autoplay: {
+            autoplay: {
                 delay: 5000, // 3초마다 자동 전환
                 disableOnInteraction: false // 사용자 상호작용 후에도 자동 전환 유지
-            },*/
+            },
             navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev'
+                nextEl: '.swiper-button-next1',
+                prevEl: '.swiper-button-prev1'
             },
             pagination: {
                 el: '.swiper-pagination', // 페이지네이션 요소
                 clickable: true // 클릭 가능하게 설정
             },
         });
+
+        // 각 swiper-container-custom에 대해 고유하게 스와이퍼 초기화
+        document.querySelectorAll('.swiper-container-custom').forEach(function(container, index) {
+            var swiper = new Swiper(container, {
+                slidesPerView: 4,
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false
+                },
+            });
+        });
+
+
+
     </script>
-
-
 
 </div>
