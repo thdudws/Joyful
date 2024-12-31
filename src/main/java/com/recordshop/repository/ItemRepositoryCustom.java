@@ -18,5 +18,3 @@ public interface ItemRepositoryCustom {
 //    List<MainItemDto> findItemsByCategory(Category category);
 
 }
-
-

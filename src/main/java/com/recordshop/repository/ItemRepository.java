@@ -12,4 +12,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> , QuerydslPred
     List<Item> findByItemNm(String itemNm);
 
     List<Item> findByCategory(Category category);
+
 }
