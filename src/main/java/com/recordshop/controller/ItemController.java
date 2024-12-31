@@ -133,5 +133,11 @@ public class ItemController {
 
     }
 
+    //아이템 삭제 컨트롤러
+    @DeleteMapping(value = "/admin/item/{itemId}")
+    public String deleteItem(@PathVariable("itemId") Long itemId) {
+        itemService.deleteItem(itemId);
+        return "redirect:/admin/items"; // 삭제 후 목록 페이지로 리다이렉트
+    }
 
 }
