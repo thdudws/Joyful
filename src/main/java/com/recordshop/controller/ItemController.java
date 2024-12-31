@@ -1,6 +1,5 @@
 package com.recordshop.controller;
 
-import com.recordshop.constant.Category;
 import com.recordshop.dto.ItemFormDto;
 import com.recordshop.dto.ItemSearchDto;
 import com.recordshop.dto.MainItemDto;
@@ -22,7 +21,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,9 +30,6 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemService itemService;
-    private final ItemImgRepository imgRepository;
-    private final ItemRepository itemRepository;
-    private final ItemImgRepository itemImgRepository;
 
     @GetMapping(value="/admin/item/new")
     public String newItem(Model model) {
