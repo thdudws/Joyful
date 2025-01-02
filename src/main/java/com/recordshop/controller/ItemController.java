@@ -4,6 +4,9 @@ import com.recordshop.dto.ItemFormDto;
 import com.recordshop.dto.ItemSearchDto;
 import com.recordshop.dto.MainItemDto;
 import com.recordshop.entity.Item;
+import com.recordshop.entity.ItemImg;
+import com.recordshop.repository.ItemImgRepository;
+import com.recordshop.repository.ItemRepository;
 import com.recordshop.service.ItemService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -15,10 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -122,7 +122,7 @@ public class ItemController {
     @GetMapping(value = "/item/list")
     public String itemList(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model) {
 
-        Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 6);
+        Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 8);
 
         Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
 
@@ -133,5 +133,11 @@ public class ItemController {
 
     }
 
+    //아이템 삭제 컨트롤러
+    @DeleteMapping(value = "/admin/item/{itemId}")
+    public String deleteItem(@PathVariable("itemId") Long itemId) {
+        itemService.deleteItem(itemId);
+        return "redirect:/admin/items"; // 삭제 후 목록 페이지로 리다이렉트
+    }
 
 }

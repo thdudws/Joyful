@@ -35,13 +35,13 @@ public class FileService {
 
     public void deleteFile(String filePath) throws Exception {
 
-        File deleteFile = new File(filePath);
+        File file = new File(filePath);
 
-        if(deleteFile.exists()){
-            deleteFile.delete();
-            log.info("파일을 삭제 하였습니다.");
-        }else {
-            log.info("파일이 존재하지 않습니다.");
+        if(file.exists()){
+           boolean delete = file.delete();
+           if (!delete) {
+               throw new RuntimeException("삭제에 실패 하였습니다." + filePath);
+           }
         }
-    }
+    } //end deleteFile
 }

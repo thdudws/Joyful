@@ -115,21 +115,27 @@ footer {
 .content{
     margin: 0 auto;
     height: auto;
-}
-
-/* 왼쪽 사이드바 */
-.sidebar {
-    width: 200px;
-    background-color: #f4f4f4;
-    height: 100%;
-}
-
-.sidebar ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
+    overflow: hidden;
 }
 
 .write{
     text-align: center;
+}
+
+.back2{
+    cursor: pointer;
+    height: 40px;
+    width: 200px;
+    text-align: center;
+    margin-top: 10px;
+}
+.back2-1{
+    cursor: pointer;
+    height: 40px;
+
+    margin-top: 10px;
+}
+
+.back2I{
+    width: 35px;
 }

@@ -32,7 +32,8 @@
                 orderTotalPrice += price*count;
             });
 
-            $("#orderTotalPrice").html(orderTotalPrice+'원');
+            var formattedPrice = orderTotalPrice.toLocaleString();  // 쉼표 추가
+            $("#orderTotalPrice").html(formattedPrice+'원');
         }
 
         function changeCount(obj){
@@ -40,6 +41,8 @@
             var cartItemId = obj.id.split('_')[1];
             var price = $("#price_" + cartItemId).data("price");
             var totalPrice = count*price;
+
+
             $("#totalPrice_" + cartItemId).html(totalPrice+"원");
             getOrderTotalPrice();
             updateCartItemCount(cartItemId, count);
@@ -165,6 +168,14 @@
             });
         }
 
+        document.addEventListener("DOMContentLoaded", function() {
+            // 모든 가격 요소에 대해 쉼표 추가 처리
+            document.querySelectorAll('.price').forEach(function(element) {
+                var price = element.innerText.trim().replace("원", "");  // 원화 기호 제거
+                var formattedPrice = Number(price).toLocaleString();  // 쉼표 추가
+                element.innerText = formattedPrice + "원";  // 쉼표 추가된 가격 + 원화 기호
+            });
+        });
     </script>
 
 </th:block>
@@ -209,7 +220,7 @@
                             <span class="input-group mt-2">
                                 <span th:id="'price_' + ${cartItem.cartItemId}"
                                       th:data-price="${cartItem.price}"
-                                      th:text="${cartItem.price} + '원'" class="align-self-center mr-2">
+                                      th:text="${cartItem.price} + '원'" class="align-self-center mr-2 price">
                                 </span>
                                 <input type="number" name="count" th:id="'count_' + ${cartItem.cartItemId}"
                                        th:value="${cartItem.count}" min="1"
@@ -221,7 +232,7 @@
                         </div>
                     </div>
                 </td>
-                <td class="text-center align-middle">
+                <td class="text-center align-middle price">
                     <span th:id="'totalPrice_' + ${cartItem.cartItemId}"
                           name="totalPrice" th:text="${cartItem.price * cartItem.count} + '원'">
                     </span>
@@ -232,7 +243,7 @@
 
 
         <div class="totalPrice mt-3 bottom" >
-            <h2 class="totalPrice">
+            <h2 class="totalPrice ">
                 총 주문 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
             </h2>
             <button type="button" class="btn btn-primary btn-lg" onclick="orders()">주문하기</button>

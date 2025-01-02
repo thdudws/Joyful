@@ -6,6 +6,7 @@ import com.recordshop.dto.OrderHistDto;
 import com.recordshop.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@Log4j2
 public class OrderController {
 
     private final OrderService orderService;
@@ -66,6 +68,8 @@ public class OrderController {
 
         //로그인한 회원은 이메일과 페이징 객체를 파라미터로 전달하여 화면에 전달한 주문 목록 데이터를 리턴값으로 받음
         Page<OrderHistDto> ordersHistDtoList = orderService.getOrderList(principal.getName(), pageable);
+
+        log.info("ordersHistDtoList : "+ordersHistDtoList.toString());
 
         model.addAttribute("orders", ordersHistDtoList);
         model.addAttribute("page", pageable.getPageNumber());

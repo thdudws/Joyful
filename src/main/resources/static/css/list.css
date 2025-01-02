@@ -33,8 +33,17 @@
     border: 1px solid rgba(0,0,0, .125);
     border-radius: .25rem;
     margin: 10px 10px;
-    height: 600px;
+    height: 400px;
     text-align: center;
+}
+
+.card-title{
+    font-weight: 500;
+    margin-top: 10px;
+    font-size: 15px;
+}
+.card-text{
+    font-size: 12px;
 }
 
 .categoryB{
@@ -42,6 +51,10 @@
     display: flex;
     margin: 0 auto;
     height: 0;
+}
+
+.card-img-top{
+    height: 240px;
 }
 
 .categoryI{
