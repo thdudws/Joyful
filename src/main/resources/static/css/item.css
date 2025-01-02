@@ -1,5 +1,5 @@
 .justify-content-end{
-    padding: 20px;
+    padding: 10px;
 }
 select{
     margin-right:10px;
@@ -20,6 +20,7 @@ td{
 
 .form-inline{
     width: 1500px;
+    margin: 0 auto;
 }
 
 .table{
@@ -30,4 +31,20 @@ td{
 .iForm_wrap {
     width: 1000px;
     margin: 50px auto;
+}
+
+.title{
+    text-align: center;
+    font-size: 2em;
+}
+
+.custom-select{
+    width: 400px;
+
+}
+
+.top{
+    justify-content: center;
+    display: flex;
+    margin: 10px auto;
 }
