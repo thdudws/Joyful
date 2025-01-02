@@ -22,11 +22,22 @@
       });
     });
 
+    document.addEventListener("DOMContentLoaded", function() {
+        // 모든 가격 요소에 대해 쉼표 추가 처리
+        document.querySelectorAll('.price').forEach(function(element) {
+            var price = element.innerText.trim().replace("원", "");  // 원화 기호 제거
+            var formattedPrice = Number(price).toLocaleString();  // 쉼표 추가
+            element.innerText = formattedPrice + "원";  // 쉼표 추가된 가격 + 원화 기호
+        });
+    });
+
     function calculateToalPrice(){
       var count = $("#count").val();
       var price = $("#price").val();
       var totalPrice = price*count;
-      $("#totalPrice").html(totalPrice + '원');
+
+      var fomettedPrice = totalPrice.toLocaleString();
+      $("#totalPrice").html(fomettedPrice + '원');
     }
 
     function order(){
@@ -109,6 +120,8 @@
       });
     }
 
+
+
   </script>
 </th:block>
 
@@ -143,12 +156,13 @@
 <div layout:fragment="content" style="margin-left:25%;margin-right:25%">
 
 
+    <div class="back2-1">
+        <img src="/image/back3.jpg" alt="뒤로가기" onclick="history.back(-1)" class="back2I">
+    </div>
+
     <input type="hidden" id="itemId" th:value="${item.id}">
 
-      <div style="position: relative;">
-          <img src="/image/back.png" alt="뒤로가기" onclick="history.back(-1)" style="position: fixed; width: 15%; max-width: 100px; height: auto;
-            top: 70px; left: 0; padding: 3px 5px; color: white; border: none; border-radius: 5px; cursor: pointer;">
-        </div>
+
 
     <div class="d-flex">
       <div class="repImgDiv">
@@ -167,7 +181,7 @@
         <div class="text-right">
           <div class="h4 text-danger text-left">
             <input type="hidden" th:value="${item.price}" id="price" name="price">
-            <span th:text="${item.price}"></span>원
+            <span class="price" th:text="${item.price}"></span>
           </div>
           <div class="input-group w-50">
             <div class="input-group-prepend">
@@ -204,7 +218,7 @@
         <div class="container">
             <h4 class="display-5">상품 상세 설명</h4>
             <hr class="my-4">
-            <p class="lead" th:text="${item.itemText}"></p>
+            <p class="lead" style="white-space: pre-wrap; word-wrap: break-word;" th:text="${item.itemText}"></p>
         </div>
     </div>
 
