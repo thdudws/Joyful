@@ -46,6 +46,15 @@
             });
 
         });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 모든 가격 요소에 대해 쉼표 추가 처리
+            document.querySelectorAll('.price').forEach(function(element) {
+                var price = element.innerText.trim().replace("원", "");  // 원화 기호 제거
+                var formattedPrice = Number(price).toLocaleString();  // 쉼표 추가
+                element.innerText = formattedPrice + "원";  // 쉼표 추가된 가격 + 원화 기호
+            });
+        });
     </script>
 </th:block>
 
@@ -118,7 +127,7 @@
                                                     <div class="item-detail-content" th:text="${item.itemDetail}"></div>
                                                 </div>
                                                 <p th:text="${item.itemNm}"></p>
-                                                <div th:text="${item.price} + '원'"></div>
+                                                <p class="price">[[${item.price}]]원</p>
                                             </div>
                                         </div>
                                     </a>
