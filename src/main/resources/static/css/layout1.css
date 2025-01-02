@@ -121,3 +121,21 @@ footer {
 .write{
     text-align: center;
 }
+
+.back2{
+    cursor: pointer;
+    height: 40px;
+    width: 200px;
+    text-align: center;
+    margin-top: 10px;
+}
+.back2-1{
+    cursor: pointer;
+    height: 40px;
+
+    margin-top: 10px;
+}
+
+.back2I{
+    width: 35px;
+}
