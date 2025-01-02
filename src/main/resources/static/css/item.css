@@ -1,5 +1,5 @@
 .justify-content-end{
-    padding: 20px;
+    padding: 10px;
 }
 
 .justify-content-center{
@@ -28,7 +28,11 @@ td{
     width: 1000px;
     margin: 50px auto;
 }
-<<<<<<< HEAD
+
+.title{
+    text-align: center;
+    font-size: 2em;
+}
 
 .top {
     width: 100%;
@@ -276,5 +280,3 @@ td{
     padding: 25px 20px;
     background-color: ghostwhite;
 }
-=======
->>>>>>> de86bd4f372efcb2887a485c4576e8e1d03c75a8
