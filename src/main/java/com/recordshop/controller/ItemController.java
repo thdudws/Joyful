@@ -1,5 +1,6 @@
 package com.recordshop.controller;
 
+import com.recordshop.constant.Category;
 import com.recordshop.dto.ItemFormDto;
 import com.recordshop.dto.ItemSearchDto;
 import com.recordshop.dto.MainItemDto;
