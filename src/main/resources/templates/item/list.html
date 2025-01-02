@@ -36,10 +36,18 @@
 
     <div>
         <ul  class="categoryB">
-            <li class="categoryI"><a th:href="@{/item/list}">ALL</a></li>
-            <li class="categoryI"><a>LP</a></li>
-            <li class="categoryI">ALBUM</li>
-            <li class="categoryI">DVD</li>
+            <li class="categoryI">
+                <a th:href="@{'/item/list'}">ALL</a>
+            </li>
+            <li class="categoryI">
+                <a th:href="@{'/item/list?category=LP'}" th:classappend="${category == 'LP' ? 'active' : ''}">LP</a>
+            </li>
+            <li class="categoryI">
+                <a th:href="@{'/item/list?category=ALBUM'}" th:classappend="${category == 'ALBUM' ? 'active' : ''}">ALBUM</a>
+            </li>
+            <li class="categoryI">
+                <a th:href="@{'/item/list?category=DVD'}" th:classappend="${category == 'DVD' ? 'active' : ''}">DVD</a>
+            </li>
         </ul>
 
     </div>
@@ -71,21 +79,38 @@
     <div th:with="start=${(items.number/maxPage)*maxPage + 1}, end=(${(items.totalPages == 0) ? 1 : (start + (maxPage - 1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})" >
         <ul class="pagination justify-content-center mb-3">
 
+            <!--            <li class="page-item" th:classappend="${items.number eq 0}?'disabled':''">-->
+            <!--                <a th:href="@{'/item/list' + '?searchQuery=' + ${itemSearchDto.searchQuery !=null ? itemSearchDto.searchQuery : ''} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">-->
+            <!--                    <span aria-hidden='true'>Previous</span>-->
+            <!--                </a>-->
+            <!--            </li>-->
+
+            <!--            <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${items.number eq page - 1}?'active':''">-->
+            <!--                <a th:href="@{'/item/list' +'?searchQuery=' + ${itemSearchDto.searchQuery !=null ? itemSearchDto.searchQuery : ''} + '&page=' + ${page - 1}}" th:inline="text" class="page-link">[[${page}]]</a>-->
+            <!--            </li>-->
+
+            <!--            <li class="page-item" th:classappend="${items.number+1 ge items.totalPages}?'disabled':''">-->
+            <!--                <a th:href="@{'/item/list' +'?searchQuery=' + ${itemSearchDto.searchQuery !=null ? itemSearchDto.searchQuery : '' } + '&page=' + ${items.number+1}}" aria-label='Next' class="page-link">-->
+            <!--                    <span aria-hidden='true'>Next</span>-->
+            <!--                </a>-->
+            <!--            </li>-->
+
             <li class="page-item" th:classappend="${items.number eq 0}?'disabled':''">
-                <a th:href="@{'/item/list' + '?searchQuery=' + ${itemSearchDto.searchQuery !=null ? itemSearchDto.searchQuery : ''} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">
+                <a th:href="@{'/item/list' + '?searchQuery=' + ${itemSearchDto.searchQuery != null ? itemSearchDto.searchQuery : ''} + '&category=' + ${category != null ? category : ''} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">
                     <span aria-hidden='true'>Previous</span>
                 </a>
             </li>
 
             <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${items.number eq page - 1}?'active':''">
-                <a th:href="@{'/item/list' +'?searchQuery=' + ${itemSearchDto.searchQuery !=null ? itemSearchDto.searchQuery : ''} + '&page=' + ${page - 1}}" th:inline="text" class="page-link">[[${page}]]</a>
+                <a th:href="@{'/item/list' + '?searchQuery=' + ${itemSearchDto.searchQuery != null ? itemSearchDto.searchQuery : ''} + '&category=' + ${category != null ? category : ''} + '&page=' + ${page - 1}}" th:inline="text" class="page-link">[[${page}]]</a>
             </li>
 
             <li class="page-item" th:classappend="${items.number+1 ge items.totalPages}?'disabled':''">
-                <a th:href="@{'/item/list' +'?searchQuery=' + ${itemSearchDto.searchQuery !=null ? itemSearchDto.searchQuery : '' } + '&page=' + ${items.number+1}}" aria-label='Next' class="page-link">
+                <a th:href="@{'/item/list' + '?searchQuery=' + ${itemSearchDto.searchQuery != null ? itemSearchDto.searchQuery : ''} + '&category=' + ${category != null ? category : ''} + '&page=' + ${items.number+1}}" aria-label='Next' class="page-link">
                     <span aria-hidden='true'>Next</span>
                 </a>
             </li>
+
 
         </ul>
     </div>

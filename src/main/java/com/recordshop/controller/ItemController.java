@@ -120,17 +120,26 @@ public class ItemController {
     }
 
     @GetMapping(value = "/item/list")
-    public String itemList(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model) {
+    public String itemList(ItemSearchDto itemSearchDto, @RequestParam(value = "category", required = false) Category category, Optional<Integer> page, Model model) {
 
+<<<<<<< HEAD
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 6);
+=======
         Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 8);
+>>>>>>> 223ec5b20e7e2a8fa2e97b6dbd028601462aa789
 
-        Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
+        Page<MainItemDto> items;
+        if (category != null) {
+            items = itemService.getItemsByCategory(category, pageable); // 카테고리별 상품 조회
+        } else {
+            items = itemService.getMainItemPage(itemSearchDto, pageable); // 전체 상품 조회
+        }
 
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
+        model.addAttribute("category", category); // 현재 선택된 카테고리
         model.addAttribute("maxPage", 5);
         return "item/list";
-
     }
 
     //아이템 삭제 컨트롤러
