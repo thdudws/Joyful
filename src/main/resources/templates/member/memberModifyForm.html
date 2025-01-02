@@ -29,9 +29,10 @@
 
 <div layout:fragment="content">
 
- <!--   <a th:href="/members/myPage">
-        <img th:src="@{/image/back.png}" alt="뒤로가기버튼">
-    </a>-->
+    <div class="back2">
+        <img src="/image/back3.jpg" alt="뒤로가기" onclick="history.back(-1)" class="back2I">
+    </div>
+
     <h2 class="new2">회원 정보 수정</h2>
 
     <form action="/members/modify" role="form" method="post" th:object="${memberModifyFormDto}">

@@ -122,7 +122,7 @@ public class ItemController {
     @GetMapping(value = "/item/list")
     public String itemList(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model) {
 
-        Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 6);
+        Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 8);
 
         Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
 

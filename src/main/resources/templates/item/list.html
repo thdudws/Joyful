@@ -8,6 +8,21 @@
     <link th:href="@{/css/list.css}" rel="stylesheet">
 </th:block>
 
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 모든 가격 요소에 대해 쉼표 추가 처리
+            document.querySelectorAll('.price').forEach(function(element) {
+                var price = element.innerText.trim().replace("원", "");  // 원화 기호 제거
+                var formattedPrice = Number(price).toLocaleString();  // 쉼표 추가
+                element.innerText = formattedPrice + "원";  // 쉼표 추가된 가격 + 원화 기호
+            });
+        });
+    </script>
+</th:block>
+
 
 <div layout:fragment="content">
 
@@ -37,14 +52,15 @@
 
     <div class="row">
         <th:block th:each="item, status: ${items.getContent()}">
-            <div class="col-md-4 margin">
+            <div class="col-md-3">
                 <div class="card">
                     <a th:href="'/item/' +${item.id}" class="text-dark">
-                        <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="400">
+                        <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}">
                         <div class="card-body">
-                            <h4 class="card-title">[[${item.itemNm}]]</h4>
-                            <p class="card-text">[[${item.itemDetail}]]</p>
-                            <h3 class="card-title text-danger">[[${item.price}]]원</h3>
+                            <p class="card-title">[[${item.itemDetail}]]</p>
+                            <p class="card-text">[[${item.itemNm}]]</p>
+                            <!--<p class="card-title text-danger">[[${item.price}]]원</p>-->
+                            <p class="card-title price">[[${item.price}]]원</p>
                         </div>
                     </a>
                 </div>
