@@ -13,6 +13,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,38 +99,6 @@ public class ItemService {
 
     }   //end getAdminItemPage
 
-    @Transactional(readOnly = true)
-    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
-
-        return itemRepository.getMainItemPage(itemSearchDto,pageable);
-    }
-
-
-//    public List<Item> getItemsByCategory(Category category){
-//        return itemRepository.findByCategory(category);
-//    }
-
-    // 카테고리별 상품 조회
-    public List<MainItemDto> getItemsByCategory(Category category) {
-        List<Item> items = itemRepository.findByCategory(category);
-
-        // 아이템들을 MainItemDto로 변환
-        List<MainItemDto> mainItemDtos = new ArrayList<>();
-
-        for(Item item : items){
-
-            ItemImg img = itemImgRepository.findByItemIdAndRepimgYn(item.getId(),"Y");
-
-            // Item을 MainItemDto로 변환
-            MainItemDto mainItemDto = new MainItemDto(item , img);
-
-            // 변환된 MainItemDto 목록에 추가
-            mainItemDtos.add(mainItemDto);
-        }
-
-        return mainItemDtos;  // 변환된 DTO 목록 반환
-    }
-
     public List<MainItemDto> getItems()
     {
         List<Item> items = itemRepository.findAll();
@@ -150,6 +119,41 @@ public class ItemService {
 
         return mainItemDtos;  // 변환된 DTO 목록 반환
 
+    }
+
+    public Page<MainItemDto> getItemsByCategory(Category category, Pageable pageable) {
+        Page<Item> items = itemRepository.findByCategory(category, pageable);
+
+        // 아이템들을 MainItemDto로 변환
+        List<MainItemDto> mainItemDtos = new ArrayList<>();
+        for (Item item : items.getContent()) {
+            ItemImg img = itemImgRepository.findByItemIdAndRepimgYn(item.getId(), "Y");
+            MainItemDto mainItemDto = new MainItemDto(item, img);
+            mainItemDtos.add(mainItemDto);
+        }
+
+        return new PageImpl<>(mainItemDtos, pageable, items.getTotalElements());
+    }
+
+    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+        String searchQuery = itemSearchDto.getSearchQuery();
+
+        Page<Item> items;
+
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            items = itemRepository.findByItemNmContaining(searchQuery, pageable);
+        } else {
+            items = itemRepository.findAll(pageable);
+        }
+
+        List<MainItemDto> mainItemDtos = new ArrayList<>();
+        for (Item item : items.getContent()) {
+            ItemImg img = itemImgRepository.findByItemIdAndRepimgYn(item.getId(), "Y");
+            MainItemDto mainItemDto = new MainItemDto(item , img);
+            mainItemDtos.add(mainItemDto);
+        }
+
+        return new PageImpl<>(mainItemDtos, pageable, items.getTotalElements());
     }
 
     //상품 삭제 로직
