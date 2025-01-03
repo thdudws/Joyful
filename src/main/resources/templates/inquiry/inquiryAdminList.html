@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<th:block layout:fragment="css">
+    <link th:href="@{/css/inquiry.css}" rel="stylesheet">
+    <style>
+        select{
+            margin-right:10px;
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+
+    <div th:class="mypage_wrap">
+
+        <div class="write">
+            <h1>문의 관리</h1>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>제목</th>
+                <th>작성자</th>
+                <td>등록일</td>
+                <td>수정일</td>
+                <th>답변상태</th>
+                <th>상세보기</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="inquiry : ${allInquiries.content}">
+                <td th:text="${inquiry.title}"></td> <!-- 제목 -->
+                <td th:text="${inquiry.member.nickName}"></td> <!-- 작성자 -->
+                <td th:text="${inquiry.regTime}"></td> <!-- 작성날자 -->
+                <td th:text="${inquiry.updateTime}"></td> <!-- 수정날자 -->
+                <td th:text="${inquiry.answerStatus}"></td> <!-- 답변 상태 -->
+                <td>
+                    <a th:href="'/inquiries/' + ${inquiry.id}">상세보기</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 페이징 처리 -->
+        <div>
+            <a th:if="${currentPage > 0}" th:href="@{/admin/list/{page}(page=${currentPage - 1})}">이전</a>
+            <span th:text="${currentPage + 1}"></span> / <span th:text="${allInquiries.totalPages}"></span>
+            <a th:if="${currentPage + 1 < allInquiries.totalPages}" th:href="@{/admin/list/{page}(page=${currentPage + 1})}">다음</a>
+        </div>
+
+    </div>
+</div>
+
+</html>
+

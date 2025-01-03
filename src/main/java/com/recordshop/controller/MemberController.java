@@ -106,8 +106,5 @@ public class MemberController {
         return "/member/service";
     }
 
-    @GetMapping(value = "/contact")
-    public String contact(Model model) {
-        return "/member/contact";
-    }
+
 }

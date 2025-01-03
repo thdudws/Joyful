@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+</th:block>
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+    <link th:href="@{/css/inquiry.css}" rel="stylesheet">
+    <style>
+        select{
+            margin-right:10px;
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+
+    <div th:class="mypage_wrap">
+
+        <div class="write">
+            <h1>1:1 문의</h1>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>제목</th>
+                <th>작성자</th>
+                <td>등록일</td>
+                <td>수정일</td>
+                <th>답변상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="inquiry : ${inquiryList}">
+                <td>
+                    <a th:href="'/inquiries/' + ${inquiry.id}" th:text="${inquiry.title}"></a>
+                </td>
+                <td th:text="${inquiry.member.nickName}"></td> <!-- 작성자 -->
+                <td th:text="${inquiry.regTime}"></td>
+                <td th:text="${inquiry.updateTime}"></td>
+                <td th:text="${inquiry.answerStatus}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 페이지 하단 중앙에 "문의 작성" 버튼 -->
+        <div class="ibtn" style=" text-align: center">
+            <a href="/inquiries/new">
+                <button class="btn btn-primary">문의 작성</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+</html>
