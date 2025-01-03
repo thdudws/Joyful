@@ -8,7 +8,29 @@
     <link th:href="@{/css/mypage.css}" rel="stylesheet">
 </th:block>
 
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        $(document).ready(function() {
+
+            // 고객센터 클릭 시 전화번호 보여주기
+            $('#customerServiceText, #serviceImage').on('click', function() {
+                $('#phoneNumber').toggle();  // 전화번호의 보이기/숨기기 토글
+            });
+        });
+    </script>
+</th:block>
+
+
 <div layout:fragment="content">
+
+    <div class="back2">
+        <a th:href="@{/}">
+            <img src="/image/back3.jpg" alt="뒤로가기" onclick="history.back(-1)" class="back2I">
+        </a>
+    </div>
+
 
     <div th:class="mypage_wrap">
 
@@ -63,20 +85,24 @@
                 </div>
 
                 <div th:class="mp_box"  sec:authorize="isAuthenticated()">
-                    <a href="/contact">
+                    <a href="/members/contact">
                         <p>1 : 1 문의</p>
                         <img th:class="icon_mp" th:src="@{/image/contact.png}" alt="banner_img">
                     </a>
                 </div>
 
-                <div th:class="mp_box" sec:authorize="isAnonymous()">
-                    <a href="/service">
-                        <p>고객센터</p>
-<!--                        <span>1588-1234</span>-->
-                        <img th:class="icon_mp" th:src="@{/image/service.png}" alt="banner_img">
-                    </a>
-                </div>
+               <!-- <div th:class="mp_box" sec:authorize="isAnonymous()">
+                    <p>고객센터</p>
+                    <img th:class="icon_mp" th:src="@{/image/service.png}" alt="banner_img" >
+                    <span>1588-1234</span>
+                </div>-->
 
+                <!-- 고객센터 텍스트와 이미지 -->
+                <div  th:class="mp_box" sec:authorize="isAnonymous()">
+                    <p id="customerServiceText" style="cursor:pointer;">고객센터</p>
+                    <img id="serviceImage" th:class="icon_mp" th:src="@{/image/service.png}" alt="banner_img" style="cursor:pointer;">
+                    <span id="phoneNumber" style="display:none;">1588-1234</span>
+                </div>
             </div>
 
 
@@ -90,4 +116,6 @@
 
 
 </div>
+
+
 </html>

@@ -1,5 +1,6 @@
 package com.recordshop.controller;
 
+import com.recordshop.constant.Category;
 import com.recordshop.dto.ItemFormDto;
 import com.recordshop.dto.ItemSearchDto;
 import com.recordshop.dto.MainItemDto;
@@ -103,7 +104,7 @@ public class ItemController {
     @GetMapping(value = {"/admin/items","/admin/items/{page}"})
     public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page,Model model){
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get(): 0 , 3);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get(): 0 , 10);
 
         Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable);
         model.addAttribute("items", items);
@@ -120,17 +121,23 @@ public class ItemController {
     }
 
     @GetMapping(value = "/item/list")
-    public String itemList(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model) {
+    public String itemList(ItemSearchDto itemSearchDto, @RequestParam(value = "category", required = false) Category category, Optional<Integer> page, Model model) {
 
         Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 8);
 
-        Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
+
+        Page<MainItemDto> items;
+        if (category != null) {
+            items = itemService.getItemsByCategory(category, pageable); // 카테고리별 상품 조회
+        } else {
+            items = itemService.getMainItemPage(itemSearchDto, pageable); // 전체 상품 조회
+        }
 
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
+        model.addAttribute("category", category); // 현재 선택된 카테고리
         model.addAttribute("maxPage", 5);
         return "item/list";
-
     }
 
     //아이템 삭제 컨트롤러

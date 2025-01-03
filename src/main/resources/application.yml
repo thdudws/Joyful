@@ -18,7 +18,10 @@ spring:
         format_sql: true    #sql  가독성 좋게 포맷팅
 
     database-platform=org: org.hibernate.dialect.MySQLDialect
-
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
   servlet:
     multipart:
@@ -26,6 +29,7 @@ spring:
       max-request-size: 100MB   #요청당 최대 파일 사이즈
 
 itemImgLocation : C:/works/Springboot/itemImg    #상품 이미지 업로드 경로
+inquiryImgLocation : C:/works/Springboot/inquiryImg
 uploadPath : file:///C:/works/Springboot/     #리소스 업로드 경로
 
 

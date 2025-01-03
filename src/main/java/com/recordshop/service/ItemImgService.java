@@ -65,5 +65,23 @@ public class ItemImgService {
 
     }       //end updateItemImg
 
+    //상품 삭제
+    public void deleteItemImg(Long itemImgId) throws Exception {
+        ItemImg itemImg = itemImgRepository.findById(itemImgId).orElseThrow(() -> new EntityNotFoundException("이미지가 존재하지 않습니다."));
+
+        if (!StringUtils.isEmpty(itemImg.getImgName())) {
+            String filePath = itemImgLocation + "/" + itemImg.getImgName();
+            try {
+                fileService.deleteFile(filePath);
+                log.info("이미지 삭제 성공 : " + filePath);
+            } catch (Exception e) {
+                log.info("이미지 삭제 실패 : " + filePath, e);
+            }
+        }
+
+        itemImgRepository.delete(itemImg);
+//    }//end deleteItemImg
+
+    }
 
 }

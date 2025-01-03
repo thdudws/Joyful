@@ -42,6 +42,13 @@
 
 <div layout:fragment="content">
 
+  <div class="back2">
+    <img src="/image/back3.jpg" alt="뒤로가기" onclick="history.back(-1)" class="back2I">
+  </div>
+
+  <div>
+    <h2 style="text-align: center">상품 수정/삭제</h2>
+  </div>
 
 
   <form th:action="@{'/admin/items/' + ${items.number}}" role="form" method="get" th:object="${items}">
@@ -81,7 +88,7 @@
       <tr th:each="item, status: ${items.getContent()}">
         <td th:text="${item.id}"></td>
         <td>
-          <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>
+          <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemDetail}"></a>
         </td>
         <td th:text="${item.itemSellStatus == T(com.recordshop.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
         <td th:text="${item.createdBy}"></td>
@@ -90,7 +97,7 @@
       </tbody>
     </table>
 
-    <div th:with="start=${(items.number/maxPage)*maxPage + 1}, end=(${(items.totalPages == 0) ? 1 : (start + (maxPage - 1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})" >
+    <div class="pagination_margin" th:with="start=${(items.number/maxPage)*maxPage + 1}, end=(${(items.totalPages == 0) ? 1 : (start + (maxPage - 1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})" >
       <ul class="pagination justify-content-center">
 
         <li class="page-item" th:classappend="${items.first}?'disabled'">

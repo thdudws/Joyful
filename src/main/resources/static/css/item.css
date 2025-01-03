@@ -1,5 +1,5 @@
 .justify-content-end{
-    padding: 20px;
+    padding: 10px;
 }
 
 .justify-content-center{
@@ -21,14 +21,18 @@ td{
 
 .table{
     width: 1500px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .iForm_wrap {
     width: 1000px;
     margin: 50px auto;
 }
-<<<<<<< HEAD
+
+.title{
+    text-align: center;
+    font-size: 2em;
+}
 
 .top {
     width: 100%;
@@ -55,6 +59,7 @@ td{
 .lead {
     white-space: pre-wrap;
     word-wrap: break-word;
+    font-size: 17px;
 }
 
 .product_input {
@@ -276,5 +281,49 @@ td{
     padding: 25px 20px;
     background-color: ghostwhite;
 }
-=======
->>>>>>> de86bd4f372efcb2887a485c4576e8e1d03c75a8
+
+.pagination_margin {
+    margin-bottom: 20px;
+}
+
+#searchBtn {
+    height: 40px;
+}
+
+.price_h5 {
+    margin-right: 10px;
+    letter-spacing: 2px;
+}
+
+.container {
+    padding: 0 20px;
+}
+
+.pay_event_wrap {
+    width: 100%;
+    height: 120px;
+    margin: 50px auto;
+    display: flex;
+}
+
+.pay_event {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px solid #949494;
+}
+
+.pay_event img {
+    margin-bottom: 10px;
+}
+
+.pay_event p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+

@@ -46,6 +46,15 @@
             });
 
         });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 모든 가격 요소에 대해 쉼표 추가 처리
+            document.querySelectorAll('.price').forEach(function(element) {
+                var price = element.innerText.trim().replace("원", "");  // 원화 기호 제거
+                var formattedPrice = Number(price).toLocaleString();  // 쉼표 추가
+                element.innerText = formattedPrice + "원";  // 쉼표 추가된 가격 + 원화 기호
+            });
+        });
     </script>
 </th:block>
 
@@ -56,15 +65,18 @@
     <div class="swiper-container1 mainImg_box">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <h1 th:class="swiper_h1">RECORD SHOP</h1>
-                <img class="main_img" th:src="@{/image/main_img2.jpg}" alt="main_img">
+                <!--h1 th:class="swiper_h1">RECORD SHOP</h1>-->
+                <img class="main_img" th:src="@{/image/main_img4.jpg}" alt="main_img">
             </div>
             <div class="swiper-slide">
-                <img class="main_img" th:src="@{/image/main_img.jpg}" alt="main_img">
+                <img class="main_img" th:src="@{/image/main_img3.jpg}" alt="main_img">
             </div>
-           <!-- <div class="swiper-slide">
-                <img class="main_img" th:src="@{/image/main_img.jpg}" alt="main_img">
-            </div>-->
+             <div class="swiper-slide">
+                 <img class="main_img" th:src="@{/image/main_img2.jpg}" alt="main_img">
+             </div>
+             <div class="swiper-slide">
+                 <img class="main_img" th:src="@{/image/main_img.jpg}" alt="main_img">
+             </div>
         </div>
 
         <!-- 페이지네이션 -->
@@ -117,8 +129,13 @@
                                                 <div class="item-detail-wrapper">
                                                     <div class="item-detail-content" th:text="${item.itemDetail}"></div>
                                                 </div>
-                                                <p th:text="${item.itemNm}"></p>
-                                                <div th:text="${item.price} + '원'"></div>
+                                                <p th:text="${item.itemNm}" class="itemNm"></p>
+                                                <p class="price">[[${item.price}]]원</p>
+                                            </div>
+                                            <div class="icon_box">
+                                                <i class="bi bi-caret-left"></i>
+                                                <i class="bi bi-pause"></i>
+                                                <i class="bi bi-caret-right"></i>
                                             </div>
                                         </div>
                                     </a>
@@ -165,10 +182,10 @@
             slidesPerView: 1,
             spaceBetween: 10,
             loop: true,
-            autoplay: {
-                delay: 5000, // 3초마다 자동 전환
-                disableOnInteraction: false // 사용자 상호작용 후에도 자동 전환 유지
-            },
+            /*autoplay: {
+                delay: 5000,
+                disableOnInteraction: false
+            },*/
             navigation: {
                 nextEl: '.swiper-button-next1',
                 prevEl: '.swiper-button-prev1'
@@ -184,10 +201,10 @@
             var swiper = new Swiper(container, {
                 slidesPerView: 4,
                 loop: true,
-                autoplay: {
+                /*autoplay: {
                 delay: 4000,
                 disableOnInteraction: false
-                },
+                },*/
             });
         });
 
