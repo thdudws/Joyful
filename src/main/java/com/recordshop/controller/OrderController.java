@@ -1,30 +1,115 @@
-package com.recordshop.dto;
+package com.recordshop.controller;
 
-import com.recordshop.entity.Item;
-import com.recordshop.entity.OrderItem;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
-public class OrderItemDto {
 
-    private  String itemNm;     //상품명
+import com.recordshop.dto.OrderDto;
+import com.recordshop.dto.OrderHistDto;
+import com.recordshop.service.OrderService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
-    private int count;          //주문 수량
 
-    private int orderPrice;     //주문 금액
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
-    private String imgUrl;      //상품 이미지 경로
+@Controller
+@RequiredArgsConstructor
+@Log4j2
+public class OrderController {
 
-    private Long itemId;
+    private final OrderService orderService;
 
-    //OrderItemDto 클래스의 생성자로 orderItem 객체와 이미지경로를 파라미터로 받아서 멤버 변수 값을 세팅
-    public OrderItemDto(OrderItem orderItem, String imgUrl) {
-        this.itemId = orderItem.getItem().getId();
-        this.itemNm = orderItem.getItem().getItemDetail();
-        this.count = orderItem.getCount();
-        this.orderPrice = orderItem.getOrderPrice();
-        this.imgUrl = imgUrl;
+    @PostMapping(value = "/order")
+    public @ResponseBody ResponseEntity order(@RequestBody @Valid OrderDto orderDto, BindingResult bindingResult, Principal principal) {
+
+        if(bindingResult.hasErrors()) {
+
+            StringBuilder sb = new StringBuilder();
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+
+            for(FieldError fieldError : fieldErrors) {
+                sb.append(fieldError.getDefaultMessage());
+            }
+
+            return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
+        }
+
+        String email = principal.getName();
+        Long orderId;
+
+        try {
+            orderId = orderService.order(orderDto, email);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+
+    }       //end order
+
+
+    //Principal -> 인증된 사용자를 나타내는 객체
+    @GetMapping(value = {"/orders", "/orders/{page}"})
+    public String orderHist(@PathVariable("page") Optional<Integer> page, Principal principal,Model model) {
+
+        // 한번에 가지고 올 주문의 개수는 4개로 설정
+        Pageable pageable = PageRequest.of( page.isPresent() ? page.get() : 0, 4);
+
+        //로그인한 회원은 이메일과 페이징 객체를 파라미터로 전달하여 화면에 전달한 주문 목록 데이터를 리턴값으로 받음
+        Page<OrderHistDto> ordersHistDtoList = orderService.getOrderList(principal.getName(), pageable);
+
+        log.info("ordersHistDtoList : "+ordersHistDtoList.toString());
+
+
+        model.addAttribute("orders", ordersHistDtoList);
+        model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("maxPage" , 5);
+
+        return "order/orderHist";
+
+    }   //end orderHist
+
+    @PostMapping("/order/{orderId}/cancel")
+    public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId , Principal principal) {
+
+        if(!orderService.validateOrder(orderId, principal.getName())) {
+            return new ResponseEntity<String>("주문 취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        orderService.cancelOrder(orderId);
+        return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+
+    }   //end cancelOrder
+
+    @GetMapping("/admin/orders")
+    public String adminOrders(@PathVariable("page") Optional<Integer> page,Model model) {
+
+
+        // 한번에 가지고 올 주문의 개수는 4개로 설정
+        Pageable pageable = PageRequest.of( page.isPresent() ? page.get() : 0, 10);
+
+        Page<OrderHistDto> orders = orderService.getAdminOrderList(pageable);
+
+
+        model.addAttribute("orders", orders);
+        model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("maxPage" , 5);
+
+        return "order/adminOrders";
     }
+
+
+
 }
