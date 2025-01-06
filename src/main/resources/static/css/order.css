@@ -57,3 +57,7 @@
     padding: 0;
 }
 
+.d-flex:last-of-type {
+    margin-bottom: 0 !important;
+}
+

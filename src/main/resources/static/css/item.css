@@ -326,4 +326,8 @@ td{
     margin-bottom: 0;
 }
 
+.pay_event:nth-of-type(2) {
+    border-left: none;
+}
+
 
