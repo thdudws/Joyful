@@ -1,11 +1,14 @@
 
 form{
-    width: 1300px;
+
     margin: 20px auto;
 }
-
+.form-group{
+    margin-top: 1rem;
+    text-align: left;
+}
 .bottomB{
-    width: 1300px;
+    width: 400px;
     margin: 0 auto;
     padding: 20px;
     text-align: center;
@@ -16,7 +19,7 @@ form{
 }
 
 .Log{
-    width: 300px;
+    width: 400px;
     text-align: center;
     margin: 0 auto;
 }
@@ -29,18 +32,45 @@ form{
     padding: 10px;
     border-radius: 15px;
 }
+.intro{
+    display: flex;
+    width: 900px;
+    margin: 0 auto;
+}
+
+.leftForm{
+    width: 450px;
+    padding: 30px;
+}
+.loginI{
+    padding: 20px;
+    height: 400px;
+}
+.rightForm{
+    width: 450px;
+    padding: 30px;
+    margin: 10px auto;
+}
+
+.leftForm  >p{
+    margin:0 30px;
+}
 
 .logoNm{
     text-align: center;
     padding: 30px;
-    width: 350px;
+    width: 400px;
     height: 130px;
     background: beige;
-    margin: 0 auto;
-    margin-top: 10px;
-    border-radius: 40px;
+    margin: 30px auto;
+    border-radius: 30px;
+
 }
 
+.modify{
+    width: 500px;
+    margin: 0 auto;
+}
 .bar{
     width: 500px;
     margin: 15px auto;
@@ -49,11 +79,16 @@ form{
 .new2{
     text-align: center;
     background: lavenderblush;
-    width: 400px;
-    margin: 10px auto;
+    width: 500px;
+    margin: 0 auto;
     padding: 10px;
     border-radius: 15px;
 }
 .back{
     width: 300px;
+}
+
+label{
+    display: inline-block;
+    margin: 5px auto;
 }

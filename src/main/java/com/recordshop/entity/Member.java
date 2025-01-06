@@ -30,6 +30,7 @@ public class Member extends BaseEntity {
 
     private String password;
 
+    @Column(unique = true)
     private String phoneNumber;
 
     private String address;
@@ -45,7 +46,7 @@ public class Member extends BaseEntity {
         member.setPassword(passwordEncoder.encode(memberFormDto.getPassword()));
         member.setPhoneNumber(memberFormDto.getPhoneNumber());
         member.setAddress(memberFormDto.getAddress());
-        member.setRole(Role.ADMIN);
+        member.setRole(Role.USER);
         return member;
 
 
@@ -67,4 +68,6 @@ public class Member extends BaseEntity {
         }
         System.out.println("Modified Member: " + this);
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.recordshop.controller;
 
 
+
 import com.recordshop.dto.OrderDto;
 import com.recordshop.dto.OrderHistDto;
 import com.recordshop.service.OrderService;
@@ -71,6 +72,7 @@ public class OrderController {
 
         log.info("ordersHistDtoList : "+ordersHistDtoList.toString());
 
+
         model.addAttribute("orders", ordersHistDtoList);
         model.addAttribute("page", pageable.getPageNumber());
         model.addAttribute("maxPage" , 5);
@@ -91,6 +93,22 @@ public class OrderController {
 
     }   //end cancelOrder
 
+    @GetMapping("/admin/orders")
+    public String adminOrders(@PathVariable("page") Optional<Integer> page,Model model) {
+
+
+        // 한번에 가지고 올 주문의 개수는 4개로 설정
+        Pageable pageable = PageRequest.of( page.isPresent() ? page.get() : 0, 10);
+
+        Page<OrderHistDto> orders = orderService.getAdminOrderList(pageable);
+
+
+        model.addAttribute("orders", orders);
+        model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("maxPage" , 5);
+
+        return "order/adminOrders";
+    }
 
 
 

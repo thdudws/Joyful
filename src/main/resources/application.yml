@@ -29,6 +29,7 @@ spring:
       max-request-size: 100MB   #요청당 최대 파일 사이즈
 
 itemImgLocation : C:/works/Springboot/itemImg    #상품 이미지 업로드 경로
+inquiryImgLocation : C:/works/Springboot/inquiryImg
 uploadPath : file:///C:/works/Springboot/     #리소스 업로드 경로
 
 
