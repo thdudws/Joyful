@@ -4,6 +4,9 @@ import com.recordshop.dto.MemberFormDto;
 import com.recordshop.dto.MemberModifyFormDto;
 import com.recordshop.entity.Member;
 import com.recordshop.service.MemberService;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,9 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/members")
 @Controller
@@ -101,13 +102,29 @@ public class MemberController {
         return "redirect:/members/myPage";
     }
 
-    @GetMapping(value="/service")
-    public String customService(Model model) {
-        return "/member/service";
+
+    // 회원 탈퇴 메서드
+    @PostMapping("/delete")
+    public String deleteMember(@RequestParam String phoneNumber, HttpServletRequest request, HttpServletResponse response, Model model) {
+
+        log.info(phoneNumber);
+
+        //Member member = memberRepository.findByPhone(phoneNumber);
+        Member member = memberService.findByPhoneNumber(phoneNumber);
+
+        try {
+            memberService.memberDelete(member, request, response);
+            return "redirect:/";  // 탈퇴 후 리다이렉트
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "member/memberModifyForm";
+        }
     }
 
     @GetMapping(value = "/contact")
     public String contact(Model model) {
         return "/member/contact";
     }
+
+
 }
