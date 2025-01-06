@@ -70,7 +70,7 @@
 
 <div layout:fragment="content" >
 
-    <div class="back2-2">
+    <div class="back2">
         <img src="/image/back3.jpg" alt="뒤로가기" onclick="history.back(-1)" class="back2I">
     </div>
 
@@ -82,11 +82,15 @@
 
         <div class="card1" th:each="order : ${orders.getContent()}">
 
+
             <div class="card d-flex">
                 <div th:each="orderItem : ${order.orderItemDtoList}" class="d-flex mb-3">
                     <div class="repImgDiv">
-                        <img th:src="${orderItem.imgUrl}" class = "rounded repImg" th:alt="${orderItem.itemNm}">
+                        <a th:href="@{/item/{itemId}(itemId=${orderItem.itemId})}">
+                            <img th:src="${orderItem.imgUrl}" class = "rounded repImg" th:alt="${orderItem.itemNm}">
+                        </a>
                     </div>
+
                     <div class="align-self-center w-75">
                             <span th:text="${orderItem.itemNm}" class="fs24 font-weight-bold"></span>
                         <div class="fs18 font-weight-light">
