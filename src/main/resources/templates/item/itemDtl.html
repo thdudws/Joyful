@@ -155,7 +155,7 @@
             <span th:if="${item.itemSellStatus == T(com.recordshop.constant.ItemSellStatus).SELL}" class="badge badge-primary mgb-15">
                 판매중
             </span>
-                <span th:unless="${item.itemSellStatus == T(com.recordshop.constant.ItemSellStatus).SOLD_OUT}" class="badge btn-danger mgb-15" >
+                <span th:unless="${item.itemSellStatus == T(com.recordshop.constant.ItemSellStatus).SELL}" class="badge btn-danger mgb-15" >
                 품절
             </span>
                 <div class="h4" th:text="${item.itemNm}"></div>
@@ -290,9 +290,6 @@
         </div>
     </div>
 
-    <div th:each="itemImg : ${item.itemImgDtoList}" class="text-center">
-      <img th:if="${not #strings.isEmpty(itemImg.imgUrl)}" th:src="${itemImg.imgUrl}" class="rounded mgb-15" width="800">
-    </div>
 </div>
 
 

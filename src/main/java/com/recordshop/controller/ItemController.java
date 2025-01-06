@@ -1,6 +1,5 @@
 package com.recordshop.controller;
 
-import com.recordshop.constant.Category;
 import com.recordshop.dto.ItemFormDto;
 import com.recordshop.dto.ItemSearchDto;
 import com.recordshop.dto.MainItemDto;
@@ -123,7 +122,9 @@ public class ItemController {
     @GetMapping(value = "/item/list")
     public String itemList(ItemSearchDto itemSearchDto, @RequestParam(value = "category", required = false) Category category, Optional<Integer> page, Model model) {
 
+
         Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 8);
+
 
         Page<MainItemDto> items;
         if (category != null) {
