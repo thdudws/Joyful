@@ -20,6 +20,25 @@
     margin-bottom:20px;
 }
 
+.Acard1{
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.Acard-1{
+    width: 250px;
+    text-align: right;
+    height: 100%;
+}
+.Acard-1>p{
+    font-size: 15px;
+}
+.Acard{
+    width:800px;
+    height:100%;
+    padding:30px;
+}
 .fs18{
     font-size:18px
 }
@@ -57,7 +76,6 @@
     padding: 0;
 }
 
-.d-flex:last-of-type {
+.d-flex:last-of-type{
     margin-bottom: 0 !important;
 }
-
