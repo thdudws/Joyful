@@ -17,6 +17,7 @@ td{
 
 .form-inline{
     width: 1500px;
+    margin: 0 auto;
 }
 
 .table{
@@ -138,7 +139,7 @@ td{
 
 .dtl_wrap {
     width: 950px;
-    margin: 50px auto;
+    margin: 10px auto;
 }
 
 .text-center img {
