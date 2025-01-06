@@ -26,6 +26,12 @@
 
 <div layout:fragment="content">
 
+    <div class="back2">
+        <a th:href="@{/}">
+            <img src="/image/back3.jpg" alt="뒤로가기" onclick="history.back(-1)" class="back2I">
+        </a>
+    </div>
+
 
     <div class="searchBox">
         <form class="form-inline " th:action="@{/item/list}" method="get">

@@ -24,7 +24,7 @@
 
 .mpbox_wrap {
     width: 700px;
-    height: 500px;
+    /*height: 500px;*/
     display: flex;
     align-content: space-around;
     justify-content: space-between;

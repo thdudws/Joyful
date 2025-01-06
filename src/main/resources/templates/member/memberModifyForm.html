@@ -67,6 +67,14 @@
         <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
     </form>
 
+    <form action="/members/delete" method="POST">
+        <input type="hidden" name="phoneNumber" th:value="${memberModifyFormDto.phoneNumber}">
+
+        <div style="text-align: center">
+            <button type="submit" class="btn btn-danger">회원 탈퇴하기</button>
+        </div>
+    </form>
+
 </div>
 
 
