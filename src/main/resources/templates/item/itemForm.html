@@ -57,6 +57,11 @@
 
 <div layout:fragment="content">
 
+
+    <div class="back2">
+        <img src="/image/back3.jpg" alt="뒤로가기" onclick="history.back(-1)" class="back2I">
+    </div>
+
     <div class="iForm_wrap">
         <form role="form" method="post" enctype="multipart/form-data" th:object="${itemFormDto}">
 
@@ -83,6 +88,15 @@
 
             </div>
 
+            <div class="input-group product_input">
+                <div class="input-group-prepend">
+                    <span class="input-group-text product_name">상품명</span>
+                </div>
+                <textarea class="form-control product_text" aria-label="With textarea" th:field="*{itemDetail}" placeholder="상품명을 입력해주세요"></textarea>
+            </div>
+            <p th:if="${#fields.hasErrors('itemDetail')}" th:errors="*{itemDetail}" class="fieldError">Incorrect data</p>
+
+
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text">가수명</span>
@@ -107,14 +121,14 @@
             </div>
             <p th:if="${#fields.hasErrors('stockNumber')}" th:errors="*{stockNumber}" class="fieldError">Incorrect data</p>
 
-            <div class="input-group product_input">
+            <!--<div class="input-group product_input">
                 <div class="input-group-prepend">
                     <span class="input-group-text product_name">상품명</span>
                 </div>
                 <textarea class="form-control product_text" aria-label="With textarea" th:field="*{itemDetail}" placeholder="상품명을 입력해주세요"></textarea>
             </div>
             <p th:if="${#fields.hasErrors('itemDetail')}" th:errors="*{itemDetail}" class="fieldError">Incorrect data</p>
-
+-->
             <div class="input-group product_detail">
                 <div class="input-group-prepend product_Dname">
                     <span class="input-group-text ">상품 상세 내용</span>
