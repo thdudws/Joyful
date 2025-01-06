@@ -73,6 +73,10 @@ td{
     height: 40px;
 }
 
+.form-control-plaintext {
+    height: 40px;
+}
+
 .form-control.product_text {
     height: 100%;
 }
@@ -94,9 +98,16 @@ td{
 }
 
 .btn-primary {
-    width: 100px;
-    height: 45px;
+    width: 90px;
+    height: 38px;
     background-color: #2d89eb;
+}
+
+.btn-primary2 {
+    width: 100px;
+    height: 38px;
+    background-color: #2d89eb;
+    color: white;
 }
 
 .btn-success {
@@ -106,8 +117,8 @@ td{
 }
 
 .btn-danger {
-    width: 100px;
-    height: 45px;
+    width: 90px;
+    height: 38px;
     background-color: #ed4d5c;
 }
 
@@ -279,4 +290,48 @@ td{
 .notice_box {
     padding: 25px 20px;
     background-color: ghostwhite;
+}
+
+.form-group label {
+    font-size: 1.25rem; /* 라벨의 글자 크기 증가 */
+    font-weight: bold; /* 라벨을 굵게 */
+}
+
+.form-group p {
+    display: block;
+    padding: 10px; /* 박스 안의 여백 */
+    background-color: #f8f9fa; /* 배경색 */
+    border: 1px solid #ced4da; /* 테두리 */
+    border-radius: 5px; /* 테두리 둥글게 */
+    min-height: 40px; /* 최소 높이 */
+}
+
+.statusFilterWrapper {
+    display: flex;
+    justify-content: center; /* 상태 필터를 가운데로 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+    margin-top: 0px; /* 상단 여백 */
+}
+
+/* 상태 필터 */
+.statusFilter {
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.statusItem {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin-right: 0px;
+}
+
+.table-text{
+    text-align: center;
+}
+
+.table thead th{
+    border-bottom: 2px solid #dee2e6;
+    border-top: 2px solid #dee2e6;
 }

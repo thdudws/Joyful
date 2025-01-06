@@ -28,12 +28,42 @@ public class AnswerService {
 
     //답글 저장
     public void saveAnswer(Long inquiryId, String answer) {
-        Inquiry inquiry = inquiryService.findById(inquiryId);
+        Inquiry inquiry = inquiryRepository.findById(inquiryId)
+                .orElseThrow(() -> new IllegalArgumentException("문의글을 찾을 수 없습니다."));
+
+        if (inquiry.getAnswer() != null){
+            throw new IllegalStateException("이미 답변이 등록된 문의글 입니다.");
+        }
+
         Answer aw = new Answer();
 
         aw.setInquiry(inquiry);
         aw.setAnswer(answer);
+
         answerRepository.save(aw);
+
+        inquiry.setAnswerStatus(AnswerStatus.COMPLETED);
+        inquiryRepository.save(inquiry);
+    }
+
+    public void modifyAnswer(Long answerId, String newAnswer) {
+        Answer answer = answerRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 답변을 찾을 수 없습니다."));
+
+        answer.setAnswer(newAnswer);
+        answerRepository.save(answer);
+    }
+
+    public Answer findById(Long answerId) {
+        return answerRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("답변을 찾을 수 없습니다."));
+    }
+
+    public void deleteAnswer(Long answerId) {
+        Answer answer = answerRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 답글을 찾을 수 없습니다."));
+
+        answerRepository.delete(answer);
     }
 
     //특정 한 게시물에 대한 답변 조회

@@ -1,5 +1,6 @@
 package com.recordshop.dto;
 
+import com.recordshop.entity.Answer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,4 +14,9 @@ public class AnswerDto {
     private String answer;
 
     private Date inquiryRegDate;
+
+    public AnswerDto(Answer answer) {
+        this.id = answer.getId();
+        this.answer = answer.getAnswer();
+    }
 }

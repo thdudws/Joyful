@@ -1,5 +1,6 @@
 package com.recordshop.service;
 
+import com.recordshop.constant.AnswerStatus;
 import com.recordshop.dto.InquiryDto;
 import com.recordshop.dto.InquiryFormDto;
 import com.recordshop.dto.InquiryModifyFormDto;
@@ -57,8 +58,12 @@ public class InquiryService {
 
     //사용자가 본인이 적은 문의내역 보기
     @Transactional
-    public Page<Inquiry> getUserInquiry(Pageable pageable, String email) {
-        return inquiryRepository.findByMemberEmail(email, pageable);
+    public Page<Inquiry> getUserInquiry(String email, AnswerStatus answerStatus, Pageable pageable) {
+        if (answerStatus != null) {
+            return inquiryRepository.findByMemberEmailAndAnswerStatus(email, answerStatus, pageable);
+        } else {
+            return inquiryRepository.findByMemberEmail(email, pageable);
+        }
     }
 
     //문의내역 클릭 시 상세보기
@@ -79,6 +84,7 @@ public class InquiryService {
                 .orElseThrow(() -> new EntityNotFoundException("문의글을 찾을 수 없습니다."));
     }
 
+    //문의글 수정하기
     public void inquiryUpdate(Long inquiryId, InquiryModifyFormDto inquiryModifyFormDto) {
         Inquiry updateInquiry = inquiryRepository.findById(inquiryId)
                 .orElseThrow(() -> new EntityNotFoundException("문의글 정보를 찾을 수 없습니다."));
@@ -88,10 +94,19 @@ public class InquiryService {
         inquiryRepository.save(updateInquiry);
     }
 
+    //문의글 삭제하기
     public void deleteInquiry(Long inquiryId) {
         Inquiry inquiry = inquiryRepository.findById(inquiryId)
                 .orElseThrow(() -> new EntityNotFoundException("문의글 정보를 찾을 수 없습니다."));
 
         inquiryRepository.delete(inquiry);
     }
+
+    public Page<Inquiry> getInquiriesByAnswerStatus(AnswerStatus answerStatus, Pageable pageable) {
+        return inquiryRepository.findByAnswerStatus(answerStatus, pageable);
+    }
+//
+//    public Page<Inquiry> findAllInquiries(Pageable pageable) {
+//        return inquiryRepository.findAll(pageable);
+//    }
 }

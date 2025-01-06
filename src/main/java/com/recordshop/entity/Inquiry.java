@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "inquiry")
 @Getter @Setter @ToString
@@ -32,6 +35,9 @@ public class Inquiry extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "inquiry")
+    private Answer answer;
 
     public static Inquiry createInquiry(InquiryFormDto inquiryFormDto) {
         Inquiry inquiry = new Inquiry();
