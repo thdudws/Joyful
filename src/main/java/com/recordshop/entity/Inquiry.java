@@ -36,7 +36,7 @@ public class Inquiry extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "inquiry")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "inquiry", cascade = CascadeType.ALL)
     private Answer answer;
 
     public static Inquiry createInquiry(InquiryFormDto inquiryFormDto) {

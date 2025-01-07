@@ -59,11 +59,20 @@ public class AnswerService {
                 .orElseThrow(() -> new EntityNotFoundException("답변을 찾을 수 없습니다."));
     }
 
+    @Transactional
     public void deleteAnswer(Long answerId) {
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 답글을 찾을 수 없습니다."));
 
+        Inquiry inquiry = answer.getInquiry();
+
         answerRepository.delete(answer);
+
+        answerRepository.flush();
+
+        inquiry.setAnswerStatus(AnswerStatus.WAITING);
+
+        inquiryRepository.save(inquiry);
     }
 
     //특정 한 게시물에 대한 답변 조회

@@ -59,7 +59,9 @@
                 <td th:text="${inquiry.member.nickName}"></td> <!-- 작성자 -->
                 <td th:text="${inquiry.regTime}"></td>
                 <td th:text="${inquiry.updateTime}"></td>
-                <td th:text="${inquiry.answerStatus}"></td>
+                <td>
+                    <span th:text="${inquiry.answerStatus == 'WAITING' ? '답변 대기' : (inquiry.answerStatus == 'COMPLETED' ? '답변 완료' : inquiry.answerStatus)}"></span>
+                </td>
             </tr>
             </tbody>
         </table>

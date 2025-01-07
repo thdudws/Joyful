@@ -109,4 +109,5 @@ public class InquiryService {
 //    public Page<Inquiry> findAllInquiries(Pageable pageable) {
 //        return inquiryRepository.findAll(pageable);
 //    }
+
 }

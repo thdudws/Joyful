@@ -62,7 +62,7 @@
 
             <!-- 답변이 없을 경우만 "답변 달기" 버튼 보이기 -->
             <div th:if="${inquiry.answer == null}" style="display: inline-block; margin-left: 10px;">
-                <a th:href="'/inquiries/answer/' + ${inquiry.id}" class="btn btn-primary">답변 달기</a>
+                <a th:href="'/inquiries/answer/' + ${inquiry.id}" class="btn btn-primary">답변달기</a>
             </div>
 
             <!-- 답변이 있을 경우만 수정/삭제 버튼 보이기 -->
