@@ -1,9 +1,10 @@
 package com.recordshop.controller;
 
 
-
+import com.recordshop.dto.CartDetailDto;
 import com.recordshop.dto.OrderDto;
 import com.recordshop.dto.OrderHistDto;
+import com.recordshop.service.CartService;
 import com.recordshop.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import java.util.Optional;
 public class OrderController {
 
     private final OrderService orderService;
+    private final CartService cartService;
 
     @PostMapping(value = "/order")
     public @ResponseBody ResponseEntity order(@RequestBody @Valid OrderDto orderDto, BindingResult bindingResult, Principal principal) {
@@ -108,6 +110,22 @@ public class OrderController {
         model.addAttribute("maxPage" , 5);
 
         return "order/adminOrders";
+    }
+
+    @GetMapping(value = "/item/payment")
+    public String itemPayment(Principal principal, Model model) {
+        // 로그인한 사용자의 장바구니 정보를 가져오기 (CartService 사용)
+        List<CartDetailDto> cartDetailList = cartService.getCartList(principal.getName());
+
+        // 장바구니가 비어있으면 결제 페이지로 이동하지 않고, 경고 메시지 표시
+        if (cartDetailList.isEmpty()) {
+            model.addAttribute("error", "장바구니에 상품이 없습니다. 상품을 추가해 주세요.");
+            return "cart/cartList";  // 장바구니 목록 페이지로 돌아감
+        }
+
+        // 결제할 상품 정보 모델에 추가
+        model.addAttribute("cartItems", cartDetailList);
+        return "item/itemPayment";  // itemPayment.html을 반환
     }
 
 
