@@ -1,10 +1,15 @@
 package com.recordshop.entity;
 
 import com.recordshop.constant.AnswerStatus;
+import com.recordshop.dto.InquiryFormDto;
+import com.recordshop.dto.InquiryModifyFormDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "inquiry")
@@ -30,4 +35,25 @@ public class Inquiry extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "inquiry", cascade = CascadeType.ALL)
+    private Answer answer;
+
+    public static Inquiry createInquiry(InquiryFormDto inquiryFormDto) {
+        Inquiry inquiry = new Inquiry();
+        inquiry.setTitle(inquiryFormDto.getTitle());
+        inquiry.setContent(inquiryFormDto.getContent());
+        inquiry.setAnswerStatus(AnswerStatus.WAITING);
+        return inquiry;
+    }
+
+    public void modifyInquiry(InquiryModifyFormDto inquiryModifyFormDto) {
+        if (inquiryModifyFormDto.getTitle() != null && !inquiryModifyFormDto.getTitle().isEmpty()) {
+            this.title = inquiryModifyFormDto.getTitle();
+        }
+
+        if (inquiryModifyFormDto.getContent() != null && !inquiryModifyFormDto.getContent().isEmpty()) {
+            this.content = inquiryModifyFormDto.getContent();
+        }
+    }
 }
