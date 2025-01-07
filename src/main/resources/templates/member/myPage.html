@@ -85,8 +85,14 @@
                 </div>
 
 
-                <div th:class="mp_box"  sec:authorize="isAuthenticated()">
-                    <a href="/members/contact">
+                 <div th:class="mp_box"  sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                    <a href="/inquiries/admin/list">
+                        <p>1 : 1 문의</p>
+                        <img th:class="icon_mp" th:src="@{/image/contact.png}" alt="banner_img">
+                    </a>
+                </div>
+                <div th:class="mp_box"  sec:authorize="hasAnyAuthority('ROLE_USER')">
+                    <a href="/inquiries/list">
                         <p>1 : 1 문의</p>
                         <img th:class="icon_mp" th:src="@{/image/contact.png}" alt="banner_img">
                     </a>
