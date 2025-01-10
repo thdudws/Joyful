@@ -4,59 +4,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
-<!-- 사용자 스크립트 추가 -->
-<th:block layout:fragment="script">
-
-    <script th:inline="javascript">
-        $(document).ready(function(){
-            var errorMessage = [[${errorMessage}]];
-            if(errorMessage != null){
-                alert(errorMessage);
-            }
-
-            bindDomEvent();
-
-        });
-
-        function bindDomEvent(){
-            $(".custom-file-input").on("change", function() {
-                var fileName = $(this).val().split("\\").pop();  //이미지 파일명
-                var fileExt = fileName.substring(fileName.lastIndexOf(".")+1); // 확장자 추출
-                fileExt = fileExt.toLowerCase(); //소문자 변환
-
-                if(fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif" && fileExt != "png" && fileExt != "bmp"){
-                    alert("이미지 파일만 등록이 가능합니다.");
-                    return;
-                }
-
-                $(this).siblings(".custom-file-label").html(fileName);
-            });
-        }
-
-    </script>
-
-</th:block>
-
-<!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
-    <style>
-        .input-group {
-            margin-bottom : 15px
-        }
-        .img-div {
-            margin-bottom : 10px
-        }
-        .fieldError {
-            color: #bd2130;
-        }
-
-    </style>
-
     <link th:href="@{/css/item.css}" rel="stylesheet">
 </th:block>
 
+<th:block layout:fragment="script">
+    <script th:src="@{/js/item.js}"></script>
+</th:block>
+
+
 <div layout:fragment="content">
 
+    <!--<div id="errorMessage" data-error-message="[[${errorMessage}]]"></div>-->
 
     <div class="back2">
         <img src="/image/back3.jpg" alt="뒤로가기" onclick="history.back(-1)" class="back2I">
@@ -77,7 +36,7 @@
                     <option value="SOLD_OUT">품절</option>
                 </select>
 
-                <select th:field="*{category}" class="custom-select">
+                <select th:field="*{category}" class="custom-select select_r">
                     <option value="LP">LP</option>
                     <option value="ALBUM">ALBUM</option>
                     <option value="DVD">DVD</option>
@@ -157,7 +116,7 @@
             </div>
 
             <div th:if="${#strings.isEmpty(itemFormDto.id)}" style="text-align: center">
-                <button th:formaction="@{/admin/item/new}" type="submit" class="btn btn-primary">등록하기</button>
+                <button th:formaction="@{/admin/item/new}" type="submit" class="btn btn-primary register">등록하기</button>
             </div>
             <div th:unless="${#strings.isEmpty(itemFormDto.id)}" style="text-align: center">
                 <!-- 수정 버튼 -->
