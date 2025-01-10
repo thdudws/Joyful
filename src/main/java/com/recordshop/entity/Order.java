@@ -21,7 +21,7 @@ public class Order extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="member_id")
+    @JoinColumn(name="member_id",nullable=false)
     private Member member;
 
     private LocalDateTime orderDate;
@@ -47,6 +47,7 @@ public class Order extends BaseEntity {
 
         order.setOrderStatus(OrderStatus.ORDER);
         order.setOrderDate(LocalDateTime.now());
+
         return order;
 
     }   //end createOrder

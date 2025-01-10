@@ -1,6 +1,7 @@
 package com.recordshop.repository;
 
 import com.recordshop.entity.Order;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -36,5 +37,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // 현재 로그인한 회원의 주문 개수가 몇 개인지 조회
     @Query("select count(o) from Order o where o.member.email =:email")
     Long countOrder(@Param("email") String email);
+
+
+    @Query("SELECT COUNT(o) FROM Order o")
+    Long countByOrders();
+
+    @Query("select o from Order o")
+    Page<Order> findAllByOrders(Pageable pageable);
 
 }

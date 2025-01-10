@@ -3,193 +3,15 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
+
 <th:block layout:fragment="css">
     <link th:href="@{/css/payment.css}" rel="stylesheet">
 </th:block>
 
 <th:block layout:fragment="script">
-
-  <script th:inline="javascript">
-
-    function getOrderTotalPrice(){
-      var orderTotalPrice = 0;
-      $("input[name=cartChkBox]:checked").each(function() {
-        var cartItemId = $(this).val();
-        var price = $("#price_" + cartItemId).attr("data-price");
-        var count = $("#count_" + cartItemId).val();
-        orderTotalPrice += price*count;
-      });
-
-      var formattedPrice = orderTotalPrice.toLocaleString();  // 쉼표 추가
-      $("#orderTotalPrice").html(formattedPrice+'원');
-    }
-
-    function changeCount(obj){
-      var count = obj.value;
-      var cartItemId = obj.id.split('_')[1];
-      var price = $("#price_" + cartItemId).data("price");
-      var totalPrice = count*price;
-
-
-      $("#totalPrice_" + cartItemId).html(totalPrice+"원");
-      getOrderTotalPrice();
-      updateCartItemCount(cartItemId, count);
-    }
-
-    function updateCartItemCount(cartItemId, count){
-      // var token = $("meta[name='_csrf']").attr("content");
-      // var header = $("meta[name='_csrf_header']").attr("content");
-
-      var url = "/cartItem/" + cartItemId+"?count=" + count;
-
-      $.ajax({
-        url      : url,
-        type     : "PATCH",
-        beforeSend : function(xhr){
-          /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-          // xhr.setRequestHeader(header, token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status){
-          console.log("cartItem count update success");
-        },
-        error : function(jqXHR, status, error){
-
-          if(jqXHR.status == '401'){
-            alert('로그인 후 이용해주세요');
-            location.href='/members/login';
-          } else{
-            alert(jqXHR.responseJSON.message);
-          }
-
-        }
-      });
-    }
-
-    function deleteCartItem(obj){
-      var cartItemId = obj.dataset.id;
-      // var token = $("meta[name='_csrf']").attr("content");
-      // var header = $("meta[name='_csrf_header']").attr("content");
-
-      var url = "/cartItem/" + cartItemId;
-
-      $.ajax({
-        url      : url,
-        type     : "DELETE",
-        beforeSend : function(xhr){
-          /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-          // xhr.setRequestHeader(header, token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status){
-          location.href='/cart';
-        },
-        error : function(jqXHR, status, error){
-
-          if(jqXHR.status == '401'){
-            alert('로그인 후 이용해주세요');
-            location.href='/members/login';
-          } else{
-            alert(jqXHR.responseJSON.message);
-          }
-
-        }
-      });
-    }
-
-    function orders(){
-      // var token = $("meta[name='_csrf']").attr("content");
-      // var header = $("meta[name='_csrf_header']").attr("content");
-
-      var url = "/cart/orders";
-
-      var dataList = new Array();
-      var paramData = new Object();
-
-      $("input[name=cartChkBox]:checked").each(function() {
-        var cartItemId = $(this).val();
-        var data = new Object();
-        data["cartItemId"] = cartItemId;
-        dataList.push(data);
-      });
-
-      paramData['cartOrderDtoList'] = dataList;
-
-      var param = JSON.stringify(paramData);
-
-      $.ajax({
-        url      : url,
-        type     : "POST",
-        contentType : "application/json",
-        data     : param,
-        beforeSend : function(xhr){
-          /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-          // xhr.setRequestHeader(header, token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status){
-          alert("주문이 완료 되었습니다.");
-          location.href='/orders';
-        },
-        error : function(jqXHR, status, error){
-
-          if(jqXHR.status == '401'){
-            alert('로그인 후 이용해주세요');
-            location.href='/members/login';
-          } else{
-            alert(jqXHR.responseJSON.message);
-          }
-
-        }
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-      // 모든 가격 요소에 대해 쉼표 추가 처리
-      document.querySelectorAll('.price').forEach(function(element) {
-        var price = element.innerText.trim().replace("원", "");  // 원화 기호 제거
-        var formattedPrice = Number(price).toLocaleString();  // 쉼표 추가
-        element.innerText = formattedPrice + "원";  // 쉼표 추가된 가격 + 원화 기호
-      });
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-      // 각 상품의 가격을 쉼표가 포함된 형식으로 업데이트
-      document.querySelectorAll('[id^="totalPrice_"]').forEach(function (element) {
-        let priceText = element.innerText.replace("원", "").trim();  // '원' 기호를 제거하고 숫자만 추출
-        let price = parseInt(priceText.replace(",", ""), 10);  // 쉼표를 제거하고 숫자 변환
-
-        // 쉼표를 추가한 후 다시 '원'을 붙여서 출력
-        let formattedPrice = price.toLocaleString();
-        element.innerText = formattedPrice + "원";
-      });
-
-      // 주문 금액 합계를 갱신
-      function getOrderTotalPrice() {
-        let totalPrice = 0;
-
-        // 각 상품에 대한 금액을 더함
-        document.querySelectorAll('[id^="totalPrice_"]').forEach(function (element) {
-          let price = parseInt(element.innerText.replace("원", "").trim().replace(",", ""), 10);  // 쉼표와 '원'을 제거하고 숫자만 추출
-          totalPrice += price;
-        });
-
-        // 전체 주문 금액에 쉼표 추가
-        let formattedTotalPrice = totalPrice.toLocaleString();  // 쉼표 추가
-        document.getElementById("orderTotalPrice").innerText = formattedTotalPrice + "원";  // '원' 붙여서 표시
-      }
-
-      // 페이지 로딩 시 바로 총 주문 금액을 계산
-      getOrderTotalPrice();
-    });
-
-  </script>
-
-
+    <script th:src="@{/js/itempayment.js}"></script>
 </th:block>
+
 
 <div layout:fragment="content">
 
@@ -200,7 +22,7 @@
 
         <div class="product_box">
 
-          <table class="table">
+          <table class="table payment_table">
             <colgroup>
               <col width="80%"/>
               <col width="20%"/>
@@ -241,37 +63,38 @@
             </tbody>
           </table>
 
-          <div class="totalPrice mt-3 bottom total_pay">
-            <h3 class="totalPrice">
-              총 결제 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
-            </h3>
-          </div>
-
           <div class="delivery-notice">
             <p class="delivery-h4">배송지 정보</p>
 
-            <form action="/" method="POST">
-              <div class="delivery-box">
+              <form action="#" th:action="@{/members/payment}" method="POST">
+                  <div class="delivery-box">
+                      <div class="delivery-boxin">
+                          <label for="nickName">닉네임</label>
+                          <input type="text" id="nickName" name="nickName" th:value="${memberModifyFormDto.nickName}" required>
+                      </div>
 
-                <div class="delivery-boxin">
-                  <label>이름</label>
-                  <input type="text" name="name" value="이유리" required>
-                </div>
+                      <div class="delivery-boxin">
+                          <label for="phoneNumber">핸드폰 번호</label>
+                          <input type="tel" id="phoneNumber" name="phoneNumber" th:value="${memberModifyFormDto.phoneNumber}" required>
+                      </div>
 
-                <div class="delivery-boxin">
-                  <label>연락처</label>
-                  <input type="tel" name="phone" value="010-1111-1423" required>
-                </div>
+                      <div class="delivery-boxin">
+                          <label for="address">주소</label>
+                          <input type="text" id="address" name="address" th:value="${memberModifyFormDto.address}" required>
+                      </div>
+                  </div>
 
-                <div class="delivery-boxin">
-                  <label>주소</label>
-                  <input type="text" name="address" value="경기도 수원시 영통구" required>
-                </div>
+                  <!-- selectedCartItems를 hidden 필드로 전달 -->
+                  <input type="hidden" name="selectedCartItems" th:value="${selectedCartItems != null ? selectedCartItems : ''}" required>
 
+                  <button type="submit" class="modify_btn">배송지 수정</button>
+              </form>
+
+
+              <div id="message"
+                   th:data-success-message="${successMessage}"
+                   th:data-error-message="${errorMessage}">
               </div>
-
-              <button type="submit" class="modify_btn">배송지 수정</button>
-            </form>
 
           </div>
 
@@ -279,24 +102,13 @@
 
             <p class="method_h4">결제 방법</p>
 
-            <div class="pay_method_box">
-
-             <p class="kakaopay_img">
-               <img src="/image/kakaoPay.png" alt="카카오페이">
-             </p>
-
-              <p>계좌이체</p>
-              <p>무통장입금</p>
-              <p>휴대폰</p>
-            </div>
           </div>
 
           <div class="final_pay">
-            <p class="final_h4">결제 방법</p>
 
             <div class="totalPrice mt-3 bottom total_pay">
               <h3 class="totalPrice">
-                총 결제 금액 : <span id="orderTotalPrice2" class="text-danger">0원</span>
+                총 결제 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
               </h3>
             </div>
 

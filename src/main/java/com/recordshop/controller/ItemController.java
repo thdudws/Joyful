@@ -5,10 +5,8 @@ import com.recordshop.dto.ItemFormDto;
 import com.recordshop.dto.ItemSearchDto;
 import com.recordshop.dto.MainItemDto;
 import com.recordshop.entity.Item;
-import com.recordshop.entity.ItemImg;
-import com.recordshop.repository.ItemImgRepository;
-import com.recordshop.repository.ItemRepository;
 import com.recordshop.service.ItemService;
+import com.recordshop.service.MemberService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -116,12 +114,14 @@ public class ItemController {
     @GetMapping(value = "/item/{itemId}")
     public String itemDtl(Model model, @PathVariable("itemId") Long itemId) {
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+        System.out.println(itemFormDto);
         model.addAttribute("item", itemFormDto);
         return "item/itemDtl";
     }
 
     @GetMapping(value = "/item/list")
     public String itemList(ItemSearchDto itemSearchDto, @RequestParam(value = "category", required = false) Category category, Optional<Integer> page, Model model) {
+
 
         Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 8);
 
@@ -146,5 +146,42 @@ public class ItemController {
         itemService.deleteItem(itemId);
         return "redirect:/admin/items"; // 삭제 후 목록 페이지로 리다이렉트
     }
+
+    // 상품 수정 페이지로 이동 버튼 (GET 요청)
+    @GetMapping(value = "/admin/item/edit/{itemId}")
+    public String editItem(@PathVariable("itemId") Long itemId, Model model) {
+        try {
+            // 수정할 상품 정보 가져오기
+            ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+            model.addAttribute("itemFormDto", itemFormDto); // 수정할 상품 정보를 모델에 추가
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("errorMessage", "존재하지 않는 상품입니다.");
+            return "redirect:/admin/items"; // 상품이 존재하지 않으면 목록 페이지로 리디렉션
+        }
+        return "/item/itemForm"; // 상품 수정 폼을 반환
+    }
+
+    // 상품 수정 처리 (POST 요청)
+    @PostMapping(value = "/admin/item/edit/{itemId}")
+    public String updateItem(@Valid ItemFormDto itemFormDto, BindingResult bindingResult, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "/item/itemForm";
+        }
+
+        if (itemImgFileList.get(0).isEmpty() && itemFormDto.getId() == null) {
+            model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값입니다.");
+            return "/item/itemForm";
+        }
+
+        try {
+            itemService.updateItem(itemFormDto, itemImgFileList); // 상품 수정
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "상품 수정 중 에러가 발생하였습니다.");
+            return "/item/itemForm";
+        }
+
+        return "redirect:/admin/items";
+    }
+
 
 }

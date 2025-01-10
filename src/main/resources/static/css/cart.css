@@ -39,7 +39,7 @@
 
 .d-flex{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .bottom{
@@ -51,4 +51,13 @@
 .btn-lg{
     font-size: 1rem;
     line-height: 1;
+    background-color: #0056B3;
+    border: 1px solid #014ea2;
+}
+
+.btn-lg:hover {
+    background-color: #013872;
+    border: 1px solid #013872;
+    opacity: 0.9;
+    cursor: pointer;
 }

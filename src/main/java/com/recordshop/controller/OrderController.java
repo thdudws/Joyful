@@ -1,3 +1,4 @@
+
 package com.recordshop.controller;
 
 
@@ -74,6 +75,7 @@ public class OrderController {
 
         log.info("ordersHistDtoList : "+ordersHistDtoList.toString());
 
+
         model.addAttribute("orders", ordersHistDtoList);
         model.addAttribute("page", pageable.getPageNumber());
         model.addAttribute("maxPage" , 5);
@@ -94,7 +96,24 @@ public class OrderController {
 
     }   //end cancelOrder
 
-    @GetMapping(value = "/item/payment")
+    @GetMapping(value = {"/admin/orders", "/admin/orders/{page}"})
+    public String adminOrders(@PathVariable("page") Optional<Integer> page,Model model) {
+
+
+        // 한번에 가지고 올 주문의 개수는 4개로 설정
+        Pageable pageable = PageRequest.of( page.isPresent() ? page.get() : 0, 10);
+
+        Page<OrderHistDto> orders = orderService.getAdminOrderList(pageable);
+
+
+        model.addAttribute("orders", orders);
+        model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("maxPage" , 5);
+
+        return "order/adminOrders";
+    }
+
+ /*   @GetMapping(value = "/item/payment")
     public String itemPayment(Principal principal, Model model) {
         // 로그인한 사용자의 장바구니 정보를 가져오기 (CartService 사용)
         List<CartDetailDto> cartDetailList = cartService.getCartList(principal.getName());
@@ -109,5 +128,7 @@ public class OrderController {
         model.addAttribute("cartItems", cartDetailList);
         return "item/itemPayment";  // itemPayment.html을 반환
     }
+*/
+
 
 }

@@ -15,11 +15,30 @@
 }
 .card{
     width:750px;
-    height:100%;
+    height:auto;
     padding:30px;
     margin-bottom:20px;
 }
 
+.Acard1{
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.Acard-1{
+    width: 250px;
+    text-align: right;
+    height: auto;
+}
+.Acard-1>p{
+    font-size: 15px;
+}
+.Acard{
+    width:800px;
+    height:auto;
+    padding:30px;
+}
 .fs18{
     font-size:18px
 }
@@ -57,7 +76,14 @@
     padding: 0;
 }
 
-.d-flex:last-of-type {
+.m_b3:last-of-type {
     margin-bottom: 0 !important;
 }
 
+.d-flex {
+    justify-content: center;
+}
+
+.card {
+    justify-content: center;
+}

@@ -4,41 +4,14 @@
       layout:decorate="~{layouts/layout1}">
 
 
-<!-- 사용자 스크립트 추가 -->
-<th:block layout:fragment="script">
-  <script th:inline="javascript">
-
-    $(document).ready(function(){
-      $("#searchBtn").on("click",function(e) {
-        e.preventDefault();
-        page(0);
-      });
-    });
-
-    function page(page){
-      var searchDateType = $("#searchDateType").val();
-      var searchSellStatus = $("#searchSellStatus").val();
-      var searchBy = $("#searchBy").val();
-      var searchQuery = $("#searchQuery").val();
-
-      location.href="/admin/items/" + page + "?searchDateType=" + searchDateType
-              + "&searchSellStatus=" + searchSellStatus
-              + "&searchBy=" + searchBy
-              + "&searchQuery=" + searchQuery;
-    }
-
-  </script>
-</th:block>
-
-<!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
   <link th:href="@{/css/item.css}" rel="stylesheet">
-  <style>
-    select{
-      margin-right:10px;
-    }
-  </style>
 </th:block>
+
+<th:block layout:fragment="script">
+  <script th:src="@{/js/item.js}"></script>
+</th:block>
+
 
 <div layout:fragment="content">
 

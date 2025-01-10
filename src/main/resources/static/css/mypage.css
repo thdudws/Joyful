@@ -8,7 +8,7 @@
 }
 
 .write {
-    height: 150px;
+    height: 100px;
     /*background-color: beige;*/
     display: flex;
     align-items: center;
@@ -24,7 +24,7 @@
 
 .mpbox_wrap {
     width: 700px;
-    height: 500px;
+    /*height: 500px;*/
     display: flex;
     align-content: space-around;
     justify-content: space-between;
