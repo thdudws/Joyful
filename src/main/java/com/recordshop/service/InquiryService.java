@@ -35,10 +35,10 @@ public class InquiryService {
     private final MemberRepository memberRepository;
 
     // 문의글 작성 서비스
-    public Long saveInquiry(Inquiry inquiry, String email) {
+    public Long saveInquiry(Inquiry inquiry, String username) {
 
         // 회원 정보 가져오기
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByUsername(username);
 
         // 회원 정보와 연결된 문의글 저장
         inquiry.setMember(member); // inquiry 객체에 member 정보 설정
@@ -58,11 +58,11 @@ public class InquiryService {
 
     //사용자가 본인이 적은 문의내역 보기
     @Transactional
-    public Page<Inquiry> getUserInquiry(String email, AnswerStatus answerStatus, Pageable pageable) {
+    public Page<Inquiry> getUserInquiry(String username, AnswerStatus answerStatus, Pageable pageable) {
         if (answerStatus != null) {
-            return inquiryRepository.findByMemberEmailAndAnswerStatus(email, answerStatus, pageable);
+            return inquiryRepository.findByMemberUsernameAndAnswerStatus(username, answerStatus, pageable);
         } else {
-            return inquiryRepository.findByMemberEmail(email, pageable);
+            return inquiryRepository.findByMemberUsername(username, pageable);
         }
     }
 
@@ -75,8 +75,8 @@ public class InquiryService {
         return new InquiryDto(inquiry);
     }
 
-    public List<Inquiry> findByEmail(String email) {
-        return inquiryRepository.findByMemberEmail(email);
+    public List<Inquiry> findByEmail(String username) {
+        return inquiryRepository.findByMemberUsername(username);
     }
 
     public Inquiry findById(Long inquiryId) {
