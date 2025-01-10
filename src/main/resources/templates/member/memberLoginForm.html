@@ -3,8 +3,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
+
 <th:block layout:fragment="css">
     <link th:href="@{/css/login.css}" rel="stylesheet">
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/member.js}"></script>
 </th:block>
 
 <div layout:fragment="content">
