@@ -120,6 +120,44 @@
             });
         }
 
+        /*function nextpage(){
+
+
+                var dataList = [];  // 체크된 항목들을 담을 배열
+
+                // 체크된 항목들의 cartItemId를 dataList 배열에 담기
+                $("input[name=cartChkBox]:checked").each(function() {
+                    var cartItemId = $(this).val();
+                    var data = new Object();
+                    data["cartItemId"] = cartItemId;
+                    dataList.push(data);
+                });
+
+            window.location.href = "/item/payment";
+        }*/
+
+        function nextpage() {
+            var dataList = [];  // 체크된 항목들을 담을 배열
+
+            // 체크된 항목들의 cartItemId를 dataList 배열에 담기
+            $("input[name=cartChkBox]:checked").each(function() {
+                var cartItemId = $(this).val();
+                var data = new Object();
+                data["cartItemId"] = cartItemId;
+                dataList.push(data);
+            });
+
+            // dataList를 JSON 문자열로 변환
+            var jsonData = JSON.stringify(dataList);
+
+            // JSON 데이터를 쿼리 파라미터로 URL에 첨부
+            var url = "/item/payment?dataList=" + encodeURIComponent(jsonData);
+
+            // 페이지 이동
+            window.location.href = url;
+        }
+
+
         function orders(){
             // var token = $("meta[name='_csrf']").attr("content");
             // var header = $("meta[name='_csrf_header']").attr("content");
@@ -152,8 +190,8 @@
                 dataType : "json",
                 cache   : false,
                 success  : function(result, status){
-                    alert("주문이 완료 되었습니다.");
-                    location.href='/orders';
+                    alert("결재하러가기");
+                    location.href='/item/payment';
                 },
                 error : function(jqXHR, status, error){
 
@@ -246,7 +284,11 @@
             <h2 class="totalPrice ">
                 총 주문 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
             </h2>
-            <button type="button" class="btn btn-primary btn-lg" onclick="orders()">주문하기</button>
+            <!--<button type="button" class="btn btn-primary btn-lg" onclick="orders()">주문하기</button>-->
+
+
+                <button type="button" class="btn btn-primary btn-lg" onclick="nextpage()">주문하기</button>
+
         </div>
 
     </div>

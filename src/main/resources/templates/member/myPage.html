@@ -70,12 +70,6 @@
                     </a>
                 </div>
 
-                <div th:class="mp_box"  sec:authorize="isAuthenticated()">
-                    <a href="/members/logout">
-                        <p>로그아웃</p>
-                        <img th:class="icon_mp" th:src="@{/image/logout.png}" alt="banner_img">
-                    </a>
-                </div>
 
                 <div th:class="mp_box"  sec:authorize="isAuthenticated()">
                     <a href="/orders">
@@ -102,6 +96,13 @@
                     <a href="/admin/orders">
                         <p>모든 회원<br>주문 내역</p>
                         <img th:class="icon_mp" th:src="@{/image/list.png}" alt="banner_img">
+                    </a>
+                </div>
+
+                <div th:class="mp_box"  sec:authorize="isAuthenticated()">
+                    <a href="/members/logout">
+                        <p>로그아웃</p>
+                        <img th:class="icon_mp" th:src="@{/image/logout.png}" alt="banner_img">
                     </a>
                 </div>
 

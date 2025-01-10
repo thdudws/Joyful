@@ -105,7 +105,7 @@
                 cache   : false,
                 success  : function(result, status){
                     alert("상품을 장바구니에 담았습니다.");
-                    location.href='/';
+                    location.href='/cart';
                 },
                 error : function(jqXHR, status, error){
 
@@ -197,7 +197,7 @@
 
                 <div th:if="${item.itemSellStatus == T(com.recordshop.constant.ItemSellStatus).SELL}" class="text-right">
                     <button type="button" class="btn btn-light border border-primary btn-lg addcart" onclick="addCart()">장바구니 담기</button>
-                    <button type="button" class="btn btn-primary btn-lg buy" onclick="order()">구매하기</button>
+                    <button type="button" class="btn btn-primary btn-lg buy" onclick="addCart()">구매하기</button>
                 </div>
                 <div th:unless="${item.itemSellStatus == T(com.recordshop.constant.ItemSellStatus).SELL}" class="text-right">
                     <button type="button" class="btn btn-danger btn-lg">품절</button>

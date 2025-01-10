@@ -3,7 +3,7 @@ package com.recordshop.repository;
 import com.recordshop.entity.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CartRepository extends JpaRepository<Cart, Long> {
+public interface CartRepository extends JpaRepository<Cart, String> {
 
-    Cart findByMemberId(Long memberId);
+    Cart findByMemberName(String username);
 }
