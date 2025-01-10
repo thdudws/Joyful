@@ -1,6 +1,7 @@
 package com.recordshop.controller;
 
 
+
 import com.recordshop.dto.CartDetailDto;
 import com.recordshop.dto.OrderDto;
 import com.recordshop.dto.OrderHistDto;
@@ -48,11 +49,11 @@ public class OrderController {
             return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
 
-        String email = principal.getName();
+        String username = principal.getName();
         Long orderId;
 
         try {
-            orderId = orderService.order(orderDto, email);
+            orderId = orderService.order(orderDto,username);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -95,7 +96,7 @@ public class OrderController {
 
     }   //end cancelOrder
 
-    @GetMapping("/admin/orders")
+    @GetMapping(value={"/admin/orders","/admin/orders/{page}"})
     public String adminOrders(@PathVariable("page") Optional<Integer> page,Model model) {
 
 
