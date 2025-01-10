@@ -1,37 +1,34 @@
 package com.recordshop.controller;
 
 import com.recordshop.dto.CartDetailDto;
+import com.recordshop.constant.Role;
+import com.recordshop.entity.CartItem;
+import com.recordshop.detail.PrincipalDetails;
+import com.recordshop.service.CartService;
 import com.recordshop.dto.MemberFormDto;
 import com.recordshop.dto.MemberModifyFormDto;
-import com.recordshop.entity.CartItem;
 import com.recordshop.entity.Member;
-import com.recordshop.service.CartService;
+import com.recordshop.repository.MemberRepository;
 import com.recordshop.service.MemberService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-<<<<<<< HEAD
-import jakarta.servlet.http.HttpSession;
-=======
->>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-<<<<<<< HEAD
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-=======
->>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
 
 @RequestMapping("/members")
 @Controller
@@ -41,7 +38,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
-    private final CartService cartService;
+    private final MemberRepository memberRepository;
 
     @GetMapping(value="/new")
     public String memberForm(Model model) {
@@ -67,11 +64,24 @@ public class MemberController {
         return "redirect:/";
     }       //end newMember
 
+    /*@PostMapping(value = "/new")
+    public String newMember(Member member) {
+        String role = member.setRole(Role.USER);
+        String username = member.getUsername();
+        String rewPassword =member.getPassword();
+        String encodedPassword = passwordEncoder.encode(rewPassword);
+        member.setPassword(encodedPassword);
+        memberRepository.save(member);
+        return "redirect:/";
+    }       //end newMember*/
+
     @GetMapping(value = "/login")
     public String loginMember() {
 
         return "/member/memberLoginForm";
     }
+
+
 
     @GetMapping(value = "/login/error")
     public String loginError(Model model) {
@@ -88,8 +98,8 @@ public class MemberController {
     //회원 정보 수정
     @GetMapping(value = "/modify")
     public String memberModify(Model model, Authentication authentication) {
-        String currentEmail = authentication.getName();
-        Member member = memberService.findByEmail(currentEmail);
+        String userName = authentication.getName();
+        Member member = memberService.findByUserName(userName);
 
         MemberModifyFormDto memberModifyFormDto = new MemberModifyFormDto();
         memberModifyFormDto.setNickName(member.getNickName());
@@ -111,7 +121,7 @@ public class MemberController {
             String currentEmail = authentication.getName();
             Member currentMember = memberService.findByEmail(currentEmail);
 
-            memberService.memberUpdate(currentMember.getId(), memberModifyFormDto);
+            memberService.memberUpdate(currentMember.getUsername(), memberModifyFormDto);
         } catch (IllegalStateException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "member/memberModifyForm";
@@ -143,7 +153,15 @@ public class MemberController {
         return "/member/contact";
     }
 
-<<<<<<< HEAD
+
+    @GetMapping("/user")
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails ) {
+        System.out.println(principalDetails.getMember());
+
+        return "member";
+
+}
+
     @GetMapping(value = "/payment")
     public String showPaymentForm(@RequestParam(required = false) String selectedCartItems,
                                   Model model, Authentication authentication, Principal principal) {
@@ -250,7 +268,3 @@ public class MemberController {
     }
 
 }
-=======
-
-}
->>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
