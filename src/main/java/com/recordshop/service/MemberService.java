@@ -11,6 +11,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -100,6 +101,38 @@ public class MemberService {
         cookie.setPath("/");  // 도메인 전체에서 쿠키 삭제
         cookie.setMaxAge(0);  // 만료 시간을 0으로 설정하여 쿠키 삭제
         response.addCookie(cookie); // 쿠키를 응답에 추가
+    }
+
+    @Transactional
+    public void updateAddressOnly(Long memberId, MemberModifyFormDto memberModifyFormDto) {
+        // 회원 정보 조회
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalStateException("회원 정보를 찾을 수 없습니다."));
+
+        boolean isUpdated = false; // 업데이트 여부를 추적하기 위한 플래그
+
+        // 배송지 정보 수정
+        if (memberModifyFormDto.getNickName() != null) {
+            member.setNickName(memberModifyFormDto.getNickName());
+            isUpdated = true;
+        }
+        if (memberModifyFormDto.getPhoneNumber() != null) {
+            member.setPhoneNumber(memberModifyFormDto.getPhoneNumber());
+            isUpdated = true;
+        }
+        if (memberModifyFormDto.getAddress() != null) {
+            member.setAddress(memberModifyFormDto.getAddress());
+            isUpdated = true;
+        }
+
+        if (!isUpdated) {
+            throw new IllegalStateException("업데이트할 정보가 없습니다."); // 모든 필드가 null일 경우 예외 처리
+        }
+
+        // 변경된 사항을 DB에 저장
+        memberRepository.save(member);
+
+        log.info("Updated Address Member: " + member);
     }
 
 }
