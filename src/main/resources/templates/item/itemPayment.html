@@ -11,141 +11,34 @@
 
   <script th:inline="javascript">
 
-    function getOrderTotalPrice(){
-      var orderTotalPrice = 0;
-      $("input[name=cartChkBox]:checked").each(function() {
-        var cartItemId = $(this).val();
-        var price = $("#price_" + cartItemId).attr("data-price");
-        var count = $("#count_" + cartItemId).val();
-        orderTotalPrice += price*count;
+      $(document).ready(function() {
+          // URL에서 dataList 파라미터 추출
+          var urlParams = new URLSearchParams(window.location.search);
+          var jsonData = JSON.parse(decodeURIComponent(urlParams.get('dataList')));
+
+          // 상품 정보 요청
+          $.ajax({
+              url: '/getProductDetails',  // 서버에서 상품 정보를 가져오는 API
+              method: 'POST',
+              data: { cartItemIds: jsonData.map(item => item.cartItemId) },
+              success: function(products) {
+                  // 상품 정보를 화면에 표시
+                  products.forEach(function(product) {
+                      $('#productList').append(`
+                    <div class="product-item">
+                        <img src="${product.image}" alt="${product.name}">
+                        <p>${product.name}</p>
+                        <p>${product.price}</p>
+                    </div>
+                `);
+                  });
+              },
+              error: function() {
+                  $('#productList').html('<p>상품 정보를 불러오는 데 실패했습니다.</p>');
+              }
+          });
       });
 
-      var formattedPrice = orderTotalPrice.toLocaleString();  // 쉼표 추가
-      $("#orderTotalPrice").html(formattedPrice+'원');
-    }
-
-    function changeCount(obj){
-      var count = obj.value;
-      var cartItemId = obj.id.split('_')[1];
-      var price = $("#price_" + cartItemId).data("price");
-      var totalPrice = count*price;
-
-
-      $("#totalPrice_" + cartItemId).html(totalPrice+"원");
-      getOrderTotalPrice();
-      updateCartItemCount(cartItemId, count);
-    }
-
-    function updateCartItemCount(cartItemId, count){
-      // var token = $("meta[name='_csrf']").attr("content");
-      // var header = $("meta[name='_csrf_header']").attr("content");
-
-      var url = "/cartItem/" + cartItemId+"?count=" + count;
-
-      $.ajax({
-        url      : url,
-        type     : "PATCH",
-        beforeSend : function(xhr){
-          /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-          // xhr.setRequestHeader(header, token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status){
-          console.log("cartItem count update success");
-        },
-        error : function(jqXHR, status, error){
-
-          if(jqXHR.status == '401'){
-            alert('로그인 후 이용해주세요');
-            location.href='/members/login';
-          } else{
-            alert(jqXHR.responseJSON.message);
-          }
-
-        }
-      });
-    }
-
-    function deleteCartItem(obj){
-      var cartItemId = obj.dataset.id;
-      // var token = $("meta[name='_csrf']").attr("content");
-      // var header = $("meta[name='_csrf_header']").attr("content");
-
-      var url = "/cartItem/" + cartItemId;
-
-      $.ajax({
-        url      : url,
-        type     : "DELETE",
-        beforeSend : function(xhr){
-          /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-          // xhr.setRequestHeader(header, token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status){
-          location.href='/cart';
-        },
-        error : function(jqXHR, status, error){
-
-          if(jqXHR.status == '401'){
-            alert('로그인 후 이용해주세요');
-            location.href='/members/login';
-          } else{
-            alert(jqXHR.responseJSON.message);
-          }
-
-        }
-      });
-    }
-
-    function orders(){
-      // var token = $("meta[name='_csrf']").attr("content");
-      // var header = $("meta[name='_csrf_header']").attr("content");
-
-      var url = "/cart/orders";
-
-      var dataList = new Array();
-      var paramData = new Object();
-
-      $("input[name=cartChkBox]:checked").each(function() {
-        var cartItemId = $(this).val();
-        var data = new Object();
-        data["cartItemId"] = cartItemId;
-        dataList.push(data);
-      });
-
-      paramData['cartOrderDtoList'] = dataList;
-
-      var param = JSON.stringify(paramData);
-
-      $.ajax({
-        url      : url,
-        type     : "POST",
-        contentType : "application/json",
-        data     : param,
-        beforeSend : function(xhr){
-          /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-          // xhr.setRequestHeader(header, token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status){
-          alert("주문이 완료 되었습니다.");
-          location.href='/orders';
-        },
-        error : function(jqXHR, status, error){
-
-          if(jqXHR.status == '401'){
-            alert('로그인 후 이용해주세요');
-            location.href='/members/login';
-          } else{
-            alert(jqXHR.responseJSON.message);
-          }
-
-        }
-      });
-    }
 
     document.addEventListener("DOMContentLoaded", function() {
       // 모든 가격 요소에 대해 쉼표 추가 처리
@@ -200,46 +93,9 @@
 
         <div class="product_box">
 
-          <table class="table">
-            <colgroup>
-              <col width="80%"/>
-              <col width="20%"/>
-            </colgroup>
-            <thead>
-            <tr class="text-center">
-              <td class="product_name">상품정보</td>
-              <td>상품금액</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="cartItem : ${cartItems}">
-              <td class="d-flex pay_left">
-                <div class="repImgDiv align-self-center">
-                  <img th:src="${cartItem.imgUrl}" class="rounded repImg" th:alt="${cartItem.itemNm}">
-                </div>
-                <div class="align-self-center">
-                  <span th:text="${cartItem.itemNm}" class="fs24 font-weight-bold"></span>
-                  <div class="fs18 font-weight-light">
-                        <span class="input-group mt-2">
-                            <span th:id="'price_' + ${cartItem.cartItemId}"
-                                  th:data-price="${cartItem.price}"
-                                  th:text="${cartItem.price} + '원'" class="align-self-center mr-2 price">
-                            </span>
-                            <span th:id="'count_' + ${cartItem.cartItemId}" class="count-value" th:text="${cartItem.count} + ' 개'">
-                                0 개
-                            </span>
-                        </span>
-                  </div>
-                </div>
-              </td>
-              <td class="text-center align-middle">
-                <span th:id="'totalPrice_' + ${cartItem.cartItemId}"
-                      th:text="${cartItem.price * cartItem.count} + '원'">
-                </span>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+            <div id="productList">
+                <!-- 서버에서 받아온 상품 정보가 여기에 표시됩니다. -->
+            </div>
 
           <div class="totalPrice mt-3 bottom total_pay">
             <h3 class="totalPrice">
