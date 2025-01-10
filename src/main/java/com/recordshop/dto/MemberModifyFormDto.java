@@ -6,10 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-@Getter
-@Setter
+@Getter @Setter
 public class MemberModifyFormDto {
-
 
     @NotBlank(message = "닉네임을 필수로 설정해주세요.")
     private String nickName;
@@ -23,5 +21,10 @@ public class MemberModifyFormDto {
 
     @NotEmpty(message = "주소는 필수 입력 값입니다.")
     private String address;
+
+    @Override
+    public String toString() {
+        return "MemberModifyFormDto{username='" + nickName + "', address='" + address + "', phone='" + phoneNumber + "'}";
+    }
 
 }
