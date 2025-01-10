@@ -145,10 +145,13 @@ public class MemberController {
     }
 
 
+<<<<<<< HEAD
     @GetMapping("/user")
     public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails ) {
         System.out.println(principalDetails.getMember());
 
         return "member";
     }
+=======
+>>>>>>> 3b89c6e73e9b244ab246f93d6deeaea07607ca5a
 }
