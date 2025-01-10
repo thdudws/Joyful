@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,5 +56,13 @@ public class Inquiry extends BaseEntity {
         if (inquiryModifyFormDto.getContent() != null && !inquiryModifyFormDto.getContent().isEmpty()) {
             this.content = inquiryModifyFormDto.getContent();
         }
+    }
+
+    public String getFormattedRegTime() {
+        return getRegTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    public String getFormattedUpdateTime() {
+        return getUpdateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }
