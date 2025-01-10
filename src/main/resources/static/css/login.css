@@ -92,3 +92,10 @@ label{
     display: inline-block;
     margin: 5px auto;
 }
+.k_login {
+    width: 78px;
+    height: 38px;
+    border: none;
+    background: none;
+    margin-right: 5px;
+}
