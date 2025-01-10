@@ -15,7 +15,7 @@
 }
 .card{
     width:750px;
-    height:100%;
+    height:auto;
     padding:30px;
     margin-bottom:20px;
 }
@@ -29,14 +29,22 @@
 .Acard-1{
     width: 250px;
     text-align: right;
+<<<<<<< HEAD
+    height: auto;
+=======
     height: 100%;
+>>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
 }
 .Acard-1>p{
     font-size: 15px;
 }
 .Acard{
     width:800px;
+<<<<<<< HEAD
+    height:auto;
+=======
     height:100%;
+>>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
     padding:30px;
 }
 .fs18{
@@ -76,6 +84,20 @@
     padding: 0;
 }
 
+<<<<<<< HEAD
+.m_b3:last-of-type {
+    margin-bottom: 0 !important;
+}
+
+.d-flex {
+    justify-content: center;
+}
+
+.card {
+    justify-content: center;
+}
+=======
 .d-flex:last-of-type{
     margin-bottom: 0 !important;
 }
+>>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92

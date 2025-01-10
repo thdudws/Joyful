@@ -21,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -157,4 +159,10 @@ public class CartService {
         return orderId;
 
     }   //end orderCartItem
+
+    public List<CartDetailDto> getSelectedCartItems(List<Long> selectedItemIds) {
+        // selectedItemIds를 이용해서 카트 아이템들을 찾아 반환
+        return cartItemRepository.findCartDetailDtoListByCartItemIds(selectedItemIds);
+    }
+
 }

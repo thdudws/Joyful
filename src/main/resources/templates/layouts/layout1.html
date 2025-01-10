@@ -18,26 +18,59 @@
     <!-- Bootstrap Icons CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
-
     <th:block layout:fragment="script"></th:block>
     <th:block layout:fragment="css"></th:block>
 
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const footer = document.querySelector('.footer');
+            const body = document.querySelector('body');
+
+            // 페이지 내용이 부족하면 footer를 하단에 고정
+            if (body.scrollHeight <= window.innerHeight) {
+                footer.style.position = 'absolute';
+                footer.style.bottom = '0';
+            } else {
+                footer.style.position = 'relative';
+            }
+
+            var upBtn = document.querySelector('.up_btn');
+            var scrollThreshold = 500; // 버튼이 나타날 스크롤 위치 (300px 이상 스크롤 시 버튼 표시)
+
+
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > scrollThreshold) {
+                    upBtn.classList.add('visible'); // 버튼 표시
+                } else {
+                    upBtn.classList.remove('visible'); // 버튼 숨기기
+                }
+            });
+
+            upBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 
 </head>
 <body>
 
 <div th:replace="~{fragments/header::header}"></div>
 
-<div layout:fragment="content" class="content">
-
-</div>
+<div layout:fragment="content" class="content"></div>
 
 <div th:replace="~{fragments/footer::footer}"></div>
 
-
+<div class="up_btn">
+    <img src="/image/up.png" alt="up">
+</div>
 
 </body>
 </html>
