@@ -4,6 +4,7 @@ import com.recordshop.dto.CartDetailDto;
 import com.recordshop.dto.CartItemDto;
 import com.recordshop.dto.CartOrderDto;
 import com.recordshop.service.CartService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,11 +38,11 @@ public class CartController {
             return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
 
-        String email = principal.getName();
+        String username = principal.getName();
         Long cartItemId;
 
         try{
-            cartItemId = cartService.addCart(cartItemDto, email);
+            cartItemId = cartService.addCart(cartItemDto, username);
         }catch (Exception e){
             return new ResponseEntity<String> (e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -102,9 +103,9 @@ public class CartController {
 
         Long orderId = cartService.orderCartItem(cartOrderDtoList,principal.getName());
 
+
         return new ResponseEntity<Long>(orderId,HttpStatus.OK);
 
     }   // end orderCartItem
-
 
 }

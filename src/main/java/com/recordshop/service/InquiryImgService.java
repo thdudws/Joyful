@@ -42,4 +42,6 @@ public class InquiryImgService {
         inquiryImg.updateInquiryImg(inquiryOriImgName, inquiryImgNm, inquiryImgUrl);
         inquiryImgRepository.save(inquiryImg);
     }
+
+
 }
