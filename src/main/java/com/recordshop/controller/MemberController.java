@@ -10,7 +10,10 @@ import com.recordshop.service.MemberService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+<<<<<<< HEAD
 import jakarta.servlet.http.HttpSession;
+=======
+>>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -20,12 +23,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+<<<<<<< HEAD
 
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+=======
+>>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
 
 @RequestMapping("/members")
 @Controller
@@ -137,6 +143,7 @@ public class MemberController {
         return "/member/contact";
     }
 
+<<<<<<< HEAD
     @GetMapping(value = "/payment")
     public String showPaymentForm(@RequestParam(required = false) String selectedCartItems,
                                   Model model, Authentication authentication, Principal principal) {
@@ -243,3 +250,7 @@ public class MemberController {
     }
 
 }
+=======
+
+}
+>>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92

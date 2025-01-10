@@ -91,6 +91,7 @@ form{
 label{
     display: inline-block;
     margin: 5px auto;
+<<<<<<< HEAD
 }
 
 .fieldError {
@@ -116,4 +117,6 @@ label{
     width: 86px;
     height: 38px;
     font-size: 14px;
+=======
+>>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
 }
