@@ -63,3 +63,4 @@ logging:
 itemImgLocation: C:/works/Springboot/itemImg    #상품 이미지 업로드 경로
 inquiryImgLocation: C:/works/Springboot/inquiryImg
 uploadPath: file:///C:/works/Springboot/     #리소스 업로드 경로
+
