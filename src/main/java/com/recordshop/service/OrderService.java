@@ -29,14 +29,14 @@ public class OrderService {
 
 
     //                  상품 번호, 수량   ,  회원ID
-    public Long order(OrderDto orderDto , String email) {
+    public Long order(OrderDto orderDto , String username) {
 
         //상품 정보 가져오기
         Item item = itemRepository.findById(orderDto.getItemId())
                 .orElseThrow(EntityNotFoundException::new);
 
         // 회원정보 가져오기
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByUsername(username);
 
         //주문 저장 리스트
         List<OrderItem> orderItemList = new ArrayList<>();
@@ -57,13 +57,13 @@ public class OrderService {
     }       //end order
 
     @Transactional(readOnly = true)
-    public Page<OrderHistDto> getOrderList(String email, Pageable pageable) {
+    public Page<OrderHistDto> getOrderList(String username, Pageable pageable) {
 
         // 유저의 아이디와 페이징 조건을 이용하여 주문 목록 조회
-        List<Order> orders = orderRepository.findOrders(email, pageable);
+        List<Order> orders = orderRepository.findOrders(username, pageable);
 
         //유저의 주문 총 개수 구하기
-        Long totalCount = orderRepository.countOrder(email);
+        Long totalCount = orderRepository.countOrder(username);
 
         List<OrderHistDto> orderHistDtos = new ArrayList<>();
 
@@ -88,14 +88,14 @@ public class OrderService {
 
     //주문 취소 본인이 맞는지 확인
     @Transactional(readOnly = true)
-    public boolean validateOrder(Long orderId, String email) {
+    public boolean validateOrder(Long orderId, String username) {
 
-        Member curMember = memberRepository.findByEmail(email);
+        Member curMember = memberRepository.findByUsername(username);
         Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
 
         Member savedMember = order.getMember();
 
-        if(!StringUtils.equals(curMember.getEmail(),savedMember.getEmail())){
+        if(!StringUtils.equals(curMember.getUsername(),savedMember.getUsername())){
             return false;
         }
 
@@ -110,9 +110,9 @@ public class OrderService {
 
     }// end cancelOrder
 
-    public Long orders(List<OrderDto> orderDtoList, String email) {
+    public Long orders(List<OrderDto> orderDtoList, String username) {
 
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByUsername(username);
 
         // 주문 상품 리스트
         List<OrderItem> orderItemList = new ArrayList<>();
@@ -130,6 +130,26 @@ public class OrderService {
         orderRepository.save(order);
 
         return order.getId();
+
+    }   // end orders
+
+     public List<OrderItem> orderList(List<OrderDto> orderDtoList, String username) {
+
+        Member member = memberRepository.findByUsername(username);
+
+        // 주문 상품 리스트
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        for (OrderDto orderDto : orderDtoList) {
+            Item item = itemRepository.findById(orderDto.getItemId()).orElseThrow(EntityNotFoundException::new);
+
+            // 상품 주문
+            OrderItem orderItem = OrderItem.createOrderItem(item,orderDto.getCount());
+            orderItemList.add(orderItem);
+        }
+
+
+        return orderItemList;
 
     }   // end orders
 
