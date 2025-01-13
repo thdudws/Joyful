@@ -2,6 +2,7 @@ package com.recordshop.repository;
 
 import com.recordshop.dto.CartDetailDto;
 import com.recordshop.entity.CartItem;
+import com.recordshop.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,5 +30,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
             "WHERE ci.id IN :cartItemIds " +
             "AND im.repimgYn = 'Y'")
     List<CartDetailDto> findCartDetailDtoListByCartItemIds(@Param("cartItemIds") List<Long> cartItemIds);
+
 
 }
