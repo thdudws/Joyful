@@ -39,6 +39,7 @@ public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
+    private final CartService cartService;
 
     @GetMapping(value="/new")
     public String memberForm(Model model) {
@@ -97,11 +98,16 @@ public class MemberController {
 
     //회원 정보 수정
     @GetMapping(value = "/modify")
-    public String memberModify(Model model, Authentication authentication) {
-        String userName = authentication.getName();
-        Member member = memberService.findByUserName(userName);
+    public String memberModify(String username,Model model) {
+
+        Member member = memberService.findByMember(username);
+
+
+        log.info("member: " + member);
+
 
         MemberModifyFormDto memberModifyFormDto = new MemberModifyFormDto();
+        log.info("memberModifyFormDto : " + memberModifyFormDto.toString());
         memberModifyFormDto.setNickName(member.getNickName());
         memberModifyFormDto.setPhoneNumber(member.getPhoneNumber());
         memberModifyFormDto.setAddress(member.getAddress());
@@ -112,14 +118,14 @@ public class MemberController {
 
     @PostMapping(value = "/modify")
     public String memberModify(@Valid MemberModifyFormDto memberModifyFormDto, BindingResult bindingResult,
-                               Model model, Authentication authentication) {
+                               Model model,String username) {
         if (bindingResult.hasErrors()) {
             return "member/memberModifyForm";
         }
 
         try {
-            String currentEmail = authentication.getName();
-            Member currentMember = memberService.findByEmail(currentEmail);
+
+            Member currentMember = memberService.findByMember(username);
 
             memberService.memberUpdate(currentMember.getUsername(), memberModifyFormDto);
         } catch (IllegalStateException e) {
@@ -154,13 +160,7 @@ public class MemberController {
     }
 
 
-    @GetMapping("/user")
-    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails ) {
-        System.out.println(principalDetails.getMember());
 
-        return "member";
-
-}
 
     @GetMapping(value = "/payment")
     public String showPaymentForm(@RequestParam(required = false) String selectedCartItems,
@@ -219,10 +219,10 @@ public class MemberController {
         String currentEmail = authentication.getName();
 
         // 이메일로 회원 정보 조회
-        Member member = memberService.findByEmail(currentEmail);
+        Member member = memberService.findByMember(currentEmail);
 
         // 비밀번호는 그대로 두고, 나머지 정보만 수정
-        memberService.updateAddressOnly(member.getId(), memberModifyFormDto);
+        memberService.updateAddressOnly(member.getUsername(), memberModifyFormDto);
 
         // 선택된 아이템을 처리하는 부분
         List<CartDetailDto> selectedItems = new ArrayList<>();
