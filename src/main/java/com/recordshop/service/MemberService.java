@@ -7,6 +7,7 @@ import com.recordshop.entity.KakaoUserInfo;
 import com.recordshop.entity.Member;
 import com.recordshop.entity.OAuth2UserInfo;
 import com.recordshop.repository.MemberRepository;
+import groovy.util.logging.Log4j2;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Log4j2
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -65,8 +67,10 @@ public class MemberService {
     public Member findByPhoneNumber(String phoneNumber) {
         return memberRepository.findByPhoneNumber(phoneNumber);
     }
-    public Member findByUserName(String userName) {
-        return memberRepository.findByUsername(userName);
+
+    public Member findByMember(String username) {
+        System.out.println("username: " + username);
+        return memberRepository.findByUsername(username);
     }
 
 
@@ -104,10 +108,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateAddressOnly(Long memberId, MemberModifyFormDto memberModifyFormDto) {
+    public void updateAddressOnly(String username, MemberModifyFormDto memberModifyFormDto) {
         // 회원 정보 조회
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalStateException("회원 정보를 찾을 수 없습니다."));
+        Member member = memberRepository.findByUsername(username);
 
         boolean isUpdated = false; // 업데이트 여부를 추적하기 위한 플래그
 
@@ -132,7 +135,7 @@ public class MemberService {
         // 변경된 사항을 DB에 저장
         memberRepository.save(member);
 
-        log.info("Updated Address Member: " + member);
+
     }
 
 }
