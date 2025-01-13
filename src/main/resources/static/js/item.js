@@ -83,6 +83,8 @@ function order(){
     });
 }
 
+
+
 function addCart(){
     // var token = $("meta[name='_csrf']").attr("content");
     // var header = $("meta[name='_csrf_header']").attr("content");
@@ -108,7 +110,7 @@ function addCart(){
         cache   : false,
         success  : function(result, status){
             alert("상품을 장바구니에 담았습니다.");
-            location.href='/';
+            location.href='/cart';
         },
         error : function(jqXHR, status, error){
 
