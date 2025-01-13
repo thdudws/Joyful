@@ -186,5 +186,42 @@ public class ItemController {
 =======
 >>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
 
+    // 상품 수정 페이지로 이동 버튼 (GET 요청)
+    @GetMapping(value = "/admin/item/edit/{itemId}")
+    public String editItem(@PathVariable("itemId") Long itemId, Model model) {
+        try {
+            // 수정할 상품 정보 가져오기
+            ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+            model.addAttribute("itemFormDto", itemFormDto); // 수정할 상품 정보를 모델에 추가
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("errorMessage", "존재하지 않는 상품입니다.");
+            return "redirect:/admin/items"; // 상품이 존재하지 않으면 목록 페이지로 리디렉션
+        }
+        return "/item/itemForm"; // 상품 수정 폼을 반환
+    }
+
+    // 상품 수정 처리 (POST 요청)
+    @PostMapping(value = "/admin/item/edit/{itemId}")
+    public String updateItem(@Valid ItemFormDto itemFormDto, BindingResult bindingResult, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "/item/itemForm";
+        }
+
+        if (itemImgFileList.get(0).isEmpty() && itemFormDto.getId() == null) {
+            model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값입니다.");
+            return "/item/itemForm";
+        }
+
+        try {
+            itemService.updateItem(itemFormDto, itemImgFileList); // 상품 수정
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "상품 수정 중 에러가 발생하였습니다.");
+            return "/item/itemForm";
+        }
+
+        return "redirect:/admin/items";
+    }
+
+
 
 }

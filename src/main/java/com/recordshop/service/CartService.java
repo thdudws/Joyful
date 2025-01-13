@@ -16,6 +16,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
@@ -44,9 +46,10 @@ public class CartService {
 
         //현재 로그인한 회원 엔티티 조회
         Member member = memberRepository.findByUsername(username);
+        log.info("member"+member);
 
         //현재 로그인한 회원의 장바구니 엔티티 조회
-        Cart cart = cartRepository.findByMemberName(member.getUsername());
+        Cart cart = cartRepository.findByMemberId(member.getId());
 
         //상품을 처음으로 장바구니에 담을 경우 해당 회원의 장바구니 엔티티 생성
         if(cart == null) {
@@ -86,6 +89,7 @@ public class CartService {
         List<CartDetailDto> cartDetailDtoList = new ArrayList<>();
 
         Member member = memberRepository.findByUsername(username);
+        log.info("member"+member);
 
         Cart cart = cartRepository.findByMemberName(member.getUsername());
         if(cart == null) {
@@ -99,14 +103,18 @@ public class CartService {
     }   //end getCartList
 
     @Transactional(readOnly = true)
-    public boolean validateCartItem(Long cartItemId,String username) {
-        Member curMember = memberRepository.findByUsername(username);
+    public boolean validateCartItem(Long cartItemId) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(EntityNotFoundException::new);
 
         Member savedMember = cartItem.getCart().getMember();
 
         //본인 만 수정가능
-        if(!StringUtils.equals(curMember.getUsername(), savedMember.getUsername())) {
+        if(!StringUtils.equals(username, savedMember.getUsername())) {
             return false;
         }
 

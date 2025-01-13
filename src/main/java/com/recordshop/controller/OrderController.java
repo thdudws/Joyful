@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -64,13 +66,16 @@ public class OrderController {
 
     //Principal -> 인증된 사용자를 나타내는 객체
     @GetMapping(value = {"/orders", "/orders/{page}"})
-    public String orderHist(@PathVariable("page") Optional<Integer> page, Principal principal,Model model) {
+    public String orderHist(@PathVariable("page") Optional<Integer> page,Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
         // 한번에 가지고 올 주문의 개수는 4개로 설정
         Pageable pageable = PageRequest.of( page.isPresent() ? page.get() : 0, 4);
 
         //로그인한 회원은 이메일과 페이징 객체를 파라미터로 전달하여 화면에 전달한 주문 목록 데이터를 리턴값으로 받음
-        Page<OrderHistDto> ordersHistDtoList = orderService.getOrderList(principal.getName(), pageable);
+        Page<OrderHistDto> ordersHistDtoList = orderService.getOrderList(username, pageable);
 
         log.info("ordersHistDtoList : "+ordersHistDtoList.toString());
 
@@ -84,9 +89,14 @@ public class OrderController {
     }   //end orderHist
 
     @PostMapping("/order/{orderId}/cancel")
-    public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId , Principal principal) {
+    public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId) {
 
-        if(!orderService.validateOrder(orderId, principal.getName())) {
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        if(!orderService.validateOrder(orderId, username)) {
             return new ResponseEntity<String>("주문 취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
 
