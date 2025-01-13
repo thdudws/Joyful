@@ -1,3 +1,4 @@
+
 package com.recordshop.entity;
 
 import com.recordshop.constant.Role;

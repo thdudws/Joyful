@@ -35,29 +35,51 @@
     justify-content: flex-end;
 }
 
-.totalPrice {
-    margin-right: 20px;
+.delivery-notice {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .delivery-h4 {
+    width: 85%;
+    margin: 0 auto;
     font-size: 20px;
     font-weight: 500;
-    margin-left: 20px;
+}
+
+.delivery-notice form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .delivery-box {
-    width: 60%;
+    width: 85%;
     height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
 }
 
+.payment_table {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.total_pay.pay_h3 {
+    width: 90%;
+    height: 50px;
+    margin: 0 auto;
+}
+
 .delivery-boxin {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    margin-left: 20px;
 }
 
 .delivery-boxin input {
@@ -72,7 +94,6 @@
 .modify_btn {
     width: 120px;
     height: 40px;
-    margin: 0 0 20px 20px;
     border: 1px solid #eeeeee;
     border-radius: 5px;
     cursor: pointer;
@@ -86,13 +107,16 @@
 .method_h4 {
     font-size: 20px;
     font-weight: 500;
-    margin: 20px 0 20px 20px;
 }
 
 .pay_method {
-    width: 60%;
-    height: auto;
-    margin-bottom: 20px;
+    width: 85%;
+    height: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0 auto;
 }
 
 .pay_method_box {
@@ -107,8 +131,8 @@
 }
 
 .pay_method_box p {
-    width: 150px;
-    height: 50px;
+    width: 200px;
+    height: 150px;
     background-color: ghostwhite;
     display: flex;
     align-items: center;
@@ -116,7 +140,9 @@
     font-size: 18px;
     border: 1px solid #eeeeee;
     border-radius: 5px;
+    margin-right: 20px;
 }
+
 .pay_method_box p:hover {
     opacity: 0.8;
     background-color: #d3d3dc;
@@ -124,12 +150,12 @@
 }
 
 .final_pay {
-    width: 60%;
+    width: 85%;
     height: auto;
-    margin-bottom: 20px;
     display: flex;
     align-items: flex-end;
     flex-direction: column;
+    margin: 0 auto 30px;
 }
 
 .final_h4 {
@@ -142,14 +168,12 @@
 .payment_btn {
     width: 120px;
     height: 50px;
-    margin: 0 20px 20px 20px;
     border: 1px solid #eeeeee;
     border-radius: 5px;
-    cursor: pointer;
 }
 
-.final_pay.total_pay > .totalPrice {
-    margin-right: 10px;
+.payment_btn:hover {
+    background-color: #d7d7d7;
+    opacity: 0.9;
+    border: 1px solid #afafaf;
 }
-
-
