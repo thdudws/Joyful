@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,11 +99,13 @@ public class MemberController {
 
     //회원 정보 수정
     @GetMapping(value = "/modify")
-    public String memberModify(String username,Model model) {
+    public String memberModify(Model model) {
 
-        Member member = memberService.findByMember(username);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
-
+        Member member = memberService.findByUsername(username);
+        log.info("username: " + username);
         log.info("member: " + member);
 
 
@@ -118,14 +121,17 @@ public class MemberController {
 
     @PostMapping(value = "/modify")
     public String memberModify(@Valid MemberModifyFormDto memberModifyFormDto, BindingResult bindingResult,
-                               Model model,String username) {
+                               Model model) {
         if (bindingResult.hasErrors()) {
             return "member/memberModifyForm";
         }
 
         try {
 
-            Member currentMember = memberService.findByMember(username);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+
+            Member currentMember = memberService.findByUsername(username);
 
             memberService.memberUpdate(currentMember.getUsername(), memberModifyFormDto);
         } catch (IllegalStateException e) {
@@ -219,7 +225,7 @@ public class MemberController {
         String currentEmail = authentication.getName();
 
         // 이메일로 회원 정보 조회
-        Member member = memberService.findByMember(currentEmail);
+        Member member = memberService.findByUsername(currentEmail);
 
         // 비밀번호는 그대로 두고, 나머지 정보만 수정
         memberService.updateAddressOnly(member.getUsername(), memberModifyFormDto);
