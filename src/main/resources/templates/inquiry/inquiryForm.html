@@ -12,7 +12,6 @@
     <script th:src="@{/js/inquiry.js}"></script>
 </th:block>
 
-
 <div layout:fragment="content">
 
     <div class="iForm_wrap">
@@ -23,7 +22,7 @@
             <input type="hidden" th:field="*{id}">
 
             <!-- 문의 제목 -->
-            <div class="input-group">
+            <div class="input-group inputbox">
                 <div class="input-group-prepend">
                     <span class="input-group-text">제목</span>
                 </div>
@@ -62,7 +61,7 @@
 
             <!-- 제출 버튼 -->
             <div style="text-align: center">
-                <button th:formaction="@{/inquiries/new}" type="submit" class="btn btn-primary">작성하기</button>
+                <button th:formaction="@{/inquiries/new}" type="submit" class="btn btn-write">작성하기</button>
             </div>
 
         </form>

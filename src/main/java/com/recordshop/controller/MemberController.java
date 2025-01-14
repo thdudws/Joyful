@@ -1,37 +1,34 @@
 package com.recordshop.controller;
 
 import com.recordshop.dto.CartDetailDto;
+import com.recordshop.constant.Role;
+import com.recordshop.entity.CartItem;
+import com.recordshop.detail.PrincipalDetails;
+import com.recordshop.service.CartService;
 import com.recordshop.dto.MemberFormDto;
 import com.recordshop.dto.MemberModifyFormDto;
-import com.recordshop.entity.CartItem;
 import com.recordshop.entity.Member;
-import com.recordshop.service.CartService;
+import com.recordshop.repository.MemberRepository;
 import com.recordshop.service.MemberService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-<<<<<<< HEAD
-import jakarta.servlet.http.HttpSession;
-=======
->>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-<<<<<<< HEAD
-
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-=======
->>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
 
 @RequestMapping("/members")
 @Controller
@@ -41,6 +38,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
     private final CartService cartService;
 
     @GetMapping(value="/new")
@@ -67,11 +65,24 @@ public class MemberController {
         return "redirect:/";
     }       //end newMember
 
+    /*@PostMapping(value = "/new")
+    public String newMember(Member member) {
+        String role = member.setRole(Role.USER);
+        String username = member.getUsername();
+        String rewPassword =member.getPassword();
+        String encodedPassword = passwordEncoder.encode(rewPassword);
+        member.setPassword(encodedPassword);
+        memberRepository.save(member);
+        return "redirect:/";
+    }       //end newMember*/
+
     @GetMapping(value = "/login")
     public String loginMember() {
 
         return "/member/memberLoginForm";
     }
+
+
 
     @GetMapping(value = "/login/error")
     public String loginError(Model model) {
@@ -87,11 +98,18 @@ public class MemberController {
 
     //회원 정보 수정
     @GetMapping(value = "/modify")
-    public String memberModify(Model model, Authentication authentication) {
-        String currentEmail = authentication.getName();
-        Member member = memberService.findByEmail(currentEmail);
+    public String memberModify(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        Member member = memberService.findByUsername(username);
+        log.info("username: " + username);
+        log.info("member: " + member);
+
 
         MemberModifyFormDto memberModifyFormDto = new MemberModifyFormDto();
+        log.info("memberModifyFormDto : " + memberModifyFormDto.toString());
         memberModifyFormDto.setNickName(member.getNickName());
         memberModifyFormDto.setPhoneNumber(member.getPhoneNumber());
         memberModifyFormDto.setAddress(member.getAddress());
@@ -101,24 +119,37 @@ public class MemberController {
     }
 
     @PostMapping(value = "/modify")
-    public String memberModify(@Valid MemberModifyFormDto memberModifyFormDto, BindingResult bindingResult,
-                               Model model, Authentication authentication) {
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> memberModify(
+            @Valid MemberModifyFormDto memberModifyFormDto, BindingResult bindingResult) {
+
+        Map<String, String> response = new HashMap<>();
+
+        // 폼 유효성 검사
         if (bindingResult.hasErrors()) {
-            return "member/memberModifyForm";
+            response.put("status", "error");
+            response.put("message", "입력한 정보를 확인해 주세요.");
+            return ResponseEntity.badRequest().body(response);
         }
 
         try {
-            String currentEmail = authentication.getName();
-            Member currentMember = memberService.findByEmail(currentEmail);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
 
-            memberService.memberUpdate(currentMember.getId(), memberModifyFormDto);
+            // 현재 회원 정보를 찾고 업데이트 처리
+            Member currentMember = memberService.findByUsername(username);
+            memberService.memberUpdate(currentMember.getUsername(), memberModifyFormDto);
+
+            // 수정 완료 메시지
+            response.put("status", "success");
+            response.put("message", "수정이 완료되었습니다.");
         } catch (IllegalStateException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "member/memberModifyForm";
+            response.put("status", "error");
+            response.put("message", "오류가 발생했습니다: " + e.getMessage());
         }
-        return "redirect:/members/myPage";
-    }
 
+        return ResponseEntity.ok(response);
+    }
 
     // 회원 탈퇴 메서드
     @PostMapping("/delete")
@@ -143,7 +174,9 @@ public class MemberController {
         return "/member/contact";
     }
 
-<<<<<<< HEAD
+
+
+
     @GetMapping(value = "/payment")
     public String showPaymentForm(@RequestParam(required = false) String selectedCartItems,
                                   Model model, Authentication authentication, Principal principal) {
@@ -201,10 +234,10 @@ public class MemberController {
         String currentEmail = authentication.getName();
 
         // 이메일로 회원 정보 조회
-        Member member = memberService.findByEmail(currentEmail);
+        Member member = memberService.findByUsername(currentEmail);
 
         // 비밀번호는 그대로 두고, 나머지 정보만 수정
-        memberService.updateAddressOnly(member.getId(), memberModifyFormDto);
+        memberService.updateAddressOnly(member.getUsername(), memberModifyFormDto);
 
         // 선택된 아이템을 처리하는 부분
         List<CartDetailDto> selectedItems = new ArrayList<>();
@@ -250,7 +283,3 @@ public class MemberController {
     }
 
 }
-=======
-
-}
->>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92

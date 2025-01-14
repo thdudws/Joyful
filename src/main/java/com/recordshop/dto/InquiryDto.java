@@ -18,7 +18,7 @@ public class InquiryDto {
 
     private String status;
 
-    private String memberNickName;
+    private String username;
 
     private AnswerDto answer;
 
@@ -27,7 +27,7 @@ public class InquiryDto {
         this.id = inquiry.getId();
         this.title = inquiry.getTitle();
         this.content = inquiry.getContent();
-        this.memberNickName = inquiry.getMember() != null ? inquiry.getMember().getNickName() : "알 수 없음";
+        this.username = inquiry.getMember() != null ? inquiry.getMember().getUsername() : "알 수 없음";
 
         this.status = inquiry.getAnswerStatus() != null ? inquiry.getAnswerStatus().name() : "상태 없음";
 

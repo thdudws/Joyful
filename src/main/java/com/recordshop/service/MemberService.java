@@ -1,34 +1,38 @@
-
 package com.recordshop.service;
 
 
+import com.recordshop.detail.PrincipalDetails;
 import com.recordshop.dto.MemberModifyFormDto;
+import com.recordshop.entity.KakaoUserInfo;
 import com.recordshop.entity.Member;
+import com.recordshop.entity.OAuth2UserInfo;
 import com.recordshop.repository.MemberRepository;
+import groovy.util.logging.Log4j2;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberService implements UserDetailsService {
+@Log4j2
+public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final HttpServletResponse httpServletResponse;
 
     public Member saveMember(Member member) {
         validateDuplicateMember(member);
@@ -36,7 +40,7 @@ public class MemberService implements UserDetailsService {
     }       //end saveMember
 
     public void validateDuplicateMember(Member member) {
-        Member findMember = memberRepository.findByEmail(member.getEmail());
+        Member findMember = memberRepository.findByUsername(member.getUsername());
 
         if (findMember != null) {
             throw new IllegalStateException("이미 가입된 회원입니다.");
@@ -44,42 +48,44 @@ public class MemberService implements UserDetailsService {
     }       //end validateDuplicateMember
 
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+   /*@Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByUsername(username);
 
-        if (member == null) {
-            throw new UsernameNotFoundException(email);
+        if (member != null) {
+            return new PrincipalDetails(member);
         }
 
-        return User.builder()
-                .username(member.getEmail())
-                .password(member.getPassword())
-                .roles(member.getRole().toString())
-                .build();
-    }
+        return null;
+    }*/
 
-    public Member findByEmail(String email) {
-        return memberRepository.findByEmail(email);
+    public Member findByEmail(String username) {
+        return memberRepository.findByUsername(username);
     }
 
     public Member findByPhoneNumber(String phoneNumber) {
         return memberRepository.findByPhoneNumber(phoneNumber);
     }
 
+    public Member findByUsername(String username) {
+
+        System.out.println("username*: " + username);
+
+        return memberRepository.findByUsername(username);
+    }
+
+
     //회원 수정
     @Transactional
-    public void memberUpdate(Long memberId, MemberModifyFormDto memberModifyFormDto) {
-        Member updateMember = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalStateException("회원 정보를 찾을 수 없습니다."));
+    public void memberUpdate(String username, MemberModifyFormDto memberModifyFormDto) {
+        Member updateMember = memberRepository.findByUsername(username);
 
         updateMember.modifyMember(memberModifyFormDto, passwordEncoder);
 
         memberRepository.save(updateMember);
         System.out.println("updateMember : " + updateMember);
 
-        memberRepository.save(updateMember);  // save 호출 시점에 반영
     }
 
     //회원삭제
@@ -104,10 +110,9 @@ public class MemberService implements UserDetailsService {
     }
 
     @Transactional
-    public void updateAddressOnly(Long memberId, MemberModifyFormDto memberModifyFormDto) {
+    public void updateAddressOnly(String username, MemberModifyFormDto memberModifyFormDto) {
         // 회원 정보 조회
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalStateException("회원 정보를 찾을 수 없습니다."));
+        Member member = memberRepository.findByUsername(username);
 
         boolean isUpdated = false; // 업데이트 여부를 추적하기 위한 플래그
 
@@ -132,8 +137,7 @@ public class MemberService implements UserDetailsService {
         // 변경된 사항을 DB에 저장
         memberRepository.save(member);
 
-        log.info("Updated Address Member: " + member);
-    }
 
+    }
 
 }

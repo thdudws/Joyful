@@ -69,36 +69,46 @@ function updateCartItemCount(cartItemId, count){
     });
 }
 
-function deleteCartItem(obj){
+function deleteCartItem(obj) {
+    // 아이템 ID 가져오기
     var cartItemId = obj.dataset.id;
-    // var token = $("meta[name='_csrf']").attr("content");
-    // var header = $("meta[name='_csrf_header']").attr("content");
 
-    var url = "/cartItem/" + cartItemId;
+    // 확인 창 띄우기
+    var confirmDelete = confirm("정말로 삭제하시겠습니까?");
 
-    $.ajax({
-        url      : url,
-        type     : "DELETE",
-        beforeSend : function(xhr){
-            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-            // xhr.setRequestHeader(header, token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status){
-            location.href='/cart';
-        },
-        error : function(jqXHR, status, error){
+    if (confirmDelete) {
+        // 삭제 요청 URL
+        var url = "/cartItem/" + cartItemId;
 
-            if(jqXHR.status == '401'){
-                alert('로그인 후 이용해주세요');
-                location.href='/members/login';
-            } else{
-                alert(jqXHR.responseJSON.message);
+        $.ajax({
+            url: url,
+            type: "DELETE",
+            beforeSend: function(xhr) {
+                // CSRF 토큰이 필요하다면 주석 해제하여 추가
+                // var token = $("meta[name='_csrf']").attr("content");
+                // var header = $("meta[name='_csrf_header']").attr("content");
+                // xhr.setRequestHeader(header, token);
+            },
+            dataType: "json",
+            cache: false,
+            success: function(result, status) {
+                // 삭제 성공 후 페이지 새로 고침 또는 리디렉션
+                location.href = '/cart';  // 장바구니 페이지로 리디렉션
+            },
+            error: function(jqXHR, status, error) {
+                // 에러 처리
+                if (jqXHR.status == '401') {
+                    alert('로그인 후 이용해주세요');
+                    location.href = '/members/login';
+                } else {
+                    alert(jqXHR.responseJSON.message);
+                }
             }
-
-        }
-    });
+        });
+    } else {
+        // 삭제 취소된 경우
+        alert("삭제가 취소되었습니다.");
+    }
 }
 
 function orders() {
@@ -147,4 +157,13 @@ function getSelectedCartItems() {
     });
     return selectedItems;
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 모든 가격 요소에 대해 쉼표 추가 처리
+    document.querySelectorAll('.price').forEach(function(element) {
+        var price = element.innerText.trim().replace("원", "");  // 원화 기호 제거
+        var formattedPrice = Number(price).toLocaleString();  // 쉼표 추가
+        element.innerText = formattedPrice + "원";  // 쉼표 추가된 가격 + 원화 기호
+    });
+});
 

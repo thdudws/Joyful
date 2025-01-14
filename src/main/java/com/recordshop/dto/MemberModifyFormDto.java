@@ -24,7 +24,7 @@ public class MemberModifyFormDto {
 
     @Override
     public String toString() {
-        return "MemberModifyFormDto{username='" + nickName + "', address='" + address + "', phone='" + phoneNumber + "'}";
+        return "MemberModifyFormDto{nickName='" + nickName + "', address='" + address + "', phone='" + phoneNumber + "'}";
     }
 
 }

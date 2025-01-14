@@ -58,14 +58,14 @@
                 </th:block>
 
                 <th:block th:if="${category == T(com.recordshop.constant.Category).ALBUM}" class="long_wrap">
-                    <div class="category album" style="width: 250px">Best ALBUM</div>
+                    <div class="category album" style="width: 250px">New ALBUM</div>
                     <a class="plus" th:href="@{/item/list}">
                         <img class = "plusImg" th:src="@{/image/icon_more.png}" alt="더보기">
                     </a>
                 </th:block>
 
                 <th:block th:if="${category == T(com.recordshop.constant.Category).DVD}">
-                    <div class="category dvd" style="width: 190px">Best DVD</div>
+                    <div class="category dvd" style="width: 315px">Commend DVD</div>
                     <a class="plus" th:href="@{/item/list}">
                         <img class = "plusImg" th:src="@{/image/icon_more.png}" alt="더보기">
                     </a>

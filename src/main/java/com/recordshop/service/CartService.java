@@ -16,6 +16,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
@@ -37,16 +39,19 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
     private final OrderService orderService;
 
-    public Long addCart(CartItemDto cartItemDto , String email) {
+    public Long addCart(CartItemDto cartItemDto , String username) {
 
         //장바구니에 담을 상품 엔티티 조회
         Item item = itemRepository.findById(cartItemDto.getItemId()).orElseThrow(EntityNotFoundException::new);
 
         //현재 로그인한 회원 엔티티 조회
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByUsername(username);
+        log.info("member"+member);
 
         //현재 로그인한 회원의 장바구니 엔티티 조회
         Cart cart = cartRepository.findByMemberId(member.getId());
+
+        log.info("cart : "+cart);
 
         //상품을 처음으로 장바구니에 담을 경우 해당 회원의 장바구니 엔티티 생성
         if(cart == null) {
@@ -57,6 +62,7 @@ public class CartService {
         //현재 상품이 장바구니에 이미 들어가 있는지 조회
         CartItem savedCartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
 
+        log.info("Saved CartItem: " + savedCartItem);
         /*// 장바구니에 이미 있던 상품일 경우 기존 수량에 현재 장바구니에 담을 수량 만큼 더해줌.
         if(savedCartItem != null) {
             savedCartItem.addCount(cartItemDto.getCount());
@@ -81,13 +87,14 @@ public class CartService {
     }   // end addCart
 
     @Transactional(readOnly = true)
-    public List<CartDetailDto> getCartList(String email) {
+    public List<CartDetailDto> getCartList(String username) {
 
         List<CartDetailDto> cartDetailDtoList = new ArrayList<>();
 
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByUsername(username);
+        log.info("member"+member);
 
-        Cart cart = cartRepository.findByMemberId(member.getId());
+        Cart cart = cartRepository.findByMemberId(memberRepository.findByUsername(username).getId());
         if(cart == null) {
             return cartDetailDtoList;
         }
@@ -99,14 +106,18 @@ public class CartService {
     }   //end getCartList
 
     @Transactional(readOnly = true)
-    public boolean validateCartItem(Long cartItemId,String email) {
-        Member curMember = memberRepository.findByEmail(email);
+    public boolean validateCartItem(Long cartItemId) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(EntityNotFoundException::new);
 
         Member savedMember = cartItem.getCart().getMember();
 
         //본인 만 수정가능
-        if(!StringUtils.equals(curMember.getEmail(), savedMember.getEmail())) {
+        if(!StringUtils.equals(username, savedMember.getUsername())) {
             return false;
         }
 
@@ -134,7 +145,7 @@ public class CartService {
 
     }   //end deleteCartItem
 
-    public Long orderCartItem(List<CartOrderDto> cartOrderDtoList,String email) {
+    public Long orderCartItem(List<CartOrderDto> cartOrderDtoList,String username) {
 
         List<OrderDto> orderDtoList = new ArrayList<>();
 
@@ -147,7 +158,7 @@ public class CartService {
             orderDtoList.add(orderDto);
         }
 
-        Long orderId = orderService.orders(orderDtoList,email);
+        Long orderId = orderService.orders(orderDtoList,username);
 
         //장바구니 삭제
         for(CartOrderDto cartOrderDto : cartOrderDtoList) {

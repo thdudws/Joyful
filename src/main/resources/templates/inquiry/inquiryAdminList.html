@@ -66,17 +66,17 @@
         <div th:with="start=${(allInquiries.number/maxPage)*maxPage + 1}, end=(${(allInquiries.totalPages == 0) ? 1 : (start + (maxPage - 1) < allInquiries.totalPages ? start + (maxPage - 1) : allInquiries.totalPages)})" >
             <ul class="pagination justify-content-center mb-3">
                 <li class="page-item" th:classappend="${allInquiries.number eq 0}?'disabled':''">
-                    <a th:href="@{'/inquiries/admin/list' + '?answerStatus=' + ${answerStatus != null ? answerStatus : ''} + '&page=' + ${allInquiries.number-1}}" aria-label='Previous' class="page-link">
+                    <a th:href="@{'/inquiries/admin/list' + '?answerStatus=' + ${answerStatus != null ? answerStatus : ''} + '&page=' + ${allInquiries.number-1}}" aria-label='Previous' class="page-link2">
                         <span aria-hidden='true'>이전</span>
                     </a>
                 </li>
 
                 <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${allInquiries.number eq page - 1}?'active':''">
-                    <a th:href="@{'/inquiries/admin/list' + '?answerStatus=' + ${answerStatus != null ? answerStatus : ''} + '&page=' + ${page - 1}}" th:inline="text" class="page-link">[[${page}]]</a>
+                    <a th:href="@{'/inquiries/admin/list' + '?answerStatus=' + ${answerStatus != null ? answerStatus : ''} + '&page=' + ${page - 1}}" th:inline="text" class="page-link2">[[${page}]]</a>
                 </li>
 
                 <li class="page-item" th:classappend="${allInquiries.number+1 ge allInquiries.totalPages}?'disabled':''">
-                    <a th:href="@{'/inquiries/admin/list' + '?answerStatus=' + ${answerStatus != null ? answerStatus : ''} + '&page=' + ${allInquiries.number+1}}" aria-label='Next' class="page-link">
+                    <a th:href="@{'/inquiries/admin/list' + '?answerStatus=' + ${answerStatus != null ? answerStatus : ''} + '&page=' + ${allInquiries.number+1}}" aria-label='Next' class="page-link2">
                         <span aria-hidden='true'>다음</span>
                     </a>
                 </li>
@@ -87,4 +87,3 @@
 </div>
 
 </html>
-

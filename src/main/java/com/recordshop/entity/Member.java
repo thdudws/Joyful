@@ -5,22 +5,22 @@ import com.recordshop.constant.Role;
 import com.recordshop.dto.MemberFormDto;
 import com.recordshop.dto.MemberModifyFormDto;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Table(name="member")
+@ToString
 @Getter
 @Setter
-@ToString
 public class Member extends BaseEntity {
 
     @Id
     @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String username;
 
     private String name;
 
@@ -39,8 +39,18 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+
+    private String providerId;
+    private String provider;
+
+
+    /*public Member() {
+
+    }*/
+
+  public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
         Member member = new Member();
+        member.setUsername(memberFormDto.getUsername());
         member.setName(memberFormDto.getName());
         member.setNickName(memberFormDto.getNickName());
         member.setEmail(memberFormDto.getEmail());
@@ -49,9 +59,10 @@ public class Member extends BaseEntity {
         member.setAddress(memberFormDto.getAddress());
         member.setRole(Role.USER);
         return member;
-
-
     }
+
+
+
 
     //회원정보 수정
     public void modifyMember(MemberModifyFormDto memberModifyFormDto, PasswordEncoder passwordEncoder) {

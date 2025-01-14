@@ -180,3 +180,16 @@ footer {
 .up_btn.visible {
     opacity: 1;
 }
+
+.page-link {
+    color: #29186a;
+}
+
+.page-item.active .page-link {
+    background-color: #2f16b9;
+    border-color: #2f16b9;
+}
+
+.page-link:hover {
+    color: #29186a;
+}

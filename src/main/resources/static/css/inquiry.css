@@ -29,309 +29,280 @@ td{
     margin: 50px auto;
 }
 
-.title{
+/* 전체 페이지 스타일 */
+.mypage_wrap {
+    width: 1300px;
+    margin: 0 auto;
+    padding: 30px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 제목 스타일 */
+.write h1 {
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #333;
     text-align: center;
-    font-size: 2em;
+    margin-bottom: 20px;
 }
 
-.top {
+/* 상태 필터 스타일 */
+.statusFilterWrapper {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.statusFilter {
+    list-style: none;
+    padding: 0;
+    display: inline-flex;
+    gap: 30px;
+}
+
+.statusItem a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: #666;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.statusItem a:hover,
+.statusItem a.active {
+
+    font-weight: 500;
+    box-shadow: 0 2px 10px rgba(34, 36, 37, 0.3);
+}
+
+/* 테이블 스타일 */
+.table {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.custom-select {
-    width: 49.5%;
+.table-text {
+    background-color: #f0f4f7;
 }
 
-.h2 {
-    height: 70px;
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+    font-size: 1rem;
+    color: #444;
 }
 
-.input-group {
-    height: 40px;
-}
-
-.input-group-text {
-    background-color: #f5f5f5;
-}
-
-.lead {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
-
-.product_input {
-    height: 40px;
-}
-
-.product_name {
-    height: 100%;
-}
-
-.form-control {
-    height: 40px;
-}
-
-.form-control-plaintext {
-    height: 40px;
-}
-
-.form-control.product_text {
-    height: 100%;
-}
-
-.product_detail {
-    height: 150px;
-}
-
-.product_Dname {
-    height: 100%;
-}
-
-.product_Dtext {
-    height: 100%;
-}
-
-.custom-file-input:lang(en)~.custom-file-label::after {
-    content: "File";
-}
-
-.btn-primary {
-    width: 90px;
-    height: 38px;
-    background-color: #2d89eb;
-}
-
-.btn-primary2 {
-    width: 100px;
-    height: 38px;
-    background-color: #2d89eb;
+.table th {
+    background-color: gray;
     color: white;
+    font-weight: 500;
 }
 
-.btn-success {
-    width: 100px;
-    height: 45px;
-    background-color: #3fbf5d;
+.table td {
+    border-bottom: 1px solid #e1e1e1;
 }
 
-.btn-danger {
-    width: 90px;
-    height: 38px;
-    background-color: #ed4d5c;
+.table td a {
+    text-decoration: none;
+    color: gray;
+    transition: all 0.3s ease;
 }
 
-/*itemDtl*/
-
-.mgb-15{
-    margin-bottom:15px;
-}
-.mgt-30{
-    margin-top:30px;
-}
-.mgt-50{
-    margin-top:50px;
-}
-.repImgDiv{
-    margin-right:15px;
-    height:auto;
-    width:50%;
-}
-.repImg{
-    width:100%;
-    height:400px;
-}
-.wd50{
-    height:auto;
-    width:50%;
+.table td a:hover {
+    color: #6d6d6d;
+    font-weight: bold;
 }
 
-.dtl_wrap {
-    width: 950px;
-    margin: 50px auto;
-}
-
-.text-center img {
-    width: 950px;
-}
-
-.quantity {
-    height: 40px;
-}
-
-.badge-primary {
-    background-color: #20c97b;
-    padding: 7px;
-}
-
-.w-50 {
-    width: 25% !important;
-}
-
-.buy {
-    width: 150px;
-    background-color: #e74a3b;
-    border: 1px solid #b43528;
-}
-
-.buy:hover {
-    background-color: #c53f31;
-    border: 1px solid #b43528;
-}
-
-.text-danger {
-    color: #575757 !important;
-}
-
-.addcart {
-    border: 1px solid #b43528 !important;
-    width: 170px;
-    color: brown;
-}
-
-.addcart:hover {
-    background-color: rgb(255 193 169 / 25%);
-    color: brown;
-}
-
-.pay {
+/* 페이징 스타일 */
+.pagination {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    justify-content: center;
+    gap: 15px;
     margin-top: 20px;
 }
 
-.price {
-    margin-right: 10px;
-    letter-spacing: 2px;
+.page-item.disabled .page-link2 {
+    pointer-events: none;
+    color: black;
 }
 
-.plus {
-    color: #797979;
-}
-
-.free {
-    letter-spacing: 3px;
-    margin-bottom: 0;
-}
-
-.item_name {
-    height: 170px;
-    display: flex;
-    align-items: center;
-    margin-top: 30px;
-}
-
-.item_name_h4 {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0;
-    margin-top: 15px;
-    font-weight: 500;
-    font-size: 20px;
-}
-
-.jumbotron {
-    background-color: ghostwhite;
-}
-
-.delivery-title-box {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-}
-
-.delivery-title {
-    width: 90%;
-    height: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    font-weight: 600;
-}
-
-.delivery-title span {
-    margin: 0 20px;
-}
-
-.delivery-title-box:hover {
+.page-item .page-link2 {
+    padding: 12px 20px;
+    font-size: 1rem;
+    color: black;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     cursor: pointer;
-    opacity: 0.85;
+    transition: all 0.3s ease;
 }
 
-.down_img {
-    width: 10%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.page-link2{
+    z-index: 3;
+    color: #fff;
 }
 
-.down_img img {
-    width: 35%;
-    height: 35%;
+.page-item.active .page-link2 {
+    background-color: gray;
+    color: white;
+    font-weight: bold;
 }
 
-.delivery-content {
-    margin-top: 50px;
+.page-item .page-link2:hover {
+    background-color: #333333;
+
+    transform: translateY(-2px);
 }
 
-.delivery-content h5 {
-    font-weight: 600;
-    margin: 20px;
-}
-
-.delivery-content h6 {
-    font-weight: 600;
-}
-
-.notice_box {
-    padding: 25px 20px;
-    background-color: ghostwhite;
-}
-
-.form-group label {
-    font-size: 1.25rem; /* 라벨의 글자 크기 증가 */
-    font-weight: bold; /* 라벨을 굵게 */
-}
-
-.form-group p {
-    display: block;
-    padding: 10px; /* 박스 안의 여백 */
-    background-color: #f8f9fa; /* 배경색 */
-    border: 1px solid #ced4da; /* 테두리 */
-    border-radius: 5px; /* 테두리 둥글게 */
-    min-height: 40px; /* 최소 높이 */
-}
-
-.statusFilterWrapper {
-    display: flex;
-    justify-content: center; /* 상태 필터를 가운데로 정렬 */
-    align-items: center; /* 세로 가운데 정렬 */
-    margin-top: 0px; /* 상단 여백 */
-}
-
-/* 상태 필터 */
-.statusFilter {
-    display: flex;
-    justify-content: flex-start;
-    padding: 10px;
-    background-color: #fff;
-}
-
-.statusItem {
-    padding: 10px 20px;
-    font-size: 18px;
-    margin-right: 0px;
-}
-
-.table-text{
+/* "문의 작성" 버튼 스타일 */
+.ibtn {
+    margin-top: 40px;
     text-align: center;
 }
 
-.table thead th{
-    border-bottom: 2px solid #dee2e6;
-    border-top: 2px solid #dee2e6;
+.ibtn .btn {
+    padding: 12px 24px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ibtn .btn:hover {
+    background-color: darkgrey;
+    transform: translateY(-2px);
+}
+
+/* 전체 페이지 레이아웃 */
+.iForm_wrap {
+    width: 1000px;
+    margin: 50px auto;
+    padding: 40px 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 스타일 */
+.h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* 입력 그룹 공통 스타일 */
+.input-group {
+
+    border-radius: 15px;
+}
+
+.input-group-prepend {
+    background-color: #f1f1f1;
+    border-right: 1px solid #ddd;
+}
+
+.input-group-text {
+    font-weight: 500;
+    color: #555;
+}
+
+/* 제목 입력란 */
+.form-control {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: gray;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 텍스트영역 스타일 */
+textarea.form-control {
+    resize: vertical;
+}
+
+/* 오류 메시지 스타일 */
+.fieldError {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+
+/* 제출 버튼 */
+.btn-write {
+    padding: 12px 24px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 130px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-write:hover {
+    background-color: gray;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+
+/* 추가적인 스타일 조정 */
+.product_detail {
+    margin-bottom: 20px;
+}
+
+
+.product_Dtext {
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 12px;
+}
+
+.inputbox{
+    margin-bottom: 20px;
+}
+
+/* 입력 폼의 그룹 스타일 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.form-control-plaintext {
+    font-size: 16px;
+    color: #6c757d;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    background-color: #f8f9fa;
+    pointer-events: none; /* 수정 불가 */
+}
+
+.btn-modify{
+    background-color:#cbc9ca ;
 }
