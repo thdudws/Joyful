@@ -34,6 +34,11 @@ $(document).ready(function() {
 
 });
 
+function showMessage() {
+    // 회원가입 완료 메시지
+    alert("회원가입이 완료되었습니다. \n로그인을 해주세요.");
+}
+
 function showDeleteMessage() {
     // 회원가입 완료 메시지
     alert("회원을 탈퇴합니다.");
