@@ -223,6 +223,9 @@ public class MemberController {
         // selectedCartItems를 모델에 추가하여 폼에서 사용할 수 있도록 함
         model.addAttribute("selectedCartItems", selectedCartItems);
 
+        Member member2 = memberService.findByEmail(principal.getName());
+        model.addAttribute("member", member2);
+
         return "item/itemPayment";  // itemPayment.html을 반환
     }
 
