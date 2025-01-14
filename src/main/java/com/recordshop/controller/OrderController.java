@@ -70,7 +70,6 @@ public class OrderController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        log.info("username = " + username);
 
         // 한번에 가지고 올 주문의 개수는 4개로 설정
         Pageable pageable = PageRequest.of( page.isPresent() ? page.get() : 0, 4);

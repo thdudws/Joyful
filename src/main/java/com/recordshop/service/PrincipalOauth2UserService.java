@@ -2,9 +2,7 @@ package com.recordshop.service;
 
 import com.recordshop.constant.Role;
 import com.recordshop.detail.PrincipalDetails;
-import com.recordshop.entity.KakaoUserInfo;
-import com.recordshop.entity.Member;
-import com.recordshop.entity.OAuth2UserInfo;
+import com.recordshop.entity.*;
 import com.recordshop.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -15,6 +13,8 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
@@ -40,8 +40,14 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         if(userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
             System.out.println("카카오 로그인 요청");
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+        } else if(userRequest.getClientRegistration().getRegistrationId().equals("google")){
+            System.out.println("구글 로그인 요청");
+            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+            System.out.println("네이버 로그인 요청");
+            oAuth2UserInfo = new NaverUserInfo((Map) oAuth2User.getAttributes().get("response"));
         } else {
-            System.out.println("우리는 카카오만 지원합니다.");
+            System.out.println("우리는 구글,네이버,카카오 로그인만 지원합니다.");
         }
 
         String provider = oAuth2UserInfo.getProvider();
@@ -49,7 +55,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String username = provider + "_ " + providerId;
         String password = bCryptPasswordEncoder.encode("겟인데어");
         String email = oAuth2UserInfo.getEmail();
-        String name = (String) oAuth2User.getAttributes().get("name"); // 실제 사용자 이름을 가져옴
         Role role = Role.USER;
 
         Member memberEntity = memberRepository.findByUsername(username);
@@ -63,8 +68,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             member.setRole(role);
             member.setProvider(provider);
             member.setProviderId(providerId);
-            member.setName(name);
-            member.setNickName("kakaoUser");
+            member.setName(username);
+            member.setNickName("webUser");
             memberRepository.save(member);
             return new PrincipalDetails(member,oAuth2User.getAttributes());
         } else {

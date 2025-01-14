@@ -53,7 +53,7 @@ public class SecurityConfig{
                 .formLogin(config->
                         config.loginPage("/members/login")
                                 .defaultSuccessUrl("/members/myPage", true)
-                                .loginProcessingUrl("/login").permitAll()
+                                .loginProcessingUrl("/login")
                                 .usernameParameter("username")     //로그인화면에서 name=username 이면 생략가능 --> name=email
                                 .failureUrl("/members/login/error")
                 )
