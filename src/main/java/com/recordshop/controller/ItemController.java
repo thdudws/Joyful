@@ -147,6 +147,7 @@ public class ItemController {
         return "redirect:/admin/items"; // 삭제 후 목록 페이지로 리다이렉트
     }
 
+
     // 상품 수정 페이지로 이동 버튼 (GET 요청)
     @GetMapping(value = "/admin/item/edit/{itemId}")
     public String editItem(@PathVariable("itemId") Long itemId, Model model) {
