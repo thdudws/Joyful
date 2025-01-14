@@ -1,18 +1,15 @@
 package com.recordshop.controller;
 
-import com.recordshop.dto.*;
+import com.recordshop.dto.CartDetailDto;
 import com.recordshop.constant.Role;
 import com.recordshop.entity.CartItem;
 import com.recordshop.detail.PrincipalDetails;
-import com.recordshop.entity.Delivery;
-import com.recordshop.entity.Order;
-import com.recordshop.repository.DeliveryRepository;
-import com.recordshop.repository.OrderRepository;
 import com.recordshop.service.CartService;
+import com.recordshop.dto.MemberFormDto;
+import com.recordshop.dto.MemberModifyFormDto;
 import com.recordshop.entity.Member;
 import com.recordshop.repository.MemberRepository;
 import com.recordshop.service.MemberService;
-import com.recordshop.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +17,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,9 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequestMapping("/members")
@@ -46,9 +40,6 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final CartService cartService;
-    private final OrderService orderService;
-    private final OrderRepository orderRepository;
-    private final DeliveryRepository deliveryRepository;
 
     @GetMapping(value="/new")
     public String memberForm(Model model) {
@@ -128,24 +119,37 @@ public class MemberController {
     }
 
     @PostMapping(value = "/modify")
-    public String memberModify(@Valid MemberModifyFormDto memberModifyFormDto, BindingResult bindingResult,
-                               Model model,String username) {
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> memberModify(
+            @Valid MemberModifyFormDto memberModifyFormDto, BindingResult bindingResult) {
+
+        Map<String, String> response = new HashMap<>();
+
+        // 폼 유효성 검사
         if (bindingResult.hasErrors()) {
-            return "member/memberModifyForm";
+            response.put("status", "error");
+            response.put("message", "입력한 정보를 확인해 주세요.");
+            return ResponseEntity.badRequest().body(response);
         }
 
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
 
+            // 현재 회원 정보를 찾고 업데이트 처리
             Member currentMember = memberService.findByUsername(username);
-
             memberService.memberUpdate(currentMember.getUsername(), memberModifyFormDto);
-        } catch (IllegalStateException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "member/memberModifyForm";
-        }
-        return "redirect:/members/myPage";
-    }
 
+            // 수정 완료 메시지
+            response.put("status", "success");
+            response.put("message", "수정이 완료되었습니다.");
+        } catch (IllegalStateException e) {
+            response.put("status", "error");
+            response.put("message", "오류가 발생했습니다: " + e.getMessage());
+        }
+
+        return ResponseEntity.ok(response);
+    }
 
     // 회원 탈퇴 메서드
     @PostMapping("/delete")
@@ -190,7 +194,6 @@ public class MemberController {
 
         // 로그인한 사용자의 장바구니 정보 가져오기 (CartService 사용)
         List<CartDetailDto> cartDetailList = cartService.getCartList(principal.getName());
-        log.info("처음 cartDetailList : " + cartDetailList);
 
         // 장바구니가 비어있으면 결제 페이지로 이동하지 않고, 경고 메시지 표시
         if (cartDetailList.isEmpty()) {
@@ -210,22 +213,15 @@ public class MemberController {
                     .filter(cartItem -> selectedItemIds.contains(cartItem.getCartItemId()))
                     .collect(Collectors.toList());
         }
-        log.info("선택 된 cartDetailList : " + cartDetailList);
 
         // 결제할 상품 정보 모델에 추가
         model.addAttribute("cartItems", cartDetailList);
-        log.info("결제 할 cartDetailList : " + cartDetailList);
 
         // 회원의 배송지 정보 모델에 추가
         model.addAttribute("memberModifyFormDto", memberModifyFormDto);
 
         // selectedCartItems를 모델에 추가하여 폼에서 사용할 수 있도록 함
         model.addAttribute("selectedCartItems", selectedCartItems);
-        log.info("selectedCartItems : " + selectedCartItems);
-
-        Member member2 = memberService.findByEmail(principal.getName());
-        model.addAttribute("member", member2);
-
 
         return "item/itemPayment";  // itemPayment.html을 반환
     }
@@ -285,4 +281,5 @@ public class MemberController {
 
         return "item/itemPayment"; // itemPayment.html로 이동
     }
+
 }
