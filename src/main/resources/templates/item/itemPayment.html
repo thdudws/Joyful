@@ -9,9 +9,12 @@
 </th:block>
 
 <th:block layout:fragment="script">
-    <script th:src="@{/js/itempayment.js}"></script>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script th:src="@{/js/itempayment.js}" ></script>
 </th:block>
-
 
 <div layout:fragment="content">
 
@@ -101,6 +104,10 @@
           <div class="pay_method">
 
             <p class="method_h4">결제 방법</p>
+              <p class="kakaopay_img">
+                  <img src="/image/kakaoPay.png" id="kakaoPayImg" alt="카카오페이">
+                  <img src="/image/KGInicisPay.jpg" id="inicisPayImg" alt="KG이니시스">
+              </p>
 
           </div>
 
@@ -111,10 +118,15 @@
                 총 결제 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
               </h3>
             </div>
-
-            <button type="submit" class="payment_btn">결제하기</button>
+              <input type="hidden" name="selectedCartItems" id="selectedCartItems" th:value="${selectedCartItems}" />
+              <button type="button" class="payment_btn" id="paymentBtn">결제하기</button>
           </div>
 
         </div>
+
+        <input type="hidden" id="buyerEmail" th:value="${member.getEmail()}">
+        <input type="hidden" id="buyerName" th:value="${member.getName()}">
+        <input type="hidden" id="buyerTel" th:value="${member.getPhoneNumber()}">
+        <input type="hidden" id="buyerAdd" th:value="${member.getAddress()}">
     </div>
 </div>

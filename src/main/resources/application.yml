@@ -28,8 +28,27 @@ spring:
       max-file-size: 20MB       #파일 한 개당 최대 사이즈
       max-request-size: 100MB   #요청당 최대 파일 사이즈
 
-  config:
-    import: application-secret.yml
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 51c4550c6d4047a18671a305e8b51a04
+            redirect-uri:  http://localhost:8081/login/oauth2/code/kakao
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_post
+            client-name: Kakao
+            scope:
+              - profile_nickname
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+
 
 logging:
   level:
@@ -45,3 +64,8 @@ itemImgLocation: C:/works/Springboot/itemImg    #상품 이미지 업로드 경�
 inquiryImgLocation: C:/works/Springboot/inquiryImg
 uploadPath: file:///C:/works/Springboot/     #리소스 업로드 경로
 
+imp:
+  code: imp55425362
+  api:
+    key: 4215720236773388
+    secretkey: rLUikbwUNtskzCVRjzyZOPbxhCqrAFwdpf7OtMKkw1JRPBiAgyz66r4dkVg4zluYktjzGdPuvhBBRLOl

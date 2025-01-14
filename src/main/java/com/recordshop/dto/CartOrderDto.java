@@ -13,5 +13,9 @@ public class CartOrderDto {
 
     private List<CartOrderDto> cartOrderDtoList;
 
+    private String nickName;
 
+    private String address;
+
+    private String phoneNumber;
 }

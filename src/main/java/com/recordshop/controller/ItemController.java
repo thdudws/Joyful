@@ -1,25 +1,36 @@
 package com.recordshop.controller;
 
 import com.recordshop.constant.Category;
+import com.recordshop.dto.CartOrderDto;
 import com.recordshop.dto.ItemFormDto;
 import com.recordshop.dto.ItemSearchDto;
 import com.recordshop.dto.MainItemDto;
+import com.recordshop.entity.Delivery;
 import com.recordshop.entity.Item;
+import com.recordshop.entity.Member;
+import com.recordshop.entity.Order;
+import com.recordshop.repository.DeliveryRepository;
+import com.recordshop.repository.OrderRepository;
+import com.recordshop.service.CartService;
 import com.recordshop.service.ItemService;
 import com.recordshop.service.MemberService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +40,10 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemService itemService;
+    private final CartService cartService;
+    private final OrderRepository orderRepository;
+    private final MemberService memberService;
+    private final DeliveryRepository deliveryRepository;
 
     @GetMapping(value="/admin/item/new")
     public String newItem(Model model) {
@@ -184,6 +199,36 @@ public class ItemController {
         return "redirect:/admin/items";
     }
 
+    @PostMapping(value = "/item/payment")
+    public @ResponseBody ResponseEntity orderItemPayment(@RequestBody CartOrderDto cartOrderDto, Principal principal,
+                                                         HttpSession httpSession) {
 
+        // 결제할 상품 정보 검증
+        List<CartOrderDto> cartOrderDtoList = cartOrderDto.getCartOrderDtoList();
+        log.info("결제 된 cartOrderDtoList : " + cartOrderDtoList);
+
+        // 주문 처리
+        Long orderId = cartService.orderCartItem(cartOrderDtoList, principal.getName());
+
+        // 주문 ID로 주문 객체를 가져옵니다.
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
+        log.info("주문 정보: " + order);
+
+        // 배송지 정보 생성 (예시로 주소, 전화번호, 닉네임을 저장)
+        Member member = memberService.findByUsername(principal.getName());
+        log.info("member: " + member);
+        Delivery delivery = new Delivery();
+        delivery.setNickName(member.getNickName());
+        delivery.setPhoneNumber(member.getPhoneNumber());
+        delivery.setAddress(member.getAddress());
+        delivery.setOrder(order);  // 주문과 배송 정보를 연결
+
+        // Delivery 객체 저장
+        deliveryRepository.save(delivery);
+        log.info("배송 정보가 저장되었습니다: " + delivery);
+
+        return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+    }
 
 }

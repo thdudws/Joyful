@@ -6,7 +6,11 @@ import com.recordshop.dto.MemberFormDto;
 import com.recordshop.dto.MemberModifyFormDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 @Entity
 @Table(name="member")

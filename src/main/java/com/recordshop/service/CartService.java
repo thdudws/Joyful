@@ -86,9 +86,10 @@ public class CartService {
     @Transactional(readOnly = true)
     public List<CartDetailDto> getCartList(String username) {
 
-        log.info("username*****"+username);
-
         List<CartDetailDto> cartDetailDtoList = new ArrayList<>();
+
+        Member member = memberRepository.findByUsername(username);
+        log.info("member"+member);
 
         Cart cart = cartRepository.findByMemberId(memberRepository.findByUsername(username).getId());
         if(cart == null) {
@@ -162,7 +163,7 @@ public class CartService {
 
             cartItemRepository.delete(cartItem);
         }
-
+        log.info("orderId"+orderId);
         return orderId;
 
     }   //end orderCartItem

@@ -126,8 +126,8 @@
 }
 
 .kakaopay_img img {
-    width: 45%;
-    height: auto;
+    width: 90px;
+    height: 30px;
 }
 
 .pay_method_box p {
