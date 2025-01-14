@@ -20,9 +20,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +39,6 @@ public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
-
     private final CartService cartService;
 
     @GetMapping(value="/new")
@@ -110,9 +107,6 @@ public class MemberController {
         log.info("username: " + username);
         log.info("member: " + member);
 
-    public String memberModify(Model model, Authentication authentication) {
-        String userName = authentication.getName();
-        Member member = memberService.findByUserName(userName);
 
         MemberModifyFormDto memberModifyFormDto = new MemberModifyFormDto();
         log.info("memberModifyFormDto : " + memberModifyFormDto.toString());
@@ -149,8 +143,6 @@ public class MemberController {
             // 수정 완료 메시지
             response.put("status", "success");
             response.put("message", "수정이 완료되었습니다.");
-
-            memberService.memberUpdate(currentMember.getUsername(), memberModifyFormDto);
         } catch (IllegalStateException e) {
             response.put("status", "error");
             response.put("message", "오류가 발생했습니다: " + e.getMessage());
@@ -182,13 +174,8 @@ public class MemberController {
         return "/member/contact";
     }
 
-    @GetMapping("/user")
-    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails ) {
-        System.out.println(principalDetails.getMember());
 
-        return "member";
 
-}
 
     @GetMapping(value = "/payment")
     public String showPaymentForm(@RequestParam(required = false) String selectedCartItems,
