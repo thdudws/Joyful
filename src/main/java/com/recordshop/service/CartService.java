@@ -51,8 +51,6 @@ public class CartService {
         //현재 로그인한 회원의 장바구니 엔티티 조회
         Cart cart = cartRepository.findByMemberId(member.getId());
 
-        log.info("cart : "+cart);
-
         //상품을 처음으로 장바구니에 담을 경우 해당 회원의 장바구니 엔티티 생성
         if(cart == null) {
             cart = Cart.createCart(member);
@@ -62,7 +60,6 @@ public class CartService {
         //현재 상품이 장바구니에 이미 들어가 있는지 조회
         CartItem savedCartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
 
-        log.info("Saved CartItem: " + savedCartItem);
         /*// 장바구니에 이미 있던 상품일 경우 기존 수량에 현재 장바구니에 담을 수량 만큼 더해줌.
         if(savedCartItem != null) {
             savedCartItem.addCount(cartItemDto.getCount());
@@ -89,10 +86,9 @@ public class CartService {
     @Transactional(readOnly = true)
     public List<CartDetailDto> getCartList(String username) {
 
-        List<CartDetailDto> cartDetailDtoList = new ArrayList<>();
+        log.info("username*****"+username);
 
-        Member member = memberRepository.findByUsername(username);
-        log.info("member"+member);
+        List<CartDetailDto> cartDetailDtoList = new ArrayList<>();
 
         Cart cart = cartRepository.findByMemberId(memberRepository.findByUsername(username).getId());
         if(cart == null) {
