@@ -20,10 +20,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-<<<<<<< HEAD
+
 import org.springframework.security.core.context.SecurityContextHolder;
-=======
->>>>>>> 34e881db6c31b3223564fe05e792f8077de29c95
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,10 +41,8 @@ public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
-<<<<<<< HEAD
+
     private final CartService cartService;
-=======
->>>>>>> 34e881db6c31b3223564fe05e792f8077de29c95
 
     @GetMapping(value="/new")
     public String memberForm(Model model) {
@@ -104,7 +101,6 @@ public class MemberController {
 
     //회원 정보 수정
     @GetMapping(value = "/modify")
-<<<<<<< HEAD
     public String memberModify(Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -114,11 +110,9 @@ public class MemberController {
         log.info("username: " + username);
         log.info("member: " + member);
 
-=======
     public String memberModify(Model model, Authentication authentication) {
         String userName = authentication.getName();
         Member member = memberService.findByUserName(userName);
->>>>>>> 34e881db6c31b3223564fe05e792f8077de29c95
 
         MemberModifyFormDto memberModifyFormDto = new MemberModifyFormDto();
         log.info("memberModifyFormDto : " + memberModifyFormDto.toString());
@@ -148,7 +142,6 @@ public class MemberController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
 
-<<<<<<< HEAD
             // 현재 회원 정보를 찾고 업데이트 처리
             Member currentMember = memberService.findByUsername(username);
             memberService.memberUpdate(currentMember.getUsername(), memberModifyFormDto);
@@ -156,9 +149,8 @@ public class MemberController {
             // 수정 완료 메시지
             response.put("status", "success");
             response.put("message", "수정이 완료되었습니다.");
-=======
+
             memberService.memberUpdate(currentMember.getUsername(), memberModifyFormDto);
->>>>>>> 34e881db6c31b3223564fe05e792f8077de29c95
         } catch (IllegalStateException e) {
             response.put("status", "error");
             response.put("message", "오류가 발생했습니다: " + e.getMessage());
@@ -190,10 +182,6 @@ public class MemberController {
         return "/member/contact";
     }
 
-
-<<<<<<< HEAD
-
-=======
     @GetMapping("/user")
     public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails ) {
         System.out.println(principalDetails.getMember());
@@ -201,7 +189,6 @@ public class MemberController {
         return "member";
 
 }
->>>>>>> 34e881db6c31b3223564fe05e792f8077de29c95
 
     @GetMapping(value = "/payment")
     public String showPaymentForm(@RequestParam(required = false) String selectedCartItems,
