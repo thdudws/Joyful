@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
@@ -86,12 +87,11 @@ public class CartService {
     @Transactional(readOnly = true)
     public List<CartDetailDto> getCartList(String username) {
 
+        log.info("username*****"+username);
+
         List<CartDetailDto> cartDetailDtoList = new ArrayList<>();
 
-        Member member = memberRepository.findByUsername(username);
-        log.info("member"+member);
-
-        Cart cart = cartRepository.findByMemberName(member.getUsername());
+        Cart cart = cartRepository.findByMemberId(memberRepository.findByUsername(username).getId());
         if(cart == null) {
             return cartDetailDtoList;
         }

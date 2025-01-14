@@ -62,7 +62,7 @@
                 </div>
 
 
-                <div th:class="mp_box"  sec:authorize="isAuthenticated()">
+                <div th:class="mp_box"  sec:authorize="hasAnyAuthority('ROLE_USER')">
                     <a href="/orders">
                         <p>주문 내역</p>
                         <img th:class="icon_mp" th:src="@{/image/list.png}" alt="banner_img">

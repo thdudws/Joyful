@@ -68,8 +68,7 @@ public class MemberService {
         return memberRepository.findByPhoneNumber(phoneNumber);
     }
 
-    public Member findByMember(String username) {
-        System.out.println("username: " + username);
+    public Member findByUsername(String username) {
         return memberRepository.findByUsername(username);
     }
 

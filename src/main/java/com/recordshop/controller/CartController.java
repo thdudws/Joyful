@@ -60,6 +60,7 @@ public class CartController {
         System.out.println("username => " + username);
 
         List<CartDetailDto> cartDetailList = cartService.getCartList(username);
+        System.out.println("cartDetailList => " + cartDetailList.size());
 
         model.addAttribute("cartItems", cartDetailList);
         return "cart/cartList";
