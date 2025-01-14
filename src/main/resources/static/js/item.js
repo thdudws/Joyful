@@ -118,7 +118,8 @@ function addCart(){
                 alert('로그인 후 이용해주세요');
                 location.href='/members/login';
             } else{
-                alert(jqXHR.responseText);
+                alert('로그인 후 이용해주세요');
+                location.href='/members/login';
             }
 
         }
