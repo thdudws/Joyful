@@ -8,10 +8,9 @@ form{
     text-align: left;
 }
 .bottomB{
-    width: 400px;
+    width: 550px;
+
     margin: 0 auto;
-    padding: 20px;
-    text-align: center;
 }
 
 .title{
@@ -34,21 +33,29 @@ form{
     border-radius: 15px;
 }
 .intro{
+    width: 1000px;
     display: flex;
-    width: 900px;
-    margin: 0 auto;
+    margin: 100px auto;
+    border-radius: 40px;
+    background: #fffefa;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .leftForm{
-    width: 450px;
-    padding: 30px;
+    width: 360px;
+    background-color: antiquewhite;
+    border-radius: 40px 0 0 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 .loginI{
     padding: 20px;
-    height: 400px;
+    height: 300px;
 }
 .rightForm{
-    width: 450px;
+
     padding: 30px;
     margin: 10px auto;
 }
@@ -59,13 +66,7 @@ form{
 
 .logoNm{
     text-align: center;
-    padding: 30px;
-    width: 400px;
-    height: 130px;
-    background: beige;
     margin: 30px auto;
-    border-radius: 30px;
-
 }
 
 .modify{
@@ -73,8 +74,9 @@ form{
     margin: 0 auto;
 }
 .bar{
-    width: 500px;
-    margin: 15px auto;
+    margin: 15px 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .new2{
@@ -90,9 +92,9 @@ form{
 }
 
 label{
-    display: inline-block;
+    display: flex;
     margin: 5px auto;
-<<<<<<< HEAD
+    width: 40%;
 }
 
 .fieldError {
@@ -101,25 +103,112 @@ label{
 
 
 .loginB {
-    width: 71px;
-    height: 38px;
-    font-size: 14px;
-    margin-right: 5px;
+    width: 73%;
+    margin-bottom: 5px;
+    background: darkgray;
+}
+.loginB:hover {
+   background-color: #919293;
+}
+.logoutB {
+    width: 73%;
+    font-size: 15px;
+    background: lightsteelblue;
+}
+.logoutB:hover {
+    background-color: #a0b5cf;
 }
 
-.logoutB {
-    width: 86px;
-    height: 38px;
-    font-size: 14px;
-=======
->>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
+.sign{
+    width: 1000px;
+    display: flex;
+    margin: 100px auto;
+    border-radius: 40px;
+    background: #fffefa;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-.k_login {
-    width: 78px;
-    height: 38px;
-    border: none;
-    background: none;
-    margin-right: 5px;
+
+.l_sign{
+    width: 350px;
+    background-color: #FFD700;
+    border-radius: 40px 0 0 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.r_sign{
+    width: 650px;
+}
+.TAG{
+    display: block;
+    width: 60%;
+    text-align: center;
+}
+.form-box{
+    width: 500px;
+    margin: 50px auto;
+}
+
+.btns{
+    width: 500px;
+    text-align: right;
+}
+
+.signlogo{
+    height: 200px;
+    margin: 10px auto;
+}
+
+.fieldError{
+    width: 100%;
+    text-align: end;
+}
+
+.logform{
+    text-align: left;
+}
+.logb{
+    display: flex;
+    width: 400px;
+    margin: 20px auto;
+}
+
+.weblogin{
+    display: flex;
+    width: 550px;
+    flex-direction: column;
+}
+.k_login1 {
+    width: 390px;
+    height: 45px;
+    border-radius: 5px;
+    background-color: #fee500;
+    margin: 10px auto;
+}
+.k_login2 {
+    width: 390px;
+    height: 45px;
+    border-radius: 5px;
+    background-color: #03c75a;
+    margin: 0 auto 10px;
+
+}
+.k_login2-1{
+    width: 230px;
+    height: 45px;
+}
+.k_login3 {
+    width: 390px;
+    height: 45px;
+    border-radius: 5px;
+    background-color: #f2f2f2;;
+    margin: 0 auto;
+}
+.k_login3-1{
+    width: 200px;
+    height: 45px;
 }
 /*회원 정보 수정 new*/
 .modifyForm_wrap {
