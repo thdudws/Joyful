@@ -3,31 +3,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
-<!-- 사용자 CSS 추가 -->
+
 <th:block layout:fragment="css">
     <link th:href="@{/css/login.css}" rel="stylesheet">
-
-  <style>
-    .fieldError {
-      color: #bd2130;
-    }
-  </style>
 </th:block>
 
-<!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
-
-  <script th:inline="javascript">
-    $(document).ready(function(){
-      var errorMessage = [[${errorMessage}]];
-      if(errorMessage != null){
-        alert(errorMessage);
-      }
-    });
-  </script>
-
+  <script th:src="@{/js/member.js}"></script>
 </th:block>
-
 
 
 <div layout:fragment="content">
@@ -35,6 +18,13 @@
   <h2 class="new">회원가입</h2>
 
   <form action="/members/new" role="form" method="post"  th:object="${memberFormDto}">
+
+    <div class="form-group bar">
+      <label th:for="username">아이디</label>
+      <input type="text" th:field="*{username}" class="form-control" placeholder="아이디를 입력해주세요">
+      <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="fieldError">Incorrect data</p>
+    </div>
+
 
     <div class="form-group bar">
       <label th:for="email">아이디(이메일주소)</label>

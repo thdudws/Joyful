@@ -4,22 +4,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
+
 <th:block layout:fragment="css">
     <link th:href="@{/css/mypage.css}" rel="stylesheet">
 </th:block>
 
-<!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
-    <script th:inline="javascript">
-
-        $(document).ready(function() {
-
-            // 고객센터 클릭 시 전화번호 보여주기
-            $('#customerServiceText, #serviceImage').on('click', function() {
-                $('#phoneNumber').toggle();  // 전화번호의 보이기/숨기기 토글
-            });
-        });
-    </script>
+    <script th:src="@{/js/member.js}"></script>
 </th:block>
 
 
@@ -70,12 +61,6 @@
                     </a>
                 </div>
 
-                <div th:class="mp_box"  sec:authorize="isAuthenticated()">
-                    <a href="/members/logout">
-                        <p>로그아웃</p>
-                        <img th:class="icon_mp" th:src="@{/image/logout.png}" alt="banner_img">
-                    </a>
-                </div>
 
                 <div th:class="mp_box"  sec:authorize="isAuthenticated()">
                     <a href="/orders">
@@ -102,6 +87,13 @@
                     <a href="/admin/orders">
                         <p>모든 회원<br>주문 내역</p>
                         <img th:class="icon_mp" th:src="@{/image/list.png}" alt="banner_img">
+                    </a>
+                </div>
+
+                <div th:class="mp_box"  sec:authorize="isAuthenticated()">
+                    <a href="/members/logout">
+                        <p>로그아웃</p>
+                        <img th:class="icon_mp" th:src="@{/image/logout.png}" alt="banner_img">
                     </a>
                 </div>
 

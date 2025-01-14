@@ -65,11 +65,11 @@ public class InquiryController {
     public String list(@RequestParam(value = "answerStatus" ,required = false) AnswerStatus answerStatus,
                        Optional<Integer> page, Model model, Principal principal) {
 
-        String email = principal.getName();
+        String username = principal.getName();
         //한 페이지당 10개의 문의글 보여주기
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
-        Page<Inquiry> userInquiries = inquiryService.getUserInquiry(email, answerStatus, pageable);
+        Page<Inquiry> userInquiries = inquiryService.getUserInquiry(username, answerStatus, pageable);
 
         model.addAttribute("inquiryList", userInquiries);
         model.addAttribute("maxPage", 5);
@@ -95,11 +95,11 @@ public class InquiryController {
         }
 
         try {
-            String email = principal.getName();
+            String username = principal.getName();
 
             Inquiry inquiry = Inquiry.createInquiry(inquiryFormDto);
-            inquiryService.saveInquiry(inquiry, email);
-            log.info("email: " + email);
+            inquiryService.saveInquiry(inquiry, username);
+            log.info("username: " + username);
         } catch (IllegalStateException e) {
             // 오류 메시지 출력
             model.addAttribute("errorMessage", e.getMessage());
@@ -141,12 +141,12 @@ public class InquiryController {
 
         Inquiry inquiry = inquiryService.findById(inquiryId);
 
-        String email = authentication.getName();
+        String username = authentication.getName();
 
         inquiry.setTitle(inquiryModifyFormDto.getTitle());
         inquiry.setContent(inquiryModifyFormDto.getContent());
 
-        inquiryService.saveInquiry(inquiry, email);
+        inquiryService.saveInquiry(inquiry, username);
 
         return "redirect:/inquiries/list";
     }

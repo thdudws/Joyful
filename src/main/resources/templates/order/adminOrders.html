@@ -4,27 +4,13 @@
       layout:decorate="~{layouts/layout1}">
 
 
-<!-- 사용자 스크립트 추가 -->
-<th:block layout:fragment="script">
-
-    <script th:inline="javascript">
-        document.addEventListener("DOMContentLoaded", function() {
-            // 모든 가격 요소에 대해 쉼표 추가 처리
-            document.querySelectorAll('.price').forEach(function(element) {
-                var price = element.innerText.trim().replace("원", "");  // 원화 기호 제거
-                var formattedPrice = Number(price).toLocaleString();  // 쉼표 추가
-                element.innerText = formattedPrice + "원";  // 쉼표 추가된 가격 + 원화 기호
-            });
-        });
-    </script>
-
-</th:block>
-
-<!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
     <link th:href="@{/css/order.css}" rel="stylesheet">
 </th:block>
 
+<th:block layout:fragment="script">
+    <script th:src="@{/js/order.js}"></script>
+</th:block>
 <div layout:fragment="content" >
 
     <div class="back2">
@@ -72,17 +58,17 @@
             <ul class="pagination justify-content-center mb-3">
 
                 <li class="page-item" th:classappend="${orders.number eq 0}?'disabled':''">
-                    <a th:href="@{'admin/orders/' + ${orders.number-1}}" aria-label='Previous' class="page-link">
+                    <a th:href="@{'/admin/orders/' + ${orders.number-1}}" aria-label='Previous' class="page-link">
                         <span aria-hidden='true'>Previous</span>
                     </a>
                 </li>
 
                 <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${orders.number eq page -1}?'active':''">
-                    <a th:href="@{'admin/orders/' + ${page -1}}" th:inline="text" class="page-link">[[${page}]]</a>
+                    <a th:href="@{'/admin/orders/' + ${page -1}}" th:inline="text" class="page-link">[[${page}]]</a>
                 </li>
 
                 <li class="page-item" th:classappend="${orders.number+1 ge orders.totalPages}?'disabled':''">
-                    <a th:href="@{'admin/orders/' + ${orders.number+1}}" aria-label='Next' class="page-link">
+                    <a th:href="@{'/admin/orders/' + ${orders.number+1}}" aria-label='Next' class="page-link">
                         <span aria-hidden='true'>Next</span>
                     </a>
                 </li>

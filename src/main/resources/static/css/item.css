@@ -27,7 +27,7 @@ td{
 
 .iForm_wrap {
     width: 1000px;
-    margin: 50px auto;
+    margin: 20px auto;
 }
 
 .title{
@@ -282,7 +282,6 @@ td{
     padding: 25px 20px;
     background-color: ghostwhite;
 }
-<<<<<<< HEAD
 
 .pagination_margin {
     margin-bottom: 20px;
@@ -332,6 +331,59 @@ td{
     border-left: none;
 }
 
+.input-group {
+    margin-bottom : 15px
+}
+.img-div {
+    margin-bottom : 10px
+}
+.fieldError {
+    color: #bd2130;
+}
 
-=======
->>>>>>> 979a5d7f49df350e1614b71ae30a2e88e9d15571
+select{
+    margin-right:10px;
+}
+
+.back_edit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.editBtn {
+    width: 85px;
+    height: 35px;
+    background-color: #ffbc00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dfbf0f;
+    border-radius: 5px;
+}
+
+.editBtn a {
+    color: white;
+}
+
+.select_r {
+    margin-right: 0;
+}
+
+.register {
+    background-color: #5b5ebb;
+    border: 1px solid #4d4f98;
+}
+
+.register:hover {
+    opacity: 0.9;
+    background-color: #54558d;
+    border: 1px solid #4d4e81;
+}
+
+.register:not(:disabled):not(.disabled):active {
+    opacity: 0.9;
+    background-color: #54558d;
+    border: 1px solid #4d4e81;
+}

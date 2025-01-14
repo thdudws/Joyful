@@ -91,4 +91,39 @@ form{
 label{
     display: inline-block;
     margin: 5px auto;
+<<<<<<< HEAD
+}
+
+.fieldError {
+    color: #bd2130;
+}
+
+.k_login {
+    width: 78px;
+    height: 38px;
+    border: none;
+    background: none;
+    margin-right: 5px;
+}
+
+.loginB {
+    width: 71px;
+    height: 38px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.logoutB {
+    width: 86px;
+    height: 38px;
+    font-size: 14px;
+=======
+>>>>>>> f8544caafd8c846ba6128618fd2048ffd5fafd92
+}
+.k_login {
+    width: 78px;
+    height: 38px;
+    border: none;
+    background: none;
+    margin-right: 5px;
 }
