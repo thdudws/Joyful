@@ -38,7 +38,7 @@ main {
     justify-content: center;
     margin-top: 20px;
     overflow: hidden;
-    position: relative;  /* 형광펜 효과를 위한 포지션 지정 */
+    position: relative;
 }
 
 .category:nth-of-type(2) {
@@ -51,19 +51,19 @@ main {
     justify-content: center;
     margin-top: 20px;
     overflow: hidden;
-    position: relative;  /* 형광펜 효과를 위한 포지션 지정 */
+    position: relative;
 }
 
 .category:before {
     content: '';
     position: absolute;
-    top: 67%; /* 텍스트의 중앙에 배경 위치 */
+    top: 67%;
     left: 0;
-    width: 30%; /* 형광펜의 시작 너비 설정 */
-    height: 17px;  /* 형광펜의 두께 설정 */
-    background-color: #c7a4f5;  /* 형광펜 색상 */
+    width: 30%;
+    height: 17px;
+    background-color: #c7a4f5;
     z-index: -1;
-    animation: highlight 4s linear infinite; /* 애니메이션 속도와 반복 설정 */
+    animation: highlight 4s linear infinite;
 }
 
 .category.album:before {
@@ -154,6 +154,7 @@ section a:hover {
     font-size: 13px;
     margin-bottom: 0;
     color: #7f7f7f;
+    padding: 0 20px;
 }
 
 .section_in {
