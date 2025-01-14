@@ -50,7 +50,7 @@
             <tbody>
             <tr th:each="inquiry : ${allInquiries.content}">
                 <td th:text="${inquiry.title}"></td> <!-- 제목 -->
-                <td th:text="${inquiry.member.nickName}"></td> <!-- 작성자 -->
+                <td th:text="${inquiry.member.username}"></td> <!-- 작성자 -->
                 <td th:text="${inquiry.formattedRegTime}"></td> <!-- 작성날자 -->
                 <td th:text="${inquiry.formattedUpdateTime}"></td> <!-- 수정날자 -->
                 <td th:text="${inquiry.answerStatus}"></td> <!-- 답변 상태 -->
