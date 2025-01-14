@@ -28,7 +28,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+<<<<<<< HEAD
 @Log4j2
+=======
+>>>>>>> 34e881db6c31b3223564fe05e792f8077de29c95
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -67,6 +70,10 @@ public class MemberService {
     public Member findByPhoneNumber(String phoneNumber) {
         return memberRepository.findByPhoneNumber(phoneNumber);
     }
+    public Member findByUserName(String userName) {
+        return memberRepository.findByUsername(userName);
+    }
+
 
     public Member findByUsername(String username) {
 
