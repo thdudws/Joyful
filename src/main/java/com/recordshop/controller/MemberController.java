@@ -17,18 +17,19 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequestMapping("/members")
@@ -40,6 +41,7 @@ public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
+
     private final CartService cartService;
 
     @GetMapping(value="/new")
@@ -108,6 +110,9 @@ public class MemberController {
         log.info("username: " + username);
         log.info("member: " + member);
 
+    public String memberModify(Model model, Authentication authentication) {
+        String userName = authentication.getName();
+        Member member = memberService.findByUserName(userName);
 
         MemberModifyFormDto memberModifyFormDto = new MemberModifyFormDto();
         log.info("memberModifyFormDto : " + memberModifyFormDto.toString());
@@ -120,27 +125,39 @@ public class MemberController {
     }
 
     @PostMapping(value = "/modify")
-    public String memberModify(@Valid MemberModifyFormDto memberModifyFormDto, BindingResult bindingResult,
-                               Model model) {
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> memberModify(
+            @Valid MemberModifyFormDto memberModifyFormDto, BindingResult bindingResult) {
+
+        Map<String, String> response = new HashMap<>();
+
+        // 폼 유효성 검사
         if (bindingResult.hasErrors()) {
-            return "member/memberModifyForm";
+            response.put("status", "error");
+            response.put("message", "입력한 정보를 확인해 주세요.");
+            return ResponseEntity.badRequest().body(response);
         }
 
         try {
-
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
 
+            // 현재 회원 정보를 찾고 업데이트 처리
             Member currentMember = memberService.findByUsername(username);
+            memberService.memberUpdate(currentMember.getUsername(), memberModifyFormDto);
+
+            // 수정 완료 메시지
+            response.put("status", "success");
+            response.put("message", "수정이 완료되었습니다.");
 
             memberService.memberUpdate(currentMember.getUsername(), memberModifyFormDto);
         } catch (IllegalStateException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "member/memberModifyForm";
+            response.put("status", "error");
+            response.put("message", "오류가 발생했습니다: " + e.getMessage());
         }
-        return "redirect:/members/myPage";
-    }
 
+        return ResponseEntity.ok(response);
+    }
 
     // 회원 탈퇴 메서드
     @PostMapping("/delete")
@@ -165,8 +182,13 @@ public class MemberController {
         return "/member/contact";
     }
 
+    @GetMapping("/user")
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails ) {
+        System.out.println(principalDetails.getMember());
 
+        return "member";
 
+}
 
     @GetMapping(value = "/payment")
     public String showPaymentForm(@RequestParam(required = false) String selectedCartItems,
