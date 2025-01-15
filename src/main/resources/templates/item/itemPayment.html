@@ -9,9 +9,8 @@
 </th:block>
 
 <th:block layout:fragment="script">
-    <script th:src="@{/js/itempayment.js}"></script>
+    <script th:src="@{/js/itempayment.js}" ></script>
 </th:block>
-
 
 <div layout:fragment="content">
 
@@ -90,6 +89,24 @@
                   <button type="submit" class="modify_btn">배송지 수정</button>
               </form>
 
+              <div class="pay_method">
+
+                  <p class="method_h4">결제 방법</p>
+                  <img src="/image/right-arrow.png" class="right_arrow" alt="오른쪽 화살표">
+
+                  <div class="pay_method_box">
+
+                      <p class="kakaopay_img" id="kakaoPayImg">
+                          <img src="/image/kakaoPay.png" alt="카카오페이">
+                      </p>
+
+                      <p class="kakaopay_img inicisPay" id="inicisPayImg">
+                          <img src="/image/KGinicis.png"  alt="KG이니시스">
+                      </p>
+
+                  </div>
+              </div>
+
 
               <div id="message"
                    th:data-success-message="${successMessage}"
@@ -98,11 +115,7 @@
 
           </div>
 
-          <div class="pay_method">
 
-            <p class="method_h4">결제 방법</p>
-
-          </div>
 
           <div class="final_pay">
 
@@ -111,10 +124,15 @@
                 총 결제 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
               </h3>
             </div>
-
-            <button type="submit" class="payment_btn">결제하기</button>
+              <input type="hidden" name="selectedCartItems" id="selectedCartItems" th:value="${selectedCartItems}" />
+              <button type="button" class="payment_btn" id="paymentBtn">결제하기</button>
           </div>
 
         </div>
+
+        <input type="hidden" id="buyerEmail" th:value="${member.getEmail()}">
+        <input type="hidden" id="buyerName" th:value="${member.getName()}">
+        <input type="hidden" id="buyerTel" th:value="${member.getPhoneNumber()}">
+        <input type="hidden" id="buyerAdd" th:value="${member.getAddress()}">
     </div>
 </div>
