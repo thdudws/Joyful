@@ -82,3 +82,4 @@ REST API: 클라이언트와 서버 간 데이터 교환을 위한 API 제공.<b
 - 구매자 리뷰 시스템
 
 ## 📂 프로젝트 보고서 
+[Spring Boot project 결과보고.pptx](https://github.com/user-attachments/files/18419069/Spring.Boot.project.pptx)
