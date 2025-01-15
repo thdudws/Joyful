@@ -46,7 +46,7 @@
 카카오페이, KG이니시스 결제 구현<br>
 ![image](https://github.com/user-attachments/assets/657c7f3e-c9eb-4da4-8f4f-e2607677d300) <br>
 카카오, 구글, 네이버 로그인 구현 페이지 <br>
-![image](https://github.com/user-attachments/assets/adf704c9-f633-4328-8257-40a6cd70ccbb) <br>
+![image](https://github.com/user-attachments/assets/d75d5f43-030c-40e1-8489-72a124c2fada) <br>
 회원가입 페이지<br>
 ![image](https://github.com/user-attachments/assets/36e0a737-1bfe-4dc6-8aa8-dd7f59e78774)<br>
 회원 정보 수정 페이지 <br>
