@@ -9,10 +9,6 @@
 </th:block>
 
 <th:block layout:fragment="script">
-    <!-- jQuery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-    <!-- iamport.payment.js -->
-    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script th:src="@{/js/itempayment.js}" ></script>
 </th:block>
 
@@ -93,6 +89,24 @@
                   <button type="submit" class="modify_btn">배송지 수정</button>
               </form>
 
+              <div class="pay_method">
+
+                  <p class="method_h4">결제 방법</p>
+                  <img src="/image/right-arrow.png" class="right_arrow" alt="오른쪽 화살표">
+
+                  <div class="pay_method_box">
+
+                      <p class="kakaopay_img" id="kakaoPayImg">
+                          <img src="/image/kakaoPay.png" alt="카카오페이">
+                      </p>
+
+                      <p class="kakaopay_img inicisPay" id="inicisPayImg">
+                          <img src="/image/KGinicis.png"  alt="KG이니시스">
+                      </p>
+
+                  </div>
+              </div>
+
 
               <div id="message"
                    th:data-success-message="${successMessage}"
@@ -101,15 +115,7 @@
 
           </div>
 
-          <div class="pay_method">
 
-            <p class="method_h4">결제 방법</p>
-              <p class="kakaopay_img">
-                  <img src="/image/kakaoPay.png" id="kakaoPayImg" alt="카카오페이">
-                  <img src="/image/KGInicisPay.jpg" id="inicisPayImg" alt="KG이니시스">
-              </p>
-
-          </div>
 
           <div class="final_pay">
 
