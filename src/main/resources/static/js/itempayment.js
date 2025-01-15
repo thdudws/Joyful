@@ -214,3 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+document.getElementById('kakaoPayImg').addEventListener('click', function() {
+    this.classList.toggle('selected');
+});
