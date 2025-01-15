@@ -28,7 +28,11 @@
 <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
 <img src="https://img.shields.io/badge/apache tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-
+<img src="https://img.shields.io/badge/Thymeleaf -005F0F?style=for-the-badge&logo=Thymeleaf&logoColor=white">
+<img src="https://img.shields.io/badge/intelij-9B4DCA?style=for-the-badge&logo=intellijidea&logoColor=white">
+<img src="https://img.shields.io/badge/kakao-FFCD00?style=for-the-badge&logo=kakao&logoColor=white">
+<img src="https://img.shields.io/badge/naver -03C75A?style=for-the-badge&logo=naver&logoColor=white">
+<img src="https://img.shields.io/badge/google-4285F4?style=for-the-badge&logo=google&logoColor=white">
 
 ## 🖥 화면구현
 ![image](https://github.com/user-attachments/assets/091af3d3-f891-4d28-9c80-2f0a7032b130) <br>
