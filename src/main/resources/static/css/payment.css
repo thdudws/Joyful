@@ -36,7 +36,7 @@
 }
 
 .delivery-notice {
-    height: 500px;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -107,22 +107,36 @@
 .method_h4 {
     font-size: 20px;
     font-weight: 500;
+    width: 30%;
+    text-align: center;
+    margin-bottom: 0;
 }
 
 .pay_method {
     width: 85%;
-    height: 25px;
+    height: auto;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-around;
-    margin: 0 auto;
+    margin: 40px auto 10px;
+}
+
+.right_arrow {
+    width: 5%;
+    margin-right: 15px;
+}
+
+.right_arrow img {
+    width: 70%;
 }
 
 .pay_method_box {
-    width: 100%;
+    width: 68%;
     display: flex;
     justify-content: space-evenly;
+}
+
+.kakaopay_img.selected {
+    border: 2px solid #797979;
 }
 
 .kakaopay_img img {
@@ -130,23 +144,25 @@
     height: 30px;
 }
 
-.pay_method_box p {
+.kakaopay_img {
     width: 200px;
     height: 150px;
-    background-color: ghostwhite;
+    background-color: #f5f5ff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    border: 1px solid #eeeeee;
     border-radius: 5px;
     margin-right: 20px;
+    cursor: pointer;
+    padding: 10px;
+    border: 2px solid transparent;
+    transition: border 0.3s;
 }
 
-.pay_method_box p:hover {
-    opacity: 0.8;
-    background-color: #d3d3dc;
-    cursor: pointer;
+.inicisPay img {
+    width: 100px;
+    height: 40px;
 }
 
 .final_pay {
