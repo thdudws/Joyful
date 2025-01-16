@@ -17,48 +17,69 @@
 - 사용자 경험 개선: 직관적인 인터페이스를 제공하며 쉽게 탐색하고 쇼핑할 수 있도록 UI/UX 디자인 최적화하였습니다.
 
 ## 📚 개발환경   
-
+<div>
+<h4> Back-End </h4>
 <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/Thymeleaf -005F0F?style=for-the-badge&logo=Thymeleaf&logoColor=white">
+</div>
+<div>
+<h4> Front-End </h4>
 <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
 <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
 <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
+</div>
+<h4> Tool </h4>
+<div>
 <img src="https://img.shields.io/badge/apache tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
-<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-<img src="https://img.shields.io/badge/Thymeleaf -005F0F?style=for-the-badge&logo=Thymeleaf&logoColor=white">
 <img src="https://img.shields.io/badge/intelij-9B4DCA?style=for-the-badge&logo=intellijidea&logoColor=white">
 <img src="https://img.shields.io/badge/kakao-FFCD00?style=for-the-badge&logo=kakao&logoColor=white">
 <img src="https://img.shields.io/badge/naver -03C75A?style=for-the-badge&logo=naver&logoColor=white">
 <img src="https://img.shields.io/badge/google-4285F4?style=for-the-badge&logo=google&logoColor=white">
+</div>
+<div>
+<h4>Collaboration </h4>  
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white">
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+</div>
+
 
 ## 🖥 화면구현
-![image](https://github.com/user-attachments/assets/091af3d3-f891-4d28-9c80-2f0a7032b130) <br>
-메인페이지<br>
-![image](https://github.com/user-attachments/assets/4acf79e8-5afc-40e3-bd08-39bfd29d6e08)<br>
-상품 리스트 페이지(검색 기능)<br>
-![image](https://github.com/user-attachments/assets/d8a69496-74c2-4c15-a574-22283e3156a3)<br>
-상품 상세 페이지<br>
-![image](https://github.com/user-attachments/assets/b21f9f60-2995-483f-89fd-a9453a813f98)<br>
-장바구니 페이지<br>
-![image](https://github.com/user-attachments/assets/58a7c9a1-5954-4d3f-beb1-5f9b37d78c2e)<br>
-결제 페이지<br>
-![image](https://github.com/user-attachments/assets/2950894e-4d5f-44cd-807f-894c5495be4e)
-![image](https://github.com/user-attachments/assets/5867bfdb-2e6d-442a-bf56-4606de953f87)<br>
-카카오페이, KG이니시스 결제 구현<br>
-![image](https://github.com/user-attachments/assets/657c7f3e-c9eb-4da4-8f4f-e2607677d300) <br>
-카카오, 구글, 네이버 로그인 구현 페이지 <br>
-![image](https://github.com/user-attachments/assets/d75d5f43-030c-40e1-8489-72a124c2fada) <br>
-회원가입 페이지<br>
-![image](https://github.com/user-attachments/assets/36e0a737-1bfe-4dc6-8aa8-dd7f59e78774)<br>
-회원 정보 수정 페이지 <br>
-![image](https://github.com/user-attachments/assets/16a551cb-8ede-46d1-916f-4a9f19da0c61)
-![image](https://github.com/user-attachments/assets/b9789775-d800-4232-996f-052febb57270)<br>
-관리자 마이페이지, 회원 마이페이지 <br>
-![image](https://github.com/user-attachments/assets/a3baac48-6b59-4f97-bc85-1f79b1f1440b)![image](https://github.com/user-attachments/assets/8d3ebd29-2519-4820-8cda-dbda44446e28)<br>
-1:1 문의하기, 답변하기 페이지
+| 메인페이지 |
+|:-----:| 
+| ![image](https://github.com/user-attachments/assets/60b2cff5-86cb-4e0a-bc0a-fb62d1939fcc) |
+| 상품 리스트 페이지(검색 기능) |
+|![image](https://github.com/user-attachments/assets/9edd3882-92b4-46e5-af69-e920d270fd17)|
+| 상품 상세 페이지 |
+|![image](https://github.com/user-attachments/assets/7613ff5c-b841-4f9e-934a-38f5e174322c)|
+
+| 장바구니 페이지 | 결제 페이지 |
+| --- | --- |
+| ![image](https://github.com/user-attachments/assets/5f65243c-43a8-4b6a-8067-e4929a817d62)  | ![image](https://github.com/user-attachments/assets/9e7b059b-7d44-4617-a288-cf3c9cee88e6) |
+
+| 카카오페이 | KG이니시스 결제 구현 |
+| --- | --- |
+| ![image](https://github.com/user-attachments/assets/915a0bdb-51fc-416e-980b-a1ed69788bd3) | ![image](https://github.com/user-attachments/assets/f4fc002d-d53c-470a-a32d-e8fa52550446) |
+
+| 카카오, 구글, 네이버 로그인 구현 페이지 |
+|:-----:| 
+|![image](https://github.com/user-attachments/assets/84d41b43-4759-401b-b2d7-72364560ffce) |
+| 회원가입 페이지 |
+|![image](https://github.com/user-attachments/assets/e9e443ed-f754-4fcb-8e18-f03c9f7707ea)|
+|회원 정보 수정 페이지 |
+|![image](https://github.com/user-attachments/assets/d316789e-c984-4d8e-9b0b-a4b65071ef7a)|
+
+| 회원 마이페이지 | 관리자 마이페이지 |
+| --- | --- |
+| ![image](https://github.com/user-attachments/assets/88f38f39-218b-4f60-b90a-56c0e9f3049b) | ![image](https://github.com/user-attachments/assets/dd7e7003-7a51-40e2-9fc5-e4c60d9721cc)|
+
+|1:1 문의하기 | 답변하기 페이지 |
+| --- | --- |
+| ![image](https://github.com/user-attachments/assets/6196b88b-fd55-4a70-84ce-29e90ff10cf9) |![image](https://github.com/user-attachments/assets/dbc585e3-0c9d-4e4b-9731-e442ca72d3ef)|
+
 
 ## 🔎 주요기능
 #### 1. 사용자 인증 및 권한 관리, 결제
@@ -90,7 +111,9 @@ REST API: 클라이언트와 서버 간 데이터 교환을 위한 API 제공.<b
 ## 📂 프로젝트 보고서 
 [Spring Boot project 결과보고.pptx](https://github.com/user-attachments/files/18419696/Spring.Boot.project.pptx)
 
-## 구현영상
-
-
+## 🎬 프로젝트 영상
+<details><summary>메인화면 및 로그인(회원가입) 구현</summary>
+https://github.com/user-attachments/assets/6385d5b4-ed80-4fb5-ba8e-cf2549cd5ffc
+<details><summary>목록화면 및 장바구니 선택 후 (카카오페이)결재 구현</summary>
+https://github.com/user-attachments/assets/2fceb34f-df5a-4882-a347-e451597e19fe
 
