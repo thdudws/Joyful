@@ -114,6 +114,8 @@ REST API: 클라이언트와 서버 간 데이터 교환을 위한 API 제공.<b
 ## 🎬 프로젝트 영상
 <details><summary>메인화면 및 로그인(회원가입) 구현</summary>
 https://github.com/user-attachments/assets/6385d5b4-ed80-4fb5-ba8e-cf2549cd5ffc
+</details>
 <details><summary>목록화면 및 장바구니 선택 후 (카카오페이)결재 구현</summary>
 https://github.com/user-attachments/assets/2fceb34f-df5a-4882-a347-e451597e19fe
+</details>
 
