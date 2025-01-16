@@ -73,7 +73,7 @@
 <br/>
 
 ## 📐 Diagram
-<details><summary>클래스 구조</summary>
+<details><summary>ERD</summary>
 <br/>
 
 ![image](https://github.com/user-attachments/assets/cd850656-2786-4eef-bce1-94621b0bb0c3)
